@@ -15,6 +15,22 @@
 
         $scope.topRecette = ["pizza", "kebab", "lazane"];
 
+        $scope.users = ["momo","rudy","gaitan","xavierLaDiarer"];
+
+        $scope.isConnected = false;
+        
+
+        $scope.login = function(){
+            $scope.isConnected = false;
+            $scope.users.forEach(function(value, key) {
+                if($scope.username === value){
+                    $scope.isConnected = true;
+                }
+            });
+        }
+
+    
+
 
     });
 </script>
@@ -84,12 +100,14 @@
             </div>
             <div class="login">
                 <div>
-                    login <input type="login">
+                    login <input type="login" ng-model="username">
                 </div>
                 <div>
-                    pass <input type="password">
+                    pass <input type="password" ng-model="password">
                 </div>
+                <button ng-click="login()">Login</button>
             </div>
+
         </div>
         <div class="section">
             <div class="nav">
@@ -98,7 +116,10 @@
                 </ul>
             </div>
             <div class="bodyPage">
-                <p>Hello World</p>
+                <div ng-if="isConnected">
+                        <p>Welcome {{username}}</p>
+                </div>
+
             </div>
             <div class="topMiam">
                 <ul ng-repeat="(key, value) in topRecette" class="list-group">
