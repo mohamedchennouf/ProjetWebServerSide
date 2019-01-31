@@ -1,0 +1,35 @@
+{
+  "name": "webserver",
+  "version": "1.0.0",
+  "description": "Projet de reference pour le client",
+  "main": "MainApp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohamedchennouf/ProjetWebServerSide.git"
+  },
+  "keywords": [
+    "Force",
+    "Honneur",
+    "Nourriture",
+    "Angular",
+    "Mohamed",
+    "Gaetan",
+    "Rudy",
+    "Xavier",
+    "Node"
+  ],
+  "author": "Xavier Toutain,Gaetan Duminy,Mohamed Chennouf,Rudy Meersman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mohamedchennouf/ProjetWebServerSide/issues"
+  },
+  "homepage": "https://github.com/mohamedchennouf/ProjetWebServerSide#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongodb": "^3.1.13",
+    "multer": "^1.3.0"
+  }
+}

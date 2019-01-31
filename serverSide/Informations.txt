@@ -1,0 +1,7 @@
+db => mongodb://Admin:Admin1@ds111455.mlab.com:11455/prod_moxaruga
+
+Gaetan:Gaetan1
+Rudy:Rudyyy1
+Mohamed:Mohamed1
+Xavier:Xavier1
+Admin:Admin1
