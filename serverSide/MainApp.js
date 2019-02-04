@@ -29,3 +29,7 @@ app.route("/index").get(function(req, res) {
 app.route("/API/FOODS/RANDOM").get(function(req, res) {
   foodManager.getFirstFood().then(x => res.send(x));
 });
+
+app.route("/API/FOODS").post(function(req, res) {
+  foodManager.postFoods(req).then(x => res.send(x));
+})

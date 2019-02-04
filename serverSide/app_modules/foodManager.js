@@ -23,3 +23,25 @@ exports.getFirstFood = function() {
     );
   });
 };
+
+exports.postFoods = function(req) {
+  data = JSON.parse(Object.keys(req.body)[0])
+  console.log(data);
+  return new Promise(fun => {
+    MongoClient.connect(
+      url,
+      function(err, client) {
+        var db = client.db(dbName);
+        if (!err) {
+          db.collection("france")
+          .find({})
+          .limit(10)
+          .toArray()
+          .then(x => fun(x));
+        } else {
+          fun(-1);
+        }
+      }
+    );
+  });
+};
