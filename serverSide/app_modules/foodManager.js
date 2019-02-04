@@ -26,7 +26,8 @@ exports.getFirstFood = function() {
 
 exports.postFoods = function(req) {
   data = JSON.parse(Object.keys(req.body)[0])
-  console.log(data);
+  var request = convert(data);
+  console.log(request);
   return new Promise(fun => {
     MongoClient.connect(
       url,
@@ -34,7 +35,7 @@ exports.postFoods = function(req) {
         var db = client.db(dbName);
         if (!err) {
           db.collection("france")
-          .find({})
+          .find(request)
           .limit(10)
           .toArray()
           .then(x => fun(x));
@@ -44,4 +45,21 @@ exports.postFoods = function(req) {
       }
     );
   });
+};
+
+function convert(data) {
+  var dict = {};
+  dict["nom"] = "product_name_fr";
+  dict["marque"] = "brands";
+  var res = "{";
+  var i = 0;
+  for (field in data) {
+    if (i > 0) {
+      res+= ",";
+    }
+    res+= "\"" + dict[field] + "\"" + ":" + "\"" + data[field] + "\"";
+    i++;
+  }
+  res+="}";
+  return res;
 };
