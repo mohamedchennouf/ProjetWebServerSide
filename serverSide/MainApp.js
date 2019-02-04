@@ -34,6 +34,9 @@ app.route("/API/FOODS/RANDOM").get(function(req, res) {
   foodManager.getFirstFood().then(x => res.send(x));
 });
 
+app.route("/API/FOODS").post(function(req, res) {
+  foodManager.postFoods(req).then(x => res.send(x));
+})
 //main page
 app.route("/miammiameat").get(function(req, res) {
   res.sendfile(pathClientSide+"/main.html");
