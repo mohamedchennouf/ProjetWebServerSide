@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 // var multerData = multer();
 
 app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/clientSide"));
 
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -20,7 +21,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-server.listen(port);
+server.listen(port, function () {
+  console.log('Server listening on port '+port);
+});
 
 app.route("/index").get(function(req, res) {
   res.sendfile("./DebugUI/xxx.html");
@@ -28,4 +31,9 @@ app.route("/index").get(function(req, res) {
 
 app.route("/API/FOODS/RANDOM").get(function(req, res) {
   foodManager.getFirstFood().then(x => res.send(x));
+});
+
+app.route("/miammiameat").get(function(req, res) {
+  res.sendfile("./../clientSide/main.html");
+  //res.sendfile("./../clientSide/main.html");
 });
