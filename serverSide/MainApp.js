@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 
 app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/clientSide"));
+const pathClientSide = __dirname.substring(0, __dirname.length - 10)+"clientSide";
 
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -33,7 +34,24 @@ app.route("/API/FOODS/RANDOM").get(function(req, res) {
   foodManager.getFirstFood().then(x => res.send(x));
 });
 
+//main page
 app.route("/miammiameat").get(function(req, res) {
-  res.sendfile("./../clientSide/main.html");
-  //res.sendfile("./../clientSide/main.html");
+  res.sendfile(pathClientSide+"/main.html");
+});
+
+//resources for main page
+app.route("/miammiameat/resources/logo").get(function(req, res) {
+  res.sendfile(pathClientSide+"/resources/logo.png");
+});
+app.route("/miammiameat/resources/header").get(function(req, res) {
+  res.sendfile(pathClientSide+"/resources/imgHeader.jpg");
+});
+app.route("/miammiameat/resources/menu").get(function(req, res) {
+  res.sendfile(pathClientSide+"/resources/menu.jpg");
+});
+app.route("/miammiameat/resources/search").get(function(req, res) {
+  res.sendfile(pathClientSide+"/resources/search.jpg");
+});
+app.route("/miammiameat/resources/defaultIMG").get(function(req, res) {
+  res.sendfile(pathClientSide+"/resources/defaultIMG.jpg");
 });
