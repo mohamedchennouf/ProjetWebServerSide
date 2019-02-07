@@ -28,8 +28,9 @@ class HomePage extends Component {
   render() {
 
     let list = this.state.menus.map(
-      (el,index) => 
-    <button className="button" indice={index}>{el}</button> 
+      (el,index) => <Link to="/new">
+        <button className="button" indice={index} >{el}</button> 
+        </Link>
     );
 
     let alimentList = this.state.topRecipes.map(
