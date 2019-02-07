@@ -7,25 +7,25 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hobbies: ['Croque-monsieur', 'Couscous','Riz contonais'],
+      menus: ['Home', 'Recipe','Aliments'],
     }
   }
 
   addHobby() {
-    let oldHobbies = this.state.hobbies;
+    let oldHobbies = this.state.menus;
     this.setState({
-      hobbies: oldHobbies.concat(this.input.value)
+      menus: oldHobbies.concat(this.input.value)
     });
   }
 
   removeHobby(hobby) {
     this.setState((state) => {
-      const newHobbies = state.hobbies.filter(
+      const newHobbies = state.menus.filter(
         (elem, index) => {
           return (elem !== hobby) ? elem : null;
         }
       );
-      return { hobbies: newHobbies }
+      return { menus: newHobbies }
     });
   }
 
@@ -40,14 +40,12 @@ class App extends Component {
 
   render() {
 
-    let list = this.state.hobbies.map(
+    let list = this.state.menus.map(
       (el, index) => {
-        const liStyle = {
-          color: (el % 2) ? 'green' : 'purple'
-        }
-        return <Hobby name={el} indice={index} removeHobby={this.removeHobby.bind(this)} />
+        return <button class="button" name={el} indice={index} onClick="hey" >{el}</button> 
       }
     );
+
 
     return (
       <div className="App">
@@ -55,7 +53,7 @@ class App extends Component {
 
         <div className="header">
           <div className="logo">
-            <img className="imgLogo" src="/resources/logo.png" />
+            <img className="imgLogo" src="resources/logo.png" />
           </div>
           <div className="titre">
             <h1> Miam Miam Eat </h1>
