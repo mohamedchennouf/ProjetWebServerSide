@@ -35,8 +35,27 @@ app.route("/API/FOODS/RANDOM").get(function(req, res) {
 });
 
 app.route("/API/FOODS").post(function(req, res) {
-  foodManager.postFoods(req).then(x => res.send(x));
+  data = JSON.parse(Object.keys(req.body)[0]);
+  console.log(data);
+  foodManager.postFoods(data).then(x => test(x, data, res));
 })
+
+function test(x, data, res) {
+  if(x.length == 0) {
+    if(data.hasOwnProperty('nom')) {
+      str = JSON.stringify(data);
+      str = str.replace(/\"nom\":/g, "\"mot-cle\":");
+      json = JSON.parse(str);
+      foodManager.postFoods(json).then(x => res.send(x));
+    }
+    else {
+      res.send(x);
+    }
+  }
+  else {
+    res.send(x);
+  }
+}
 
 //main page
 app.route("/miammiameat").get(function(req, res) {

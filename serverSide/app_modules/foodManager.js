@@ -24,8 +24,7 @@ exports.getFirstFood = function() {
   });
 };
 
-exports.postFoods = function(req) {
-  data = JSON.parse(Object.keys(req.body)[0])
+exports.postFoods = function(data) {
   var request = JSON.parse(convert(data));
   console.log(request);
   return new Promise(fun => {
@@ -51,6 +50,7 @@ function convert(data) {
   var dict = {};
   dict["nom"] = "product_name_fr";
   dict["marque"] = "brands";
+  dict["mot-cle"] = "_keywords";
   var res = "{";
   var i = 0;
   for (field in data) {
