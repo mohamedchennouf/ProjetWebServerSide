@@ -30,6 +30,30 @@ class App extends Component {
     });
   }
 
+  /*componentDidMount() {
+    fetch("http://localhost:8080/API/FOODS")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            items: result.items
+          });
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+  }*/
+
+  
+
   /*<img src="trizo.jpeg" alt="Italian Trulli" width="500" height="333"></img>
      <p>Nombre de Hobbies : {this.state.hobbies.length}</p>
      <input type="text" ref={(input) => this.input = input} />
@@ -42,9 +66,8 @@ class App extends Component {
   render() {
 
     let list = this.state.menus.map(
-      (el, index) => {
-        return <button class="button" name={el} indice={index} onClick="hey" >{el}</button> 
-      }
+      (el) => 
+        <button className="button">{el}</button> 
     );
 
     let alimentList = this.state.topRecipes.map(
@@ -102,7 +125,7 @@ class App extends Component {
             {alimentList}
           </div>
 
-          <div class="commentary">
+          <div className="commentary">
                     Retrouvez sur notre site des recettes de cuisine faciles pour réussir à tous les coups en cuisine !
                     Les recettes sont commentées et notées pour toutes les cuisines. Echangez vos recettes, donnez votre avis et progressez en cuisine.
           </div>

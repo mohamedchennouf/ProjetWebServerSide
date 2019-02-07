@@ -26,17 +26,17 @@ exports.getFirstFood = function() {
 
 exports.postFoods = function(req) {
   data = JSON.parse(Object.keys(req.body)[0])
-  var request = convert(data);
+  var request = JSON.parse(convert(data));
   console.log(request);
   return new Promise(fun => {
     MongoClient.connect(
       url,
+      { useNewUrlParser: true },
       function(err, client) {
         var db = client.db(dbName);
         if (!err) {
           db.collection("france")
           .find(request)
-          .limit(10)
           .toArray()
           .then(x => fun(x));
         } else {
@@ -55,11 +55,11 @@ function convert(data) {
   var i = 0;
   for (field in data) {
     if (i > 0) {
-      res+= ",";
+      res += ",";
     }
-    res+= "\"" + dict[field] + "\"" + ":" + "\"" + data[field] + "\"";
+    res += "\"" + dict[field] + "\"" +  ":" + "\"" + data[field] + "\"";
     i++;
   }
-  res+="}";
+  res += "}";
   return res;
 };
