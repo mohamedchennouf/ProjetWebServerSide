@@ -74,11 +74,7 @@ class App extends Component {
         <div className="row">
 
           <div className="menu-content">
-            <div className="menu">
-              <ul className="list-group">
                 {list}
-              </ul>
-            </div>
           </div>
 
 
@@ -90,6 +86,11 @@ class App extends Component {
               <input className="search-input" type="search"/>
               <button className="search-button">search</button>
            </div>
+          </div>
+
+
+          <div className="top-recipe">
+            The server is down !
           </div>
 
           <div class="commentary">

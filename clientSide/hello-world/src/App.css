@@ -28,10 +28,7 @@
 }
 
 .menu {
-  float: left;
-  width: 100%;
-  height: 850px;
-  background-image: url("/resources/menu.jpg");  
+  
 }
 
 .sectionContent{
@@ -90,7 +87,7 @@
   text-align: center;
   font-style: italic;
   background: rgb(193, 73, 30);
-  height: 20%;
+  height: 10%;
   text-align: center;
 }
 
@@ -118,6 +115,7 @@
 .search{
   width: 100%;
   text-align: center;
+  height: 20%;
 }
 
 .search-button{
@@ -137,6 +135,8 @@
 
 .top-recipe{
   width: 100%;
+  height: 70%;
+  text-align: center;
 }
 
 .search-content{
@@ -190,11 +190,17 @@
 .menu-content{
   float: left;
   width: 15%;
+  height: 850px;
+  background-image: url("/resources/menu.jpg");  
+  text-align: center;
+  min-width: 100px;
+  max-width:180px;
 }
 
 .body-content{
   float: left;
   width: 85%;
+  height: 850px;
 }
 
 
