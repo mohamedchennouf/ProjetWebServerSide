@@ -1,5 +1,6 @@
 const express = require("express");
 const foodManager = require("./app_modules/foodManager");
+const recetteManager = require("./app_modules/recetteManager");
 const app = express();
 const server = require("http").Server(app);
 const port = process.env.PORT || 8080;
@@ -22,7 +23,7 @@ app.use(function(req, res, next) {
 });
 
 server.listen(port, function () {
-  console.log('Server listening on port '+port);
+  console.log('Server listening on port '+ port);
 });
 
 app.route("/index").get(function(req, res) {
@@ -33,7 +34,14 @@ app.route("/API/FOODS/RANDOM").get(function(req, res) {
   foodManager.getFirstFood().then(x => res.send(x));
 });
 
-app.route("/miammiameat").get(function(req, res) {
-  res.sendfile("./../clientSide/main.html");
-  //res.sendfile("./../clientSide/main.html");
+app.route("/API/RECETTES").post(function(req, res) {
+  var title = req.param("title");
+  var content  = req.param("content");
+  var name  = req.param("name");
+  recetteManager.postNouvelleRecette(title, content, name).then(x => res.send(x))
+}).get(function(req, res) {
+  var resu = req.param("res") || 10;
+  var sort  = req.param("sort") || "normal";
+  var page  = eval(req.param("page")) || "0";
+  recetteManager.getRecettes(resu, sort, page).then(x => res.send(x))
 });
