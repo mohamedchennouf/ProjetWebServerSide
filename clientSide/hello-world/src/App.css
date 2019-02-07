@@ -39,6 +39,30 @@
   width: 100%;
   display :flex;
 }
+
+.button {
+  display: inline-block;
+  height: 30px;
+  margin-top: 10px;
+  width : 100px;
+  font-size: 15px;
+  cursor: pointer;
+  color: #fff;
+  font-style: Bold;
+  background-color: rgb(193, 73, 30);
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 5px rgb(156, 60, 24);
+}
+
+.button:hover {background-color: rgb(193, 73, 30)}
+
+.button:active {
+  background-color: rgb(193, 73, 30);
+  box-shadow: 0 1px rgb(156, 60, 24);
+  transform: translateY(4px);
+}
+
 .section{
   display: flex;
 }
