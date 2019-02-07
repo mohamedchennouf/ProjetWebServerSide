@@ -72,19 +72,19 @@ class App extends Component {
           </div>
         </div>
 
-        <div className="section">
-          <div className="sectionContent">
-          <div className="menu">
-            <ul className="list-group">
-              {list}
-            </ul>
-          </div>
-          </div>
-        </div>
+        
+        <div className="row">
 
-        <div className="bodyPage">
+          <div className="menu-content">
+            <div className="menu">
+              <ul className="list-group">
+                {list}
+              </ul>
+            </div>
+          </div>
 
-        <div className="foodComponent">
+
+          <div className="body-content">
 
           <div className="search">
             <div className="search-content">
@@ -94,21 +94,13 @@ class App extends Component {
            </div>
           </div>
 
-        </div>
-
-
-        <div class="commentary">
-                    <div>
-                        Retrouvez sur notre site des recettes de cuisine faciles pour réussir à tous les coups en
-                        cuisine !
-                        Les recettes sont commentées et notées pour toutes les cuisines. Echangez vos recettes, donnez
-                        votre avis et progressez en cuisine.
-                    </div>
+          <div class="commentary">
+                    Retrouvez sur notre site des recettes de cuisine faciles pour réussir à tous les coups en cuisine !
+                    Les recettes sont commentées et notées pour toutes les cuisines. Echangez vos recettes, donnez votre avis et progressez en cuisine.
           </div>
-        </div>
 
-
-
+          </div>
+        </div>       
 
       </div>
     );

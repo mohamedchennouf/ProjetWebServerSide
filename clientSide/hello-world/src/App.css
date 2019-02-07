@@ -29,20 +29,18 @@
 
 .menu {
   float: left;
-  width: 100px;
-  height: 900px;
+  width: 100%;
+  height: 850px;
   background-image: url("/resources/menu.jpg");  
-  padding: 20px;
 }
 
 .sectionContent{
   height: 100%;
-  width: 100%
+  width: 100%;
+  display :flex;
 }
 .section{
   display: flex;
-
-  
 }
 
 .foodComponent{
@@ -95,6 +93,7 @@
 
 .search{
   width: 100%;
+  text-align: center;
 }
 
 .search-button{
@@ -155,6 +154,23 @@
 .cardname{
   width: 100%;
   height: 20%
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.menu-content{
+  float: left;
+  width: 15%;
+}
+
+.body-content{
+  float: left;
+  width: 85%;
 }
 
 
