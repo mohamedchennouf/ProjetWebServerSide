@@ -10,6 +10,7 @@ const bodyParser = require("body-parser");
 
 app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/clientSide"));
+const pathClientSide = __dirname.substring(0, __dirname.length - 10)+"clientSide";
 
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -43,5 +44,49 @@ app.route("/API/RECETTES").post(function(req, res) {
   var resu = req.param("res") || 10;
   var sort  = req.param("sort") || "normal";
   var page  = eval(req.param("page")) || "0";
-  recetteManager.getRecettes(resu, sort, page).then(x => res.send(x))
+  recetteManager.getRecettes(resu, sort, page).then(x => res.send(x))});
+
+app.route("/API/FOODS").post(function(req, res) {
+  data = JSON.parse(Object.keys(req.body)[0]);
+  console.log(data);
+  foodManager.postFoods(data).then(x => test(x, data, res));
+})
+
+function test(x, data, res) {
+  if(x.length == 0) {
+    if(data.hasOwnProperty('nom')) {
+      str = JSON.stringify(data);
+      str = str.replace(/\"nom\":/g, "\"mot-cle\":");
+      json = JSON.parse(str);
+      foodManager.postFoods(json).then(x => res.send(x));
+    }
+    else {
+      res.send(x);
+    }
+  }
+  else {
+    res.send(x);
+  }
+}
+
+//main page
+app.route("/miammiameat").get(function(req, res) {
+  res.sendfile(pathClientSide+"/main.html");
+});
+
+//resources for main page
+app.route("/miammiameat/resources/logo").get(function(req, res) {
+  res.sendfile(pathClientSide+"/resources/logo.png");
+});
+app.route("/miammiameat/resources/header").get(function(req, res) {
+  res.sendfile(pathClientSide+"/resources/imgHeader.jpg");
+});
+app.route("/miammiameat/resources/menu").get(function(req, res) {
+  res.sendfile(pathClientSide+"/resources/menu.jpg");
+});
+app.route("/miammiameat/resources/search").get(function(req, res) {
+  res.sendfile(pathClientSide+"/resources/search.jpg");
+});
+app.route("/miammiameat/resources/defaultIMG").get(function(req, res) {
+  res.sendfile(pathClientSide+"/resources/defaultIMG.jpg");
 });
