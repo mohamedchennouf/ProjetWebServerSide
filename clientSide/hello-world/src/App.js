@@ -8,6 +8,7 @@ class App extends Component {
     super(props);
     this.state = {
       menus: ['Home', 'Recipe','Aliments'],
+      topRecipes: ['couscous','pâtes','unknown'],
     }
   }
 
@@ -46,6 +47,14 @@ class App extends Component {
       }
     );
 
+    let alimentList = this.state.topRecipes.map(
+      (el, index) => {
+        return <div className="cardRecipe">
+          <img class="cardimg" name={el} indice={index} src="resources/unknown.png" ></img>
+          <div class="cardname">description</div>
+        </div>
+      }
+    );
 
     return (
       <div className="App">
@@ -90,7 +99,7 @@ class App extends Component {
 
 
           <div className="top-recipe">
-            The server is down !
+            {alimentList}
           </div>
 
           <div class="commentary">
