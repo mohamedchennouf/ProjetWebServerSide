@@ -7,10 +7,8 @@ class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menus: ['Home', 'Recipe','Aliments'],
       topRecipes: ['couscous','pâtes','unknown'],
       imgTopRecipes: ['resources/couscous.png','resources/pâte.png','resources/unknown.png'],
-      menusLinks:['/new','/home','/home']
     }
   }
 

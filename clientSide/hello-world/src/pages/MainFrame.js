@@ -46,7 +46,6 @@ class MainFrame extends Component {
               <input className="input" type="password" />
             </div>
           </div>
-
         <div className="row">
           <div className="menu-content">
                 {list}
