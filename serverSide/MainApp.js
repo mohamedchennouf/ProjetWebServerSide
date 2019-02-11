@@ -54,10 +54,10 @@ app.route("/API/FOODS").post(function (req, res) {
   foodManager.postFoods(data).then(x => check_results(x, data, res));
 })
 
-app.route("/API/STORES/ADDTEST").post(function (req, res) {
+app.route("/API/STORES/ADD").post(function (req, res) {
   data = JSON.parse(Object.keys(req.body)[0]);
   console.log(data);
-  storeManager.postFoods(data).then(x => check_results(x, data, res));
+  storeManager.add_store(data).then(x => res.send(x));
 })
 
 app.route("/API/FOODS/MAJSCORE").get(function (req, res) {
