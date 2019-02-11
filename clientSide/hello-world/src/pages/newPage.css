@@ -1,0 +1,27 @@
+.body-content{
+    float: left;
+    width: 85%;
+    height: 700px;
+  }
+  
+.alimentLineBlock{
+    background : orangered;
+    border-radius: 20px;
+    margin: 5px;
+    height: 10%;
+    width : 100%;
+}
+
+.alimentLineBlock:hover{
+    height: 30%;
+}
+
+.imgAliment{
+    width: 10%;
+    height: 5%;
+}
+
+.textAliment{
+    color:#000000;
+    font-style: italic;
+}

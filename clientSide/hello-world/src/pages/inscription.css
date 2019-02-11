@@ -1,0 +1,47 @@
+.body-content{
+    float: left;
+    width: 85%;
+    height: 700px;
+    box-align: center;
+  }
+
+.subscribeSection{
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    width: 300px;
+    height: 330px;
+    padding-left: 2%;
+    background: lightgrey;
+    border-radius:20px;
+    border-style: solid; 
+    border-color: rgb(193, 73, 30);
+}
+
+.subscribeTitle{
+    padding-top: 5%;
+    padding-block-end: 5%;
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+.input{
+    width: 275px;
+    color: #282828;
+  }
+
+.subscribeButton{
+    display: inline-block;
+    height: 30px;
+    margin-top: 10px;
+    width : 100px;
+    font-size: 15px;
+    cursor: pointer;
+    color: #fff;
+    font-style: Bold;
+    background-color: rgb(193, 73, 30);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px rgb(156, 60, 24);
+}

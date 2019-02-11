@@ -8,7 +8,7 @@ class HomePage extends Component {
     super(props);
     this.state = {
       topRecipes: ['couscous','pâtes','unknown'],
-      imgTopRecipes: ['resources/couscous.png','resources/pâte.png','resources/unknown.png'],
+      imgTopRecipes: ['resources/couscous.png','resources/pâte.png','resources/unknown.png']
     }
   }
 

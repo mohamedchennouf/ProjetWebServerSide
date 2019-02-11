@@ -44,6 +44,7 @@ class MainFrame extends Component {
               <input className="input" type="login"/>
               <div>password</div>
               <input className="input" type="password" />
+              <div>or <Link to="/subscribe">SignIn</Link></div>
             </div>
           </div>
         <div className="row">

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import { browserHistory } from 'react-router';
 import HomePage from './pages/homePage.js';
 import NewPage from './pages/newPage.js';
+import Inscription from './pages/inscription.js';
 
 class App extends Component {
 
@@ -12,6 +13,7 @@ class App extends Component {
         <div>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/new" component={NewPage} />
+          <Route exact path="/subscribe" component={Inscription}/>
         </div>
       </Router>
     )
