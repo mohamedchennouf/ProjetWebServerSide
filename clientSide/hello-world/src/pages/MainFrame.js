@@ -12,6 +12,7 @@ class MainFrame extends Component {
       inside : props.inside,
       menus: ['Home', 'Recipe','Aliments'],
       topRecipes: ['couscous','pâtes','unknown'],
+      linkList: ["/","/new","/"]
     }
   }
 
@@ -25,7 +26,7 @@ class MainFrame extends Component {
   render() {
 
     let list = this.state.menus.map(
-      (el,index) => <Link to="/new">
+      (el,index) => <Link to={this.state.linkList[index]}>
         <button className="button" indice={index} >{el}</button> 
         </Link>
     );
