@@ -13,7 +13,7 @@ class inscription extends Component {
     }
 
     onSubmit(){
-       // REQUETES POST
+   /*    // REQUETES POST
     // Pour éviter que la page ne se ré-affiche
         event.preventDefault();
 
@@ -40,7 +40,7 @@ class inscription extends Component {
             })
         .catch(function (err) {
             console.log(err);
-        });
+        });*/
     }
 
     onChange(e,indice){
@@ -55,7 +55,7 @@ class inscription extends Component {
             (el,index) =>         
             <div>
                 <div>{el}</div>
-                <input onChange={e => this.onChange(e,{index})} className="input" indice={index} name={el}/>
+                <input onChange={e => this.onChange(e,{index})} className="inputSubscribe" indice={index} name={el}/>
             </div>
             );
 
