@@ -78,7 +78,13 @@ app.route("/API/STORES/ADD").post(function (req, res) {
 app.route("/API/STORES/GET_STORES_CITY").post(function (req, res) {
   data = JSON.parse(Object.keys(req.body)[0]);
   console.log(data);
-  storeManager.get_stores(data).then(x => res.send(x));
+  storeManager.get_stores_by_city(data).then(x => res.send(x));
+});
+
+app.route("/API/STORES/GET_STORES_NAME").post(function (req, res) {
+  data = JSON.parse(Object.keys(req.body)[0]);
+  console.log(data);
+  storeManager.get_stores_by_name(data).then(x => res.send(x));
 });
 
 ///// PRICES ROUTES \\\\\
