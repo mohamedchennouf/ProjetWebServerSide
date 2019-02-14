@@ -204,6 +204,7 @@ function check_cities(x, res) {
 }
 
 function get_foods(x, res) {
+  console.log(x)
   if (x.length != 0) {
     //TODO RECUPERER LES FOODS AVEC L'ID
     res.send(x);

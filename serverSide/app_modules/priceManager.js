@@ -33,24 +33,32 @@ exports.get_prices = function (data) {
             function (err, client) {
                 var db = client.db(dbName);
                 if (!err) {
-                    console.log(data);
                     request = {}
                     try {
                         request['magasin'] = data['magasin'];
+                        if (!request['magasin'] != undefined) {
+                            request = {};
+                            request['ville'] = data['ville'];
+                        }
                     }
-                    catch (SyntaxError) {
-                        request['ville'] = data['ville'];
+                    catch (e) {
+                        console.log(e);
                     }
+
+                    comparateur = data['comparateur']
+                    prix = data['prix']
                     
                     if (comparateur == "<=") {
-                        request['prix'] = {lte: data[prix]};
+                        request['prix'] = {lte: prix};
                     }
                     else if (comparateur == ">=") {
-                        request['prix'] = {gte: data[prix]};
+                        request['prix'] = {gte: prix};
                     }
                     else {
-                        request['prix'] = {eq: data[prix]};
+                        request['prix'] = {eq: prix};
                     }
+
+                    console.log(request)
 
                     db.collection("prix")
                         .find(request)
