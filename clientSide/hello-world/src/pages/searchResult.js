@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './newPage.css';
+import './searchResult.css';
 import MainFrame from './MainFrame';
 class newPage extends Component {
 
@@ -7,12 +7,25 @@ class newPage extends Component {
     super(props);
     this.state = {
       menusList : ["Couscous","Pâtes","Unknown"],
-      imgMenusRecipes: ['resources/couscous.png','resources/pâte.png','resources/unknown.png']
+     // menusList : ["Couscous"],
+      imgMenusRecipes: ['resources/couscous.png','resources/pâte.png','resources/unknown.png'],
+     // imgMenusRecipes: ['resources/couscous.png'],
+     stringMenusText: ["je fait du couscous avec toutes la famille","j'aime les banane","Wat"]
     }
+  }
+
+  newRecipe(newMenu,newImg,newText){
+    this.state.menusList.push(newMenu);
+    this.state.imgMenusRecipes.push(newImg);
+    this.state.stringMenusText.push(newText);
   }
 
   getImage(index){
     return this.state.imgMenusRecipes[index];
+  }
+
+  getText(index){
+    return this.state.stringMenusText[index];
   }
 
   render() {
@@ -21,7 +34,9 @@ class newPage extends Component {
       (el, index) => {
         return <div className="alimentLineBlock">
           <img className="imgAliment" name={el} indice={index} src={this.getImage(index)} ></img>
-          <div className="textAliment">description</div>
+          <div className="textAliment"> 
+            {this.getText(index)}
+          </div>
         </div>
       }
     );
@@ -32,7 +47,6 @@ class newPage extends Component {
       {alimentBlockList}
     </div>
     </div>
-
 
     return (
       <MainFrame inside = {insideContent}></MainFrame>

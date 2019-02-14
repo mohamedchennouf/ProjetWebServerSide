@@ -12,8 +12,12 @@ class inscription extends Component {
       this.onSubmit = this.onSubmit.bind(this);
     }
 
+    afficheReponsePOST(res){
+        console.log(res);
+    }
+
     onSubmit(){
-   /*    // REQUETES POST
+  /*     // REQUETES POST
     // Pour éviter que la page ne se ré-affiche
         event.preventDefault();
 

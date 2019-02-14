@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MainFrame from './MainFrame';
 import './homePage.css';
+import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 class HomePage extends Component {
 
@@ -47,7 +48,9 @@ class HomePage extends Component {
         <div className="search-content">
           <p><span className="title-search">Find a recipe...</span></p>
           <input className="search-input" type="search"/>
-          <button className="search-button">search</button>
+          <Link to="/searchresult">
+            <button className="search-button">search</button>
+          </Link>
         </div>
       </div>
       <div className="top-recipe">
