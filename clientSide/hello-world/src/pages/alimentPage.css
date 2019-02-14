@@ -1,0 +1,86 @@
+.body-content{
+    float: left;
+    width: 85%;
+    height: 700px;
+  }
+
+.alimentBlock{
+    margin-left: 50px;
+    margin-top: 10px;
+    background : rgb(193, 73, 30);
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 5px rgb(156, 60, 24);
+    height: 300px;
+    width : 250px;
+}
+
+.textSection{
+    width : 700px;
+}
+
+.commentaryBlock{
+    margin-left: 50px;
+    margin-top: 10px;
+    background : rgb(200, 200, 200);
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 5px rgb(180, 180, 180);
+    height: auto;
+    width : 90%;
+}
+
+.upperBlock{
+    display: flex;
+    width:auto;
+    margin-left: 50px;
+    background: rgb(200, 200, 200);
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 5px rgb(180, 180, 180);
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.reward{
+    display: inline-block;
+    padding-left: 50px;
+}
+
+.rewardImg{
+    height : 30px;
+    width : 30px;
+}
+
+.alimentImg{
+    margin-left: 25px;
+    height : 200px;
+    width : 200px;
+}
+
+.alimentName{
+    color: white;
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.pseudo{
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.commentaryText{
+    margin-left:40px;
+}
+
+.commentarySection{
+    margin-left: 50px;
+    margin-top: 10px;
+    background : rgb(150, 150, 150);
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 5px rgb(124, 124, 124);
+    height: auto;
+    padding-bottom: 20px;
+    width : 90%;
+}

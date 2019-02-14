@@ -26,34 +26,22 @@ class magasinPage extends Component {
   }
 
   bdFetch(){
-         // REQUETES POST
-    // Pour éviter que la page ne se ré-affiche
+    console.log("here");
+    let url = "http://localhost:8080/API/STORES/GET_CITIES";
 
-    // Récupération du formulaire. Pas besoin de document.querySelector
-    // ou document.getElementById puisque c'est le formulaire qui a généré
-    // l'événement
-    let form = this.state.formulaire;
-    // Récupération des valeurs des champs du formulaire
-    // en prévision d'un envoi multipart en ajax/fetch
-        let donneesFormulaire = new FormData(this.state.formulaire);
-
-        let url = "localhost:8080/API/STORES/GET_STORES_CITY";
-
-        fetch(url, {
-            method: "POST",
-            body: donneesFormulaire
+    fetch(url, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body:{city:"nice"},
+    })
+    .then(function(responseJSON) {
+        responseJSON.json()
+       .then(response => response.json())
+       .then(console.log(this))
         })
-        .then(function(responseJSON) {
-            responseJSON.json()
-                .then(function(res) {
-                // Maintenant res est un vrai objet JavaScript
-                    let div = document.querySelector("#reponsePOST");
-                    div.innerHTML = res.msg;
-                });
-            })
-        .catch(function (err) {
-            console.log(err);
-        });
+    .catch(function (err) {
+        console.log(err);
+    });
     }
 
   newRecipe(newMagasin,newText){
@@ -75,7 +63,7 @@ class magasinPage extends Component {
   }
 
   render() {
-
+    this.bdFetch();
     let magasinBlockList = 
     this.state.cityList.map(
         (city,indice)=>{
@@ -91,7 +79,7 @@ class magasinPage extends Component {
                             </div>
                             <button className="buttonMap" name={el} indice={index}>
                                 Show map
-                                <img className="imgButton" src="resources/maps.png"/>
+                                <img className="imgButton" alt="" src="resources/maps.png"/>
                             </button>
                             <div className="textMagasin"> 
                                 {this.getText(index)}

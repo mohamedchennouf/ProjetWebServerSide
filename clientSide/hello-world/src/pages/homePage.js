@@ -37,7 +37,7 @@ class HomePage extends Component {
     let alimentList = this.state.bestRecette.map(
       (el, index) => {
         return <div className="cardRecipe">
-          <img className="cardimg" name={el.title} indice={index} src={this.getImage(index)} ></img>
+          <img className="cardimg" name={el.title} indice={index} alt="" src={this.getImage(index)} ></img>
           <div className="cardname">{el.title}</div>
         </div>
       }

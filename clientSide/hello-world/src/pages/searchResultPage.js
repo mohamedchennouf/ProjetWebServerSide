@@ -33,7 +33,7 @@ class searchPage extends Component {
     let alimentBlockList = this.state.menusList.map(
       (el, index) => {
         return <div className="alimentLineBlock">
-          <img className="imgAliment" name={el} indice={index} src={this.getImage(index)} ></img>
+          <img className="imgAliment" name={el} indice={index} alt="" src={this.getImage(index)} ></img>
           <div className="textAliment"> 
             {this.getText(index)}
           </div>
