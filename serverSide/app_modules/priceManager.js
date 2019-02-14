@@ -24,3 +24,42 @@ exports.add_price = function (data) {
         );
     });
 };
+
+exports.get_prices = function (data) {
+    return new Promise(fun => {
+        MongoClient.connect(
+            url,
+            { useNewUrlParser: true },
+            function (err, client) {
+                var db = client.db(dbName);
+                if (!err && data['ville'] != null && data['prix'] != null && data['comparateur'] != null) {
+
+                    request = {}
+                    if (data[magasin] != null) {
+                        request['magasin'] = data['magasin'];
+                    }
+                    else {
+                        request['ville'] = data['ville'];
+                    }
+                    
+                    if (comparateur = "<=") {
+                        request['prix'] = {lte: data[prix]};
+                    }
+                    else if (comparateur = ">=") {
+                        request['prix'] = {gte: data[prix]};
+                    }
+                    else {
+                        request['prix'] = {eq: data[prix]};
+                    }
+
+                    db.collection("prix")
+                        .find(request)
+                        .toArray()
+                        .then(x => fun(x));
+                } else {
+                    fun(-1);
+                }
+            }
+        );
+    });
+};
