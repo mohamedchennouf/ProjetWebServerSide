@@ -60,6 +60,13 @@ app.route("/API/STORES/ADD").post(function (req, res) {
   storeManager.add_store(data).then(x => res.send(x));
 })
 
+app.route("/API/STORES/GET_STORES_CITY").post(function (req, res) {
+  data = JSON.parse(Object.keys(req.body)[0]);
+  console.log(data);
+  storeManager.get_stores(data).then(x => res.send(x));
+});
+
+// TODO COMPLETE
 app.route("/API/FOODS/MAJSCORE").get(function (req, res) {
   foodManager.get_all_foods().then(data => {
     foodManager.maj_custom_score(data);
