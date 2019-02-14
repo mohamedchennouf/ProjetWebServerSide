@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <head>
   <title>XXX</title>
+   <style>
+	form.form-example {
+	    display: table;
+	}
+	div.form-example {
+	    display: table-row;
+	}
+	label, input {
+	    display: table-cell;
+	    margin-bottom: 10px;
+	}
+	label {
+	    padding-right: 10px;
+	}
+  </style>
 </head>
 <body>
   <h1>Salut les noobs</h1>
@@ -18,15 +33,30 @@
       </li>
     </ul>
   </div>
-  <table>
-    <tr>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-    </tr>
+  
   </table>
 
   <td></td>
+
+
+	<h1>Enter your mail in order to upload your file to Polyshare !</h1>
+
+
+<form method="POST" action="http://localhost:8080/API/RECETTES">
+  <div class="form-example">
+    <label for="email">Enter your email: </label>
+    <label for="file">Enter your email: </label>
+    <label for="text">Enter your email: </label>
+    <label for="content">Enter your email: </label>
+
+    <input type="mail" id="mail" name="mail" required>
+		<input type="file" id="file" name="file"        >
+		<input type="text" id="titre" name="titre"      >
+    <input type="text" id="content" name="content"  >
+  </div>
+  <div class="form-example">
+    <input type="submit" value="Upload!">
+  </div> 
+</form>
+
 </body>
