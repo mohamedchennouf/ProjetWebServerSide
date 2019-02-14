@@ -25,7 +25,7 @@ exports.add_store = function (request) {
     });
 };
 
-exports.get_stores = function (data) {
+exports.get_stores_by_city = function (data) {
     return new Promise(fun => {
         MongoClient.connect(
             url,
@@ -35,6 +35,46 @@ exports.get_stores = function (data) {
                 if (!err && data['ville'] != null) {
                     db.collection("magasin")
                         .find({ville: data['ville'].toUpperCase()})
+                        .toArray()
+                        .then(x => fun(x));
+                } else {
+                    fun(-1);
+                }
+            }
+        );
+    });
+};
+
+exports.get_stores_by_name = function (data) {
+    return new Promise(fun => {
+        MongoClient.connect(
+            url,
+            { useNewUrlParser: true },
+            function (err, client) {
+                var db = client.db(dbName);
+                if (!err && data['ville'] != null && data['nom'] != null) {
+                    db.collection("magasin")
+                        .find({ville: data['ville'].toUpperCase(), nom: {$regex: ".*" + data['nom'] + ".*"}})
+                        .toArray()
+                        .then(x => fun(x));
+                } else {
+                    fun(-1);
+                }
+            }
+        );
+    });
+};
+
+exports.get_cities = function (data) {
+    return new Promise(fun => {
+        MongoClient.connect(
+            url,
+            { useNewUrlParser: true },
+            function (err, client) {
+                var db = client.db(dbName);
+                if (!err && data['ville'] != null) {
+                    db.collection("magasin")
+                        .find({ville: {$regex: ".*" + data['ville'].toUpperCase() + ".*"}})
                         .toArray()
                         .then(x => fun(x));
                 } else {

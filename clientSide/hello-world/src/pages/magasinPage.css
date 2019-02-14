@@ -1,0 +1,83 @@
+.body-content{
+    float: left;
+    width: 85%;
+    height: 700px;
+  }
+.cityBlock{
+    background-color: rgb(140,30,12);
+    height: 38px;
+    overflow: hidden;
+    padding-top: 10px;
+    display: bloc;
+    margin-left: 50px;
+    margin-top: 10px;  
+    border-radius: 20px;
+    border: none;
+    transition: height 1s;
+}
+.cityBlock:hover{
+    height:auto; 
+    padding-block-end: 30px;
+}
+
+.cityNameStyle{
+    color: white;
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.magasinLineBlock{
+    padding-top: 10px;
+    display: bloc;
+    margin-left: 50px;
+    margin-top: 10px;
+    background : rgb(193, 73, 30);
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 5px rgb(156, 60, 24);
+    height: 60px;
+    width : 90%;
+    overflow: hidden;
+}
+.nomMagasin{
+    float:left;
+    color: white;
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.textMagasin{
+    color:#000000;
+    margin-left: 100px;
+    font-style: italic;
+    height:60px;
+    width:90%;
+}
+
+.buttonMap{
+    float:right;
+    display: inline-block;
+    margin-right: 10px;
+    height: 30px;
+    margin-top: 10px;
+    width : 120px;
+    font-size: 15px;
+    cursor: pointer;
+    color: #fff;
+    font-style: Bold;
+    background-color: rgb(150, 150, 150);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px rgb(125, 125, 125); 
+}
+.buttonMap:active {
+    background-color: rgb(150, 150, 150);
+    box-shadow: 0 1px rgb(125, 125, 125);
+    transform: translateY(4px);
+  }
+  
+.imgButton{
+    float:right;
+    width: 30px;
+    height: 30px;
+}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './searchResult.css';
+import './searchResultPage.css';
 import MainFrame from './MainFrame';
-class newPage extends Component {
+class searchPage extends Component {
 
   constructor(props) {
     super(props);
@@ -56,4 +56,4 @@ class newPage extends Component {
 
 }
 
-export default newPage;
+export default searchPage;
