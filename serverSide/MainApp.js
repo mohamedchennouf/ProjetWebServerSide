@@ -9,22 +9,38 @@ const port = process.env.PORT || 8080;
 const bodyParser = require("body-parser");
 // var multer = require('multer');
 // var multerData = multer();
+app.configure(function(){
+  // Allow parsing cookies from request headers
+  this.use(express.cookieParser());
+  // Session management
+  this.use(express.session({
+    // Private crypting key
+    "secret": "cacahueteCasseroleZoro",
+    "store":  new express.session.MemoryStore({ reapInterval: 60000 * 10 })
+  }));
+})
+
+function requireLogin (req, res, next) {
+  if (req.session.username) {
+    // User is authenticated, let him in
+    next();
+  } else {
+    // Otherwise, we redirect him to login form
+    res.sendStatus(401);
+  }
+}
 
 app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/clientSide"));
 
-const pathClientSide =
-  __dirname.substring(0, __dirname.length - 10) + "clientSide";
+const pathClientSide =  __dirname.substring(0, __dirname.length - 10) + "clientSide";
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
   next();
 });
@@ -40,8 +56,7 @@ app.route("/API/FOODS/RANDOM").get(function(req, res) {
   foodManager.getFirstFood().then(x => res.send(x));
 });
 
-app
-  .route("/API/RECETTES")
+app.route("/API/RECETTES")
   .post(function(req, res) {
     console.log(req.body);
     console.log(req.body.file);
@@ -52,8 +67,7 @@ app
     recetteManager
       .postNouvelleRecette(title, content, name, image)
       .then(x => res.send(x));
-  })
-  .get(function(req, res) {
+  }).get(function(req, res) {
     var resu = req.param("res") || 10;
     var sort = req.param("sort") || "normal";
     var page = eval(req.param("page")) || "0";
@@ -79,7 +93,7 @@ app.route("/API/image/:id").get(function(req, res) {
   });
 });
 
-app.route("/API/USER/subscribe").get(function(req, res) {
+app.route("/API/USER/subscribe").post(function(req, res) {
   console.log(req.body);
   userManager.subscribe().then(x => {
     if (x) {
@@ -128,13 +142,10 @@ function check_results(x, data, res) {
 }
 
 //main page
-
 app.route("/miammiameat").get(function(req, res) {
   res.sendfile(pathClientSide + "/main.html");
 });
-
 //resources for main page
-
 app.route("/miammiameat/resources/logo").get(function(req, res) {
   res.sendfile(pathClientSide + "/resources/logo.png");
 });

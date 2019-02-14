@@ -124,7 +124,6 @@ exports.retrieveImage = function(id) {
     return base64_decode(image);
   }
 };
-
 function base64_decode(base64str, file) {
   // create buffer object from base64 encoded string, it is important to tell the constructor that the string is base64 encoded
   var bitmap = new Buffer(base64str, 'base64');
@@ -132,3 +131,10 @@ function base64_decode(base64str, file) {
   console.log('******** File created from base64 encoded string ********');
   return bitmap;
 }
+
+exports.addComment = function(userID, recipeID,content){
+  var resultat = db
+  .collection("comments")
+  .insertOne({ recipeId : recipeID, userId: userID, content: content, time : new Date().getTime()   })
+  .then()
+} 
