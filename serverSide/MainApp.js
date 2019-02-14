@@ -68,7 +68,7 @@ app.route("/API/FOODS/RANDOM").get(function(req, res) {
 });
 
 app.route("/API/FOODS").post(function(req, res) {
-  data = JSON.parse(Object.keys(req.body)[0]);
+  data = req.body;
   console.log(data);
   foodManager.postFoods(data).then(x => check_results(x, data, res));
 });
@@ -103,7 +103,7 @@ app
 ///// STORES ROUTES \\\\\
 
 app.route("/API/STORES/ADD").post(function(req, res) {
-  data = JSON.parse(Object.keys(req.body)[0]);
+  data = req.body;
   console.log(data);
   foodManager.postFoods(data).then(x => test(x, data, res));
 });
@@ -134,7 +134,7 @@ function test(x, data, res) {
 }
 
 app.route("/API/STORES/GET_STORES_CITY").post(function(req, res) {
-  data = JSON.parse(Object.keys(req.body)[0]);
+  data = req.body;
   console.log(data);
   storeManager.get_stores_by_city(data).then(x => res.send(x));
 });
@@ -147,23 +147,30 @@ app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
   });
 });
 app.route("/API/STORES/GET_STORES_NAME").post(function(req, res) {
-  data = JSON.parse(Object.keys(req.body)[0]);
+  data = req.body;
   console.log(data);
   storeManager.get_stores_by_name(data).then(x => res.send(x));
 });
 
 app.route("/API/STORES/GET_CITIES").post(function(req, res) {
-  data = JSON.parse(Object.keys(req.body)[0]);
+  console.log(req)
+  data = req.body;
   console.log(data);
-  storeManager.get_cities(data).then(x => check_cities(x, data, res));
+  storeManager.get_cities(data).then(x => check_cities(x, res));
 });
 
 ///// PRICES ROUTES \\\\\
 
 app.route("/API/PRICES/ADD").post(function(req, res) {
-  data = JSON.parse(Object.keys(req.body)[0]);
+  data = req.body;
   console.log(data);
   priceManager.add_price(data).then(x => res.send(x));
+});
+
+app.route("/API/PRICES").post(function(req, res) {
+  data = req.body;
+  console.log(data);
+  priceManager.get_prices(data).then(x => get_foods(x, data, res));
 });
 
 // Methodes
@@ -182,7 +189,7 @@ function check_results(x, data, res) {
   }
 }
 
-function check_cities(x, data, res) {
+function check_cities(x, res) {
   if (x.length != 0) {
     var cities = [];
     for (city in x) {
@@ -191,6 +198,15 @@ function check_cities(x, data, res) {
       }
     }
     res.send({ villes: cities });
+  } else {
+    res.send(x);
+  }
+}
+
+function get_foods(x, res) {
+  if (x.length != 0) {
+    //TODO RECUPERER LES FOODS AVEC L'ID
+    res.send(x);
   } else {
     res.send(x);
   }

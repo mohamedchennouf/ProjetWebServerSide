@@ -32,20 +32,20 @@ exports.get_prices = function (data) {
             { useNewUrlParser: true },
             function (err, client) {
                 var db = client.db(dbName);
-                if (!err && data['ville'] != null && data['prix'] != null && data['comparateur'] != null) {
-
+                if (!err) {
+                    console.log(data);
                     request = {}
-                    if (data[magasin] != null) {
+                    try {
                         request['magasin'] = data['magasin'];
                     }
-                    else {
+                    catch (SyntaxError) {
                         request['ville'] = data['ville'];
                     }
                     
-                    if (comparateur = "<=") {
+                    if (comparateur == "<=") {
                         request['prix'] = {lte: data[prix]};
                     }
-                    else if (comparateur = ">=") {
+                    else if (comparateur == ">=") {
                         request['prix'] = {gte: data[prix]};
                     }
                     else {
