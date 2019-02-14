@@ -2,6 +2,7 @@ const express = require("express");
 const foodManager = require("./app_modules/foodManager");
 const recetteManager = require("./app_modules/recetteManager");
 const userManager = require("./app_modules/userManager");
+const storeManager = require("./app_modules/storeManager");
 const app = express();
 const server = require("http").Server(app);
 const port = process.env.PORT || 8080;
@@ -11,6 +12,7 @@ const bodyParser = require("body-parser");
 
 app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/clientSide"));
+
 const pathClientSide =
   __dirname.substring(0, __dirname.length - 10) + "clientSide";
 
@@ -30,7 +32,6 @@ app.use(function(req, res, next) {
 server.listen(port, function() {
   console.log("Server listening on port " + port);
 });
-
 app.route("/index").get(function(req, res) {
   res.sendfile("./DebugUI/xxx.html");
 });
@@ -62,6 +63,12 @@ app
 app.route("/API/FOODS").post(function(req, res) {
   data = JSON.parse(Object.keys(req.body)[0]);
   console.log(data);
+  foodManager.postFoods(data).then(x => check_results(x, data, res));
+});
+
+app.route("/API/STORES/ADD").post(function(req, res) {
+  data = JSON.parse(Object.keys(req.body)[0]);
+  console.log(data);
   foodManager.postFoods(data).then(x => test(x, data, res));
 });
 
@@ -72,19 +79,40 @@ app.route("/API/image/:id").get(function(req, res) {
   });
 });
 
-
 app.route("/API/USER/subscribe").get(function(req, res) {
   console.log(req.body);
   userManager.subscribe().then(x => {
     if (x) {
       res.sendStatus(403);
-    } else{
+    } else {
       res.sendStatus(500);
     }
   });
 });
 
 function test(x, data, res) {
+  if (x.length == 0) {
+    if (data.hasOwnProperty("nom")) {
+      storeManager.add_store(data).then(x => res.send(x));
+    }
+  }
+}
+
+app.route("/API/STORES/GET_STORES_CITY").post(function(req, res) {
+  data = JSON.parse(Object.keys(req.body)[0]);
+  console.log(data);
+  storeManager.get_stores(data).then(x => res.send(x));
+});
+
+// TODO COMPLETE
+app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
+  foodManager.get_all_foods().then(data => {
+    foodManager.maj_custom_score(data);
+    res.send("OK");
+  });
+});
+
+function check_results(x, data, res) {
   if (x.length == 0) {
     if (data.hasOwnProperty("nom")) {
       str = JSON.stringify(data);
@@ -100,11 +128,13 @@ function test(x, data, res) {
 }
 
 //main page
+
 app.route("/miammiameat").get(function(req, res) {
   res.sendfile(pathClientSide + "/main.html");
 });
 
 //resources for main page
+
 app.route("/miammiameat/resources/logo").get(function(req, res) {
   res.sendfile(pathClientSide + "/resources/logo.png");
 });
