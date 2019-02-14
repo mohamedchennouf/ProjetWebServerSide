@@ -37,7 +37,7 @@ class magasinPage extends Component {
     // en prévision d'un envoi multipart en ajax/fetch
         let donneesFormulaire = new FormData(this.state.formulaire);
 
-        let url = "localhost:8080/users/subscribe";
+        let url = "localhost:8080/API/STORES/GET_STORES_CITY";
 
         fetch(url, {
             method: "POST",

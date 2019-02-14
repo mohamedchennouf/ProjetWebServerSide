@@ -7,28 +7,23 @@ class inscription extends Component {
       super(props);
       this.state = {
           inputList: ["Nom","Prénom","Email","Pseudo","Mot De Passe"],
-          formulaire:["a","b","c","d","e","f"]
+          formulaire:["a","b","c","d","e"]
       };
       this.onSubmit = this.onSubmit.bind(this);
     }
 
     onSubmit(){
        // REQUETES POST
-    // Pour éviter que la page ne se ré-affiche
+        //let data = new HTMLFormElement();
+        //data.elements =  this.state.formulaire;
+        //let donneesFormulaire = new FormData(data);
 
-    // Récupération du formulaire. Pas besoin de document.querySelector
-    // ou document.getElementById puisque c'est le formulaire qui a généré
-    // l'événement
-        let form = this.state.formulaire;
-    // Récupération des valeurs des champs du formulaire
-    // en prévision d'un envoi multipart en ajax/fetch
-        let donneesFormulaire = new FormData(this.state.formulaire);
-
-        let url = "localhost:8080/users/subscribe";
-
+        let url = "http://localhost:8080/API/USER/subscribe";
+        console.log(this.state.formulaire);
         fetch(url, {
             method: "POST",
-            body: donneesFormulaire
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(this.state.formulaire),
         })
         .then(function(responseJSON) {
             responseJSON.json()
