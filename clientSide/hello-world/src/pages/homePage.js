@@ -7,22 +7,37 @@ class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      topRecipes: ['couscous','pâtes','unknown'],
+      bestRecette: [{title:'couscous'},{title:'pâtes'},{title:'unknown'}],
       imgTopRecipes: ['resources/couscous.png','resources/pâte.png','resources/unknown.png']
     }
+  }
+
+  componentDidMount(){
+    this.getBestRecette()
   }
 
   getImage(index){
     return this.state.imgTopRecipes[index];
   }
 
+
+  getBestRecette(){ 
+  fetch('http://localhost:8080/API/RECETTES?res=3')
+      .then(response => response.json())
+      .then(data => {
+        this.setState( {bestRecette:data});
+        console.log(this.state);
+      })
+      .catch(e => console.log("error"));
+    }
+
   render() {
 
-    let alimentList = this.state.topRecipes.map(
+    let alimentList = this.state.bestRecette.map(
       (el, index) => {
         return <div className="cardRecipe">
-          <img className="cardimg" name={el} indice={index} src={this.getImage(index)} ></img>
-          <div className="cardname">description</div>
+          <img className="cardimg" name={el.title} indice={index} src={this.getImage(index)} ></img>
+          <div className="cardname">{el.title}</div>
         </div>
       }
     );
