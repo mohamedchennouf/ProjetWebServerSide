@@ -10,9 +10,9 @@ class MainFrame extends Component {
     console.log(props.inside);
     this.state = {
       inside : props.inside,
-      menus: ['Home', 'Recipe','Aliments'],
+      menus: ['Home', 'Recipe','Aliments',"Shops"],
       topRecipes: ['couscous','pâtes','unknown'],
-      linkList: ["/","/","/"]
+      linkList: ["/","/","/","/shops"]
     }
   }
 

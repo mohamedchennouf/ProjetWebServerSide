@@ -15,7 +15,6 @@
     box-shadow: 0 5px rgb(156, 60, 24);
     height: 60px;
     width : 90%;
-    transition: height 1s;
     overflow: hidden;
 }
 
