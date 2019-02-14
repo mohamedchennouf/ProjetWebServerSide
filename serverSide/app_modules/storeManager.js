@@ -64,3 +64,23 @@ exports.get_stores_by_name = function (data) {
         );
     });
 };
+
+exports.get_cities = function (data) {
+    return new Promise(fun => {
+        MongoClient.connect(
+            url,
+            { useNewUrlParser: true },
+            function (err, client) {
+                var db = client.db(dbName);
+                if (!err && data['ville'] != null) {
+                    db.collection("magasin")
+                        .find({ville: {$regex: ".*" + data['ville'].toUpperCase() + ".*"}})
+                        .toArray()
+                        .then(x => fun(x));
+                } else {
+                    fun(-1);
+                }
+            }
+        );
+    });
+};

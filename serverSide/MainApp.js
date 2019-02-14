@@ -87,6 +87,12 @@ app.route("/API/STORES/GET_STORES_NAME").post(function (req, res) {
   storeManager.get_stores_by_name(data).then(x => res.send(x));
 });
 
+app.route("/API/STORES/GET_CITIES").post(function (req, res) {
+  data = JSON.parse(Object.keys(req.body)[0]);
+  console.log(data);
+  storeManager.get_cities(data).then(x => check_cities(x, data, res));
+});
+
 ///// PRICES ROUTES \\\\\
 
 app.route("/API/PRICES/ADD").post(function (req, res) {
@@ -107,6 +113,21 @@ function check_results(x, data, res) {
     else {
       res.send(x);
     }
+  }
+  else {
+    res.send(x);
+  }
+}
+
+function check_cities(x, data, res) {
+  if (x.length != 0) {
+    var cities = [];
+    for (city in x) {
+      if (!cities.includes(x[city]['ville'])) {
+        cities.push(x[city]['ville']);
+      }
+    }
+    res.send({villes:cities})
   }
   else {
     res.send(x);
