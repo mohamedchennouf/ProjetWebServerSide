@@ -2,6 +2,7 @@ const express = require("express");
 const foodManager = require("./app_modules/foodManager");
 const recetteManager = require("./app_modules/recetteManager");
 const storeManager = require("./app_modules/storeManager");
+const priceManager = require("./app_modules/priceManager");
 const app = express();
 const server = require("http").Server(app);
 const port = process.env.PORT || 8080;
@@ -32,9 +33,27 @@ app.route("/index").get(function (req, res) {
   res.sendfile("./DebugUI/xxx.html");
 });
 
+///// FOODS ROUTES \\\\\
+
 app.route("/API/FOODS/RANDOM").get(function (req, res) {
   foodManager.getFirstFood().then(x => res.send(x));
 });
+
+app.route("/API/FOODS").post(function (req, res) {
+  data = JSON.parse(Object.keys(req.body)[0]);
+  console.log(data);
+  foodManager.postFoods(data).then(x => check_results(x, data, res));
+})
+
+// TODO COMPLETE
+app.route("/API/FOODS/MAJSCORE").get(function (req, res) {
+  foodManager.get_all_foods().then(data => {
+    foodManager.maj_custom_score(data);
+    res.send("OK");
+  });
+});
+
+///// RECETTES ROUTES \\\\\
 
 app.route("/API/RECETTES").post(function (req, res) {
   var title = req.param("title");
@@ -48,11 +67,7 @@ app.route("/API/RECETTES").post(function (req, res) {
   recetteManager.getRecettes(resu, sort, page).then(x => res.send(x))
 });
 
-app.route("/API/FOODS").post(function (req, res) {
-  data = JSON.parse(Object.keys(req.body)[0]);
-  console.log(data);
-  foodManager.postFoods(data).then(x => check_results(x, data, res));
-})
+///// STORES ROUTES \\\\\
 
 app.route("/API/STORES/ADD").post(function (req, res) {
   data = JSON.parse(Object.keys(req.body)[0]);
@@ -66,14 +81,15 @@ app.route("/API/STORES/GET_STORES_CITY").post(function (req, res) {
   storeManager.get_stores(data).then(x => res.send(x));
 });
 
-// TODO COMPLETE
-app.route("/API/FOODS/MAJSCORE").get(function (req, res) {
-  foodManager.get_all_foods().then(data => {
-    foodManager.maj_custom_score(data);
-    res.send("OK");
-  });
-});
+///// PRICES ROUTES \\\\\
 
+app.route("/API/PRICES/ADD").post(function (req, res) {
+  data = JSON.parse(Object.keys(req.body)[0]);
+  console.log(data);
+  priceManager.add_price(data).then(x => res.send(x));
+})
+
+// Methodes
 function check_results(x, data, res) {
   if (x.length == 0) {
     if (data.hasOwnProperty('nom')) {
