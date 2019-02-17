@@ -12,7 +12,7 @@ class MainFrame extends Component {
       inside : props.inside,
       menus: ['Home', 'Recipe','Aliments',"Shops"],
       topRecipes: ['couscous','pâtes','unknown'],
-      linkList: ["/","/","/","/shops"]
+      linkList: ["/","/recipe","/alimentList","/shops"]
     }
   }
 

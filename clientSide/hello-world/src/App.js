@@ -7,6 +7,9 @@ import Magasin from './pages/magasinPage.js';
 import Inscription from './pages/inscriptionPage.js';
 import Aliments from './pages/alimentPage.js';
 import searchAdvanced from './pages/searchAdvanced.js';
+import recipe from './pages/recipePage.js';
+import alimentList from './pages/alimentListPage.js'
+
 class App extends Component {
 
   render() {
@@ -19,6 +22,8 @@ class App extends Component {
           <Route exact path="/shops" component={Magasin}/>
           <Route exact path="/aliments" component={Aliments}/>
           <Route exact path="/advancedSearch" component={searchAdvanced}/>
+          <Route exact path="/recipe" component={recipe}/>
+          <Route exact path="/alimentList" component={alimentList}/>
         </div>
       </Router>
     )

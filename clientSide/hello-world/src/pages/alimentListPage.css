@@ -1,0 +1,38 @@
+.body-content{
+    float: left;
+    width: 85%;
+    height: 700px;
+  }
+  
+.alimentListLineBlock{
+    padding-top: 10px;
+    display: bloc;
+    margin-left: 50px;
+    margin-top: 10px;
+    background : rgb(193, 73, 30);
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 5px rgb(156, 60, 24);
+    height: 60px;
+    width : 90%;
+    overflow: hidden;
+}
+.alimentListLineBlock:active {
+    background-color: rgb(193, 73, 30);
+    box-shadow: 0 1px rgb(156, 60, 24);
+    transform: translateY(4px);
+  }
+.imgAlimentList{
+    float: left;
+    object-fit: cover;
+    padding-left:20px; 
+    width: 100px;
+    height: 50px;
+}
+
+.textAlimentList{
+    color:#000000;
+    font-style: italic;
+    height:60px;
+    width:90%;
+}
