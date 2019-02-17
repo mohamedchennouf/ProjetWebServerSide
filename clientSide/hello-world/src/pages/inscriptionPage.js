@@ -73,8 +73,4 @@ class inscription extends Component {
 
 }
 
-function afficheReponsePOST(reponse) {
-
-}
-
 export default inscription;

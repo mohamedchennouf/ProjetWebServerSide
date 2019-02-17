@@ -21,6 +21,32 @@ class HomePage extends Component {
     return this.state.imgTopRecipes[index];
   }
 
+  
+  onSubmit(){
+     // REQUETES POST
+        //let data = new HTMLFormElement();
+        //data.elements =  this.state.formulaire;
+        //let donneesFormulaire = new FormData(data);
+
+        let url = "http://localhost:8080/API/USER/subscribe";
+        console.log(this.state.formulaire);
+        fetch(url, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(this.state.formulaire),
+        })
+        .then(function(responseJSON) {
+            responseJSON.json()
+                .then(function(res) {
+                // Maintenant res est un vrai objet JavaScript
+                    let div = document.querySelector("#reponsePOST");
+                    div.innerHTML = res.msg;
+                });
+            })
+        .catch(function (err) {
+            console.log(err);
+        });
+  }
 
   getBestRecette(){ 
   fetch('http://localhost:8080/API/RECETTES?res=3')
@@ -51,6 +77,7 @@ class HomePage extends Component {
           <Link to="/searchresult">
             <button className="search-button">search</button>
           </Link>
+          <div><Link to="/advancedSearch">advanced Search</Link></div>
         </div>
       </div>
       <div className="top-recipe">
