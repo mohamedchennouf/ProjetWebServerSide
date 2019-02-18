@@ -170,7 +170,7 @@ app.route("/API/PRICES/ADD").post(function(req, res) {
 app.route("/API/PRICES").post(function(req, res) {
   data = req.body;
   console.log(data);
-  priceManager.get_prices(data).then(x => get_foods(x, data, res));
+  priceManager.get_prices(data).then(x => res.send(x));
 });
 
 // Methodes
@@ -198,16 +198,6 @@ function check_cities(x, res) {
       }
     }
     res.send({ villes: cities });
-  } else {
-    res.send(x);
-  }
-}
-
-function get_foods(x, res) {
-  console.log(x)
-  if (x.length != 0) {
-    //TODO RECUPERER LES FOODS AVEC L'ID
-    res.send(x);
   } else {
     res.send(x);
   }

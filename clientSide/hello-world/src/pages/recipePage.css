@@ -1,12 +1,7 @@
-.body-content{
-    float: left;
-    width: 85%;
-    height: 700px;
-  }
-  
+
 .recipeLineBlock{
     padding-top: 10px;
-    display: bloc;
+    display: block;
     margin-left: 50px;
     margin-top: 10px;
     background : rgb(193, 73, 30);
@@ -15,7 +10,9 @@
     box-shadow: 0 5px rgb(156, 60, 24);
     height: 60px;
     width : 90%;
+    min-width : 500px;
     overflow: hidden;
+    transition: 1s;
 }
 
 .recipeLineBlock:hover{
