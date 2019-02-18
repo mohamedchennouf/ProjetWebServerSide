@@ -71,7 +71,7 @@ exports.getRecette = function(title) {
   return new Promise(fun => {
     MongoClient.connect(url, function(err, client) {
       var db = client.db(dbName);
-      if (!err) {
+      if  (!err) {
         var resultat = db
           .collection("france")
           .find({ title: { $regex: ".*" + title + ".*" } })
