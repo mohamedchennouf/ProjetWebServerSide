@@ -8,6 +8,7 @@ const app = express();
 const server = require("http").Server(app);
 const port = process.env.PORT || 8080;
 const bodyParser = require("body-parser");
+
 // var multer = require('multer');
 // var multerData = multer();
 // app.configure(function() {
@@ -36,8 +37,7 @@ function requireLogin(req, res, next) {
 app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/clientSide"));
 
-const pathClientSide =
-  __dirname.substring(0, __dirname.length - 10) + "clientSide";
+const pathClientSide = __dirname.substring(0, __dirname.length - 10) + "clientSide";
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -116,8 +116,9 @@ app.route("/API/image/:id").get(function(req, res) {
 });
 
 app.route("/API/USER/subscribe").post(function(req, res) {
+  console.log(req.body);
   userManager.subscribe(JSON.parse(req.body)).then(x => {
-    if(x) {
+    if (x) {
       res.sendStatus(403);
     } else{
       res.sendStatus(500);
