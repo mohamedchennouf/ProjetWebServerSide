@@ -14,6 +14,14 @@ class alimentPage extends Component {
       this.notation = 4;
     }
 
+    init(){
+        console.log("localStorage: ");
+        console.log(localStorage.getItem("image"));
+        this.alimentIMG = localStorage.getItem("image");
+        this.name = localStorage.getItem("name");
+        localStorage.clear();
+    }
+
     note(){
         let ZeroStar = "resources/star0.png";
         let star = "resources/star.png";
@@ -21,13 +29,11 @@ class alimentPage extends Component {
         for(let i=0 ; i < this.notation;i++){
             res[i] = star;
         }
-        console.log("resultat");
-        console.log(res);
         return res;
     }
 
     render() {
-
+        this.init();
         let notes = this.note().map(
             (img,indice)=>{
                 return <img alt="" src={img} className="rewardImg"></img>

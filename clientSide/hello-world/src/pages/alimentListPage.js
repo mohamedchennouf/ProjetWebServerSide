@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 class alimentListPage extends Component {
 
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -12,9 +14,10 @@ class alimentListPage extends Component {
      // menusList : ["Couscous"],
       imgMenusRecipes: ['resources/couscous.png','resources/pâte.png','resources/unknown.png'],
      // imgMenusRecipes: ['resources/couscous.png'],
-     stringMenusText: ["je fait du couscous avec toutes la famille","j'aime les banane","Wat"]
+     stringMenusText: ["commentary1","commentary2","commentary3"]
     }
   }
+
 
   newRecipe(newMenu,newImg,newText){
     this.state.menusList.push(newMenu);
@@ -30,18 +33,25 @@ class alimentListPage extends Component {
     return this.state.stringMenusText[index];
   }
 
+  onSubmit(image,element){
+    console.log(image);
+    console.log(element);
+    localStorage.setItem("image",image);
+    localStorage.setItem("name",element);
+  }
+
   render() {
 
     let recipeBlockList = this.state.menusList.map(
       (el, index) => {
         return <div>
             <Link to="/aliments">
-        <div className="alimentListLineBlock">
+        <button className="alimentListLineBlock" onClick={this.onSubmit.bind(this,this.getImage(index),el)}>
           <img className="imgAlimentList" name={el} indice={index} alt="" src={this.getImage(index)}></img>
           <div className="textAlimentList"> 
             {this.getText(index)}
           </div>
-        </div>
+        </button>
         </Link>
         </div>
       }
