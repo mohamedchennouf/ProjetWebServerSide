@@ -7,7 +7,6 @@ class MainFrame extends Component {
 
   constructor(props) {
     super(props);
-    console.log(props.inside);
     this.state = {
       inside : props.inside,
       menus: ['Home', 'Recipe','Aliments',"Shops"],
@@ -19,11 +18,14 @@ class MainFrame extends Component {
 
   getLink(index){
     let page = this.state.menusLinks[index];
-    console.log(page);
     this.props.history.push(page);
   }
 
   render() {
+    
+    if(this.props.inside != this.state.inside){
+      this.state.inside = this.props.inside;
+    }
 
     let list = this.state.menus.map(
       (el,index) => <Link to={this.state.linkList[index]}>

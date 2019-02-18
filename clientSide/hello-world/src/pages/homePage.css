@@ -50,13 +50,11 @@
   
   .cardRecipe{
     position: relative;
-    margin: 5px;
     background-color: rgb(193, 73, 30);
     border-radius: 10px;
     margin-top: 10px;
     border-style: solid;
     box-shadow: 0 3px rgb(200, 200, 200);
-    width: 33%;
     height: 200px;
   }
   
