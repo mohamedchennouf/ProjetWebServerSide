@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import './searchResultPage.css';
+import './alimentListPage.css';
 import MainFrame from './MainFrame';
-class searchPage extends Component {
+import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
+
+class alimentListPage extends Component {
+
+
 
   constructor(props) {
     super(props);
@@ -10,9 +14,10 @@ class searchPage extends Component {
      // menusList : ["Couscous"],
       imgMenusRecipes: ['resources/couscous.png','resources/pâte.png','resources/unknown.png'],
      // imgMenusRecipes: ['resources/couscous.png'],
-     stringMenusText: ["je fait du couscous avec toutes la famille","j'aime les banane","Wat"]
+     stringMenusText: ["commentary1","commentary2","commentary3"]
     }
   }
+
 
   newRecipe(newMenu,newImg,newText){
     this.state.menusList.push(newMenu);
@@ -28,15 +33,26 @@ class searchPage extends Component {
     return this.state.stringMenusText[index];
   }
 
+  onSubmit(image,element){
+    console.log(image);
+    console.log(element);
+    localStorage.setItem("image",image);
+    localStorage.setItem("name",element);
+  }
+
   render() {
 
-    let alimentBlockList = this.state.menusList.map(
+    let recipeBlockList = this.state.menusList.map(
       (el, index) => {
-        return <div className="alimentLineBlock">
-          <img className="imgAliment" name={el} indice={index} alt="" src={this.getImage(index)} ></img>
-          <div className="textAliment"> 
+        return <div>
+            <Link to="/aliments">
+        <button className="alimentListLineBlock" onClick={this.onSubmit.bind(this,this.getImage(index),el)}>
+          <img className="imgAlimentList" name={el} indice={index} alt="" src={this.getImage(index)}></img>
+          <div className="textAlimentList"> 
             {this.getText(index)}
           </div>
+        </button>
+        </Link>
         </div>
       }
     );
@@ -44,7 +60,7 @@ class searchPage extends Component {
     let insideContent = 
     <div className="body-content">
     <div>
-      {alimentBlockList}
+      {recipeBlockList}
     </div>
     </div>
 
@@ -56,4 +72,4 @@ class searchPage extends Component {
 
 }
 
-export default searchPage;
+export default alimentListPage;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './MainFrame.css';
 import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import { browserHistory } from 'react-router';
+
 
 class MainFrame extends Component {
 
@@ -12,7 +12,7 @@ class MainFrame extends Component {
       inside : props.inside,
       menus: ['Home', 'Recipe','Aliments',"Shops"],
       topRecipes: ['couscous','pâtes','unknown'],
-      linkList: ["/","/","/","/shops"]
+      linkList: ["/","/recipe","/alimentList","/shops"]
     }
   }
 
@@ -35,7 +35,7 @@ class MainFrame extends Component {
         <div className="App">
           <div className="header">
             <div className="logo">
-              <img className="imgLogo" src="resources/logo.png" />
+              <img className="imgLogo" alt="" src="resources/logo.png" />
             </div>
             <div className="titre">
               <h1> Miam Miam Eat </h1>

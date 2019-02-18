@@ -40,8 +40,6 @@ class inscription extends Component {
 
     onChange(e,indice){
         this.state.formulaire[indice.index] = e.target.value;
-        console.log(e.target.value);
-        console.log(indice.index);
     }
 
     render() {
@@ -72,10 +70,6 @@ class inscription extends Component {
         );
     }
 
-
-}
-
-function afficheReponsePOST(reponse) {
 
 }
 

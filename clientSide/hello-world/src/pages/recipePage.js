@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import './searchResultPage.css';
+import './recipePage.css';
 import MainFrame from './MainFrame';
-class searchPage extends Component {
+
+class recipePage extends Component {
 
   constructor(props) {
     super(props);
@@ -30,11 +31,11 @@ class searchPage extends Component {
 
   render() {
 
-    let alimentBlockList = this.state.menusList.map(
+    let recipeBlockList = this.state.menusList.map(
       (el, index) => {
-        return <div className="alimentLineBlock">
-          <img className="imgAliment" name={el} indice={index} alt="" src={this.getImage(index)} ></img>
-          <div className="textAliment"> 
+        return <div className="recipeLineBlock">
+          <img className="imgRecipe" name={el} indice={index} alt="" src={this.getImage(index)} ></img>
+          <div className="textRecipe"> 
             {this.getText(index)}
           </div>
         </div>
@@ -44,7 +45,7 @@ class searchPage extends Component {
     let insideContent = 
     <div className="body-content">
     <div>
-      {alimentBlockList}
+      {recipeBlockList}
     </div>
     </div>
 
@@ -56,4 +57,4 @@ class searchPage extends Component {
 
 }
 
-export default searchPage;
+export default recipePage;

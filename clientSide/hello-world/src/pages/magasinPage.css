@@ -13,7 +13,8 @@
     margin-top: 10px;  
     border-radius: 20px;
     border: none;
-    transition: height 1s;
+    transition-property: padding-block-end,height;
+    transition-duration: 1s;
 }
 .cityBlock:hover{
     height:auto; 
