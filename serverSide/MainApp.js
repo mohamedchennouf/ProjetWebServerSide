@@ -157,6 +157,8 @@ app.route("/API/STORES/GET_CITIES").post(function(req, res) {
   data = req.body;
   console.log(data);
   storeManager.get_cities(data).then(x => check_cities(x, res));
+}).get(function(req, res) {
+  storeManager.get_cities({ville: ""}).then(x => check_cities(x, res));
 });
 
 ///// PRICES ROUTES \\\\\
