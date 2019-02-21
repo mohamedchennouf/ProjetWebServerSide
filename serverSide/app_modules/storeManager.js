@@ -74,7 +74,6 @@ exports.get_cities = function (data) {
                 var db = client.db(dbName);
                 if (!err && data['ville'] != null) {
                     var request = {ville: {$regex: ".*" + data['ville'].toUpperCase() + ".*"}};
-                    console.log(request);
                     db.collection("magasin")
                         .find(request)
                         .toArray()

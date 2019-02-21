@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './magasinPage.css';
 import MainFrame from './MainFrame';
+import ReactDOM from 'react-dom';
 /*class magasinJson{
     constructor(id,nom,adresse,ville,longitude,latitude){
         this.id = id;
@@ -18,28 +19,39 @@ class magasinPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        cityList : ["Nice","Sophia","Paris"],
-        magasinList : [["Carefour","Auchan","SushiShop"],["Boulangerie","Subway","Casino"],["KFC","MacDo","BurgerKing"]],
+        cityList : [],
+        magasinList : [],
       //imgMagasinRecipes: ['resources/couscous.png','resources/pâte.png','resources/unknown.png'],
-        stringMagasinText: ["je fait du couscous avec toutes la famille","j'aime les banane","Wat"]
+        stringMagasinText: []
     }
   }
 
   bdFetch(){
+    //let url = "http://localhost:8080/API/STORES/GET_STORES_CITY";
     let url = "http://localhost:8080/API/STORES/GET_CITIES";
     fetch(url, {
         method: "POST",
-        body:{ville : "Sophia"},
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'},
+        body:JSON.stringify({ville : ''})
     })
     .then(function(responseJSON) {
-        responseJSON.json()
-       .then(response => response.json())
-       .then(console.log(this))
-        })
+      responseJSON.json()
+          .then(function(res) {
+              console.log(res.msg)
+          })})
+    //.then(res => {return res.villes})
     .catch(function (err) {
         console.log(err);
     });
+    
     }
+
+  fetchAndSetCity(){
+    this.bdFetch().then(ReactDOM.render());
+    console.log('city : ' + this.state.cityList)
+  }
 
   newRecipe(newMagasin,newText){
     this.state.magasinList.push(newMagasin);
@@ -60,9 +72,7 @@ class magasinPage extends Component {
   }
 
   render() {
-    this.bdFetch();
-    let magasinBlockList = 
-    this.state.cityList.map(
+    let magasinBlockList = this.state.cityList.map(
         (city,indice)=>{
             return <div className="cityBlock">
                 <div className="cityNameStyle">
@@ -93,10 +103,10 @@ class magasinPage extends Component {
       {magasinBlockList}
     </div>
     </div>
-
     return (
       <MainFrame inside = {insideContent}></MainFrame>
     );
+    
   }
 
 
