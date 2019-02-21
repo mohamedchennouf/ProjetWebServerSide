@@ -26,13 +26,10 @@ class magasinPage extends Component {
   }
 
   bdFetch(){
-    console.log("here");
     let url = "http://localhost:8080/API/STORES/GET_CITIES";
-
     fetch(url, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body:{city:"nice"},
+        body:{ville : "Sophia"},
     })
     .then(function(responseJSON) {
         responseJSON.json()

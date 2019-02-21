@@ -22,8 +22,7 @@ class inscription extends Component {
         console.log(this.state.formulaire);
         fetch(url, {
             method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(this.state.formulaire),
+            body: {data : this.state.formulaire}
         })
         .then(function(responseJSON) {
             responseJSON.json()

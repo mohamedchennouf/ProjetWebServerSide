@@ -1,7 +1,7 @@
 
 .alimentBlock{
     display: block;
-    margin-left: 50px;
+    margin-left: 80px;
     margin-top: 10px;
     padding-top: 10px;
     background : rgb(193, 73, 30);
@@ -29,7 +29,7 @@
 
 .upperBlock{
     display: flex;
-    width:auto;
+    width : 90%;
     margin-top:10px;
     margin-left: 50px;
     background: rgb(200, 200, 200);
