@@ -46,7 +46,6 @@ class inscription extends Component {
     }
 
     render() {
-
         let renderInputList = this.state.inputList.map(
             (el,index) =>         
             <div>

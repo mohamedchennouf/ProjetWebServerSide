@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './magasinPage.css';
 import MainFrame from './MainFrame';
 import ReactDOM from 'react-dom';
+import { puts } from 'util';
 /*class magasinJson{
     constructor(id,nom,adresse,ville,longitude,latitude){
         this.id = id;
@@ -26,14 +27,42 @@ class magasinPage extends Component {
     }
   }
 
-  componentDidMount() {
-    this.bdFetch()
+  componentWillMount() {
+    var promise1 = this.cityFetch();
+    Promise.all(promise1)
+    .then(this.storeFetch())
+    .then(console.log("end pre-render"));
   }
 
-  bdFetch(){
-    let url1 = "http://localhost:8080/API/STORES/GET_CITIES";
-    let url2 ="http://localhost:8080/API/STORES/GET_STORES_CITY"
-    fetch(url1, {
+  storeFetch(){
+    this.state.cityList.map( (city,index) => {
+      let url = "http://localhost:8080/API/STORES/GET_STORES_CITY";
+      fetch(url,{
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'},
+        body:JSON.stringify({ville : city})
+      })
+      .then(response => response.json())
+      .then(response => response.map((elme) =>{
+        if(this.state.magasinList.length < index+1){
+          this.state.magasinList.push([]);
+        }
+        this.state.magasinList[index].push(elme.nom);
+        console.log("end fetch " + elme.nom)
+      }))
+      .then(console.log("end fetch store"))
+      .catch(function (err) {
+        console.log(err);
+      });
+    })
+  }
+
+
+  cityFetch(){
+    let url = "http://localhost:8080/API/STORES/GET_CITIES";
+    fetch(url, {
         method: "POST",
         headers: {
           'Accept': 'application/json',
@@ -42,48 +71,30 @@ class magasinPage extends Component {
     })
     .then(res => res.json())
     .then(res => this.setState({cityList : res.villes}))
-    .then(res =>
-        fetch(url2,{
-        method: "POST",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'},
-        body:JSON.stringify({ville : ''})
-        })
-        .then(res => console.log("city :" + res.villes))
-        //})
-    )
-    //.then(res => {return res.villes})
+    .then(console.log("end city fetch"))
+
     .catch(function (err) {
         console.log(err);
     });
-    
     }
-
-  newRecipe(newMagasin,newText){
-    this.state.magasinList.push(newMagasin);
-    //this.state.imgMenusRecipes.push(newImg);
-    this.state.stringMagasinText.push(newText);
-  }
 
   getText(index){
     return this.state.stringMagasinText[index];
   }
 
   getName(indice,index){
-      return this.state.magasinList[indice][index];
-  }
-
-  getCityName(index){
-    return this.state.cityList[index];
-  }
+    console.log("indice : " + indice + " " + this.state.magasinList[indice]);
+    return this.state.magasinList[indice][index];
+}
 
   render() {
+    console.log(this.state.magasinList.length)
     let magasinBlockList = this.state.cityList.map(
         (city,indice)=>{
             return <div className="cityBlock">
                 <div className="cityNameStyle">
-                    {this.getCityName(indice)}
+                    {city}
+                    {console.log(this.state.magasinList.length)}
                 </div>
                 {this.state.magasinList.map(
                     (el, index) => {
