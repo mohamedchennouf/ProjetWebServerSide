@@ -10,6 +10,7 @@ exports.getFirstFood = function () {
   return new Promise(fun => {
     MongoClient.connect(
       url,
+      { useNewUrlParser: true },
       function (err, client) {
         var db = client.db(dbName);
         if (!err) {
@@ -68,6 +69,7 @@ exports.get_all_foods = function () {
   return new Promise(fun => {
     MongoClient.connect(
       url,
+      { useNewUrlParser: true },
       function (err, client) {
         var db = client.db(dbName);
         if (!err) {
@@ -83,19 +85,15 @@ exports.get_all_foods = function () {
 }
 
 exports.maj_custom_score = function (data) {
-  diff = 0;
   for (i = 0; i < data.length; i++) {
     if (data[i]['nutriments'] != null) {
-      diff++;
       nutriments = data[i]['nutriments'];
       if (nutriments['sodium_100g'] != null && nutriments['saturated-fat_100g'] != null
         && nutriments['sugars_100g'] != null && nutriments['energy_100g'] != null && nutriments['proteins_100g'] != null) {
-        diff--;
         console.log(compute_score(nutriments));
       }
     }
   }
-  console.log("Diff : " + diff);
   return "";
 }
 

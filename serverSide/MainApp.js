@@ -153,7 +153,7 @@ app.route("/API/STORES/GET_STORES_CITIES").post(function(req, res) {
           console.log(x);
           l.push(x);
           if (l.length == data['villes'].length)
-           {res.send(l)}
+           {res.send({stores: l})}
         }
       );
     }
