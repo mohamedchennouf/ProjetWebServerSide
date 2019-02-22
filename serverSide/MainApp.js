@@ -141,6 +141,28 @@ app.route("/API/STORES/GET_STORES_CITY").post(function(req, res) {
   storeManager.get_stores_by_city(data).then(x => res.send(x));
 });
 
+app.route("/API/STORES/GET_STORES_CITIES").post(function(req, res) {
+  console.log("here");
+  data = req.body;
+  console.log(data);
+  if (data['villes'] != null) {
+    l = []
+    for (i = 0; i < data['villes'].length; i++) {
+      storeManager.get_stores_by_city(
+        {ville: data['villes'][i]}).then(x => {
+          console.log(x);
+          l.push(x);
+          if (l.length == data['villes'].length)
+           {res.send(l)}
+        }
+      );
+    }
+  }
+  else {
+    res.send("Clé manquante : villes")
+  }
+});
+
 // TODO COMPLETE
 app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
   foodManager.get_all_foods().then(data => {
