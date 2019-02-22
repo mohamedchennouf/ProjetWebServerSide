@@ -166,6 +166,22 @@ app.route("/API/STORES/GET_STORES_CITIES").post(function(req, res) {
 // TODO COMPLETE
 app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
   foodManager.get_all_foods().then(data => {
+    var taille = data.length;
+    var i = 0;
+    var size = 1000;
+    if ((i + 1) * 1000 < taille) {
+      size = taille - i * 1000;
+    }
+    while(size == 1000) {
+      // do request update score (create new route with limit 1000 and skip i * 1000 foods)
+      
+      // au dessus
+      i++;
+      if ((i + 1) * 1000 < taille) {
+        size = taille - i * 1000;
+      }
+    }
+    // do request one more time
     foodManager.maj_custom_score(data);
     res.send("OK");
   });

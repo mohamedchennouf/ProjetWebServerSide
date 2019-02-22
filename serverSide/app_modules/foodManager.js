@@ -85,13 +85,36 @@ exports.get_all_foods = function () {
 }
 
 exports.maj_custom_score = function (data) {
-  for (i = 0; i < data.length; i++) {
+  var i = 0;
+  while (i < data.length) {
     if (data[i]['nutriments'] != null) {
       nutriments = data[i]['nutriments'];
       if (nutriments['sodium_100g'] != null && nutriments['saturated-fat_100g'] != null
         && nutriments['sugars_100g'] != null && nutriments['energy_100g'] != null && nutriments['proteins_100g'] != null) {
-        console.log(compute_score(nutriments));
+          new Promise(fun => {
+            MongoClient.connect(
+              url,
+              { useNewUrlParser: true },
+              function (err, client) {
+                var db = client.db(dbName);
+                if (err) {
+                  console.error('An error occurred connecting to MongoDB: ', err);
+                }
+                else {
+                  db.collection("france").updateOne(
+                    {"_id": data['_id']},
+                    {"custom_score": compute_score(nutriments)},
+                    {upsert:true}
+                  ).then(i++)
+                }
+              }
+            );
+          });
+      } else {
+        i++;
       }
+    } else {
+      i++;
     }
   }
   return "";
