@@ -75,9 +75,32 @@ app.route("/API/FOODS").post(function(req, res) {
 
 // TODO COMPLETE
 app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
-  foodManager.get_all_foods().then(data => {
-    foodManager.maj_custom_score(data);
-    res.send("OK");
+  foodManager.get_all_foods_size().then(data => {
+    var taille = data;
+    console.log(taille);
+    var i = 0;
+    var size = 100;
+    if ((i + 1) * 100 < taille) {
+      size = taille - i * 100;
+    }
+    while(size == 100) {
+      // do request update score (create new route with limit 1000 and skip i * 1000 foods)
+      foodManager.get_100_foods(i).then(x => {
+        foodManager.maj_custom_score(x).then(rep => {
+          console.log("fini: " + i);
+          i++;
+          if ((i + 1) * 100 > taille) {
+            size = taille - i * 100;
+          }
+        })
+      })
+    }
+    // do request one more time
+    foodManager.get_100_foods(i).then(x => {
+      foodManager.maj_custom_score(x).then(rep => {
+        res.send("OK");
+      })
+    })
   });
 });
 
@@ -163,29 +186,6 @@ app.route("/API/STORES/GET_STORES_CITIES").post(function(req, res) {
   }
 });
 
-// TODO COMPLETE
-app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
-  foodManager.get_all_foods().then(data => {
-    var taille = data.length;
-    var i = 0;
-    var size = 1000;
-    if ((i + 1) * 1000 < taille) {
-      size = taille - i * 1000;
-    }
-    while(size == 1000) {
-      // do request update score (create new route with limit 1000 and skip i * 1000 foods)
-      
-      // au dessus
-      i++;
-      if ((i + 1) * 1000 < taille) {
-        size = taille - i * 1000;
-      }
-    }
-    // do request one more time
-    foodManager.maj_custom_score(data);
-    res.send("OK");
-  });
-});
 app.route("/API/STORES/GET_STORES_NAME").post(function(req, res) {
   data = req.body;
   console.log(data);

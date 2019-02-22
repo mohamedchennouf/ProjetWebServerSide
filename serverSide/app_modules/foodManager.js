@@ -65,7 +65,7 @@ function convert(data) {
   return res;
 };
 
-exports.get_all_foods = function () {
+exports.get_all_foods_size = function () {
   return new Promise(fun => {
     MongoClient.connect(
       url,
@@ -75,6 +75,29 @@ exports.get_all_foods = function () {
         if (!err) {
           db.collection("france")
             .find({}).toArray()
+            .then(x => fun(x.length));
+        } else {
+          fun(-1);
+        }
+      }
+    );
+  });
+}
+
+exports.get_100_foods = function (i) {
+  console.log(i);
+  return new Promise(fun => {
+    MongoClient.connect(
+      url,
+      { useNewUrlParser: true },
+      function (err, client) {
+        var db = client.db(dbName);
+        if (!err) {
+          db.collection("france")
+            .find({})
+            .skip(i * 100)
+            .limit(100)
+            .toArray()
             .then(x => fun(x));
         } else {
           fun(-1);
@@ -91,21 +114,27 @@ exports.maj_custom_score = function (data) {
       nutriments = data[i]['nutriments'];
       if (nutriments['sodium_100g'] != null && nutriments['saturated-fat_100g'] != null
         && nutriments['sugars_100g'] != null && nutriments['energy_100g'] != null && nutriments['proteins_100g'] != null) {
+          console.log("A");
           new Promise(fun => {
+            console.log("B");
             MongoClient.connect(
               url,
               { useNewUrlParser: true },
               function (err, client) {
+                console.log("C");
                 var db = client.db(dbName);
+                console.log("D");
                 if (err) {
                   console.error('An error occurred connecting to MongoDB: ', err);
+                  i++;
                 }
                 else {
+                  var score = compute_score(nutriments);
                   db.collection("france").updateOne(
-                    {"_id": data['_id']},
-                    {"custom_score": compute_score(nutriments)},
-                    {upsert:true}
-                  ).then(i++)
+                    {_id: data['_id']},
+                    {$: {custom_score: score}},
+                    {upsert:false}
+                  ).then(res => {i++;})
                 }
               }
             );
