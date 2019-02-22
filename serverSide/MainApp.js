@@ -116,7 +116,8 @@ app.route("/API/image/:id").get(function(req, res) {
 });
 
 app.route("/API/USER/subscribe").post(function(req, res) {
-  userManager.subscribe(JSON.parse(req.body)).then(x => {
+  userManager.subscribe(req.body.data).then(x => {
+    console.log(x);
     if (x) {
       res.sendStatus(403);
     } else {
@@ -134,6 +135,7 @@ function test(x, data, res) {
 }
 
 app.route("/API/STORES/GET_STORES_CITY").post(function(req, res) {
+  console.log("here");
   data = req.body;
   console.log(data);
   storeManager.get_stores_by_city(data).then(x => res.send(x));
@@ -153,9 +155,7 @@ app.route("/API/STORES/GET_STORES_NAME").post(function(req, res) {
 });
 
 app.route("/API/STORES/GET_CITIES").post(function(req, res) {
-  console.log(req)
   data = req.body;
-  console.log(data);
   storeManager.get_cities(data).then(x => check_cities(x, res));
 }).get(function(req, res) {
   storeManager.get_cities({ville: ""}).then(x => check_cities(x, res));

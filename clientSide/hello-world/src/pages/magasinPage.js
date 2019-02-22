@@ -26,32 +26,39 @@ class magasinPage extends Component {
     }
   }
 
+  componentDidMount() {
+    this.bdFetch()
+  }
+
   bdFetch(){
-    //let url = "http://localhost:8080/API/STORES/GET_STORES_CITY";
-    let url = "http://localhost:8080/API/STORES/GET_CITIES";
-    fetch(url, {
+    let url1 = "http://localhost:8080/API/STORES/GET_CITIES";
+    let url2 ="http://localhost:8080/API/STORES/GET_STORES_CITY"
+    fetch(url1, {
         method: "POST",
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'},
         body:JSON.stringify({ville : ''})
     })
-    .then(function(responseJSON) {
-      responseJSON.json()
-          .then(function(res) {
-              console.log(res.msg)
-          })})
+    .then(res => res.json())
+    .then(res => this.setState({cityList : res.villes}))
+    .then(res =>
+        fetch(url2,{
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'},
+        body:JSON.stringify({ville : ''})
+        })
+        .then(res => console.log("city :" + res.villes))
+        //})
+    )
     //.then(res => {return res.villes})
     .catch(function (err) {
         console.log(err);
     });
     
     }
-
-  fetchAndSetCity(){
-    this.bdFetch().then(ReactDOM.render());
-    console.log('city : ' + this.state.cityList)
-  }
 
   newRecipe(newMagasin,newText){
     this.state.magasinList.push(newMagasin);
