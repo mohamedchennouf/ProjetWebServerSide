@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './alimentPage.css';
 import MainFrame from './MainFrame';
+import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 class alimentPage extends Component {
 
@@ -11,6 +12,7 @@ class alimentPage extends Component {
           name: "",
           text: "",
           aliments: "",
+          id:"",
           notation:4,
           poceBleu:0
       };
@@ -48,13 +50,27 @@ class alimentPage extends Component {
         });
     }
 
+    commentsFetch(){
+        let url = "http://localhost:8080/API/RECETTES/COMMENTS" + this.urlParser();
+        fetch(url, {
+            method: "GET",
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'}
+        })
+        .then(res => res.json())
+        .then(res => this.setData(res))
+        .catch(function (err) {
+            console.log(err);
+        });
+    }
+
     setData(res){
-        console.log(res)
         this.setState({name : res.title});
         this.setState({alimentIMG : 'http://localhost:8080/API/image/' + res._id });
-        console.log(this.state.alimentIMG);
         this.setState({text : res.content});
-        this.setState({aliments : res.ingredient})
+        this.setState({aliments : res.ingredient});
+        this.setState({id : res._id});
         this.setState({poceBleu : res.poceBlo});
 
     }
@@ -67,6 +83,10 @@ class alimentPage extends Component {
             res[i] = star;
         }
         return res;
+    }
+    
+    urlCreator(){
+        return "/commentary?" + this.state.id + "&" + this.state.name;
     }
 
     render() {
@@ -112,6 +132,9 @@ class alimentPage extends Component {
                 <div className="commentaryText">ce plat est vraiment typiquement Noukoutou!</div>
                 
             </div>
+            <Link to={this.urlCreator()}>
+                <button className="buttonComment">new Comment</button>
+            </Link>
         </div>
     </div>;
 

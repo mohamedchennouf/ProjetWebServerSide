@@ -76,7 +76,7 @@ class searchPage extends Component {
   }
 
   urlCreator(input){
-    return "/aliments?" + input;
+    return "/recipeDetails?" + input;
   }
 
   render() {

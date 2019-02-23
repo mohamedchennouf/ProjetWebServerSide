@@ -8,8 +8,9 @@ import Inscription from './pages/inscriptionPage.js';
 import Aliments from './pages/alimentPage.js';
 import searchAdvanced from './pages/searchAdvanced.js';
 import recipe from './pages/recipePage.js';
-import alimentList from './pages/alimentListPage.js'
-import addNewRecipe from './pages/newRecipe.js'
+import alimentList from './pages/alimentListPage.js';
+import addNewRecipe from './pages/newRecipe.js';
+import commentary from './pages/commentary.js';
 
 class App extends Component {
 
@@ -28,11 +29,12 @@ class App extends Component {
           <Route exact path="/searchresult" component={NewPage} />
           <Route exact path="/subscribe" component={Inscription}/>
           <Route exact path="/shops" component={Magasin}/>
-          <Route exact path="/aliments" component={Aliments}/>
+          <Route exact path="/recipeDetails" component={Aliments}/>
           <Route exact path="/advancedSearch" component={searchAdvanced}/>
           <Route exact path="/recipe" component={recipe}/>
           <Route exact path="/alimentList" component={alimentList}/>
           <Route exact path="/addNewRecipe" component={addNewRecipe}/>
+          <Route exact path="/commentary" component={commentary}/>
           
         </div>
       </Router>
