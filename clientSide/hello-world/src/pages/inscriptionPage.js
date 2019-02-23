@@ -22,12 +22,15 @@ class inscription extends Component {
         console.log(this.state.formulaire);
         fetch(url, {
             method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(this.state.formulaire),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'},
+            body: JSON.stringify({data : this.state.formulaire})
         })
         .then(function(responseJSON) {
             responseJSON.json()
                 .then(function(res) {
+                    console.log(res)
                 // Maintenant res est un vrai objet JavaScript
                     let div = document.querySelector("#reponsePOST");
                     div.innerHTML = res.msg;
@@ -43,7 +46,6 @@ class inscription extends Component {
     }
 
     render() {
-
         let renderInputList = this.state.inputList.map(
             (el,index) =>         
             <div>

@@ -1,8 +1,12 @@
+
 import React, { Component } from "react";
 import "./searchAdvanced.css";
 import MainFrame from "./MainFrame";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Select2 from "react-select2-wrapper";
+
+
+
 class searchAdvanced extends Component {
   constructor(props) {
     super(props);
@@ -49,6 +53,7 @@ class searchAdvanced extends Component {
         </div>
       );
     });
+    
     let prop = {
       tags: true,
       multiple: true
@@ -69,6 +74,7 @@ class searchAdvanced extends Component {
     );
     return <MainFrame inside={insideContent} />;
   }
+      
 }
 
 export default searchAdvanced;

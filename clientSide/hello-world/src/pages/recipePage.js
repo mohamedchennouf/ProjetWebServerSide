@@ -7,12 +7,25 @@ class recipePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menusList : ["Couscous","Pâtes","Unknown"],
-     // menusList : ["Couscous"],
+      menusList : [{title:"Couscous",content:"je fait du couscous avec toutes la famille"},{title:"Pâtes",content:"j'aime les banane"},{title:"Gatan",content:"Whar"}],
       imgMenusRecipes: ['resources/couscous.png','resources/pâte.png','resources/unknown.png'],
-     // imgMenusRecipes: ['resources/couscous.png'],
-     stringMenusText: ["je fait du couscous avec toutes la famille","j'aime les banane","Wat"]
     }
+  }
+
+
+  componentDidMount() {
+    this.getRecipe()
+  }
+
+  getRecipe() {
+    fetch('http://localhost:8080/API/RECETTES')
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ menusList: data });
+        console.log(this.state.menusList)
+
+      })
+      .catch(e => console.log(e));
   }
 
   newRecipe(newMenu,newImg,newText){
@@ -25,9 +38,6 @@ class recipePage extends Component {
     return this.state.imgMenusRecipes[index];
   }
 
-  getText(index){
-    return this.state.stringMenusText[index];
-  }
 
   render() {
 
@@ -36,7 +46,8 @@ class recipePage extends Component {
         return <div className="recipeLineBlock">
           <img className="imgRecipe" name={el} indice={index} alt="" src={this.getImage(index)} ></img>
           <div className="textRecipe"> 
-            {this.getText(index)}
+            <div>{el.title}</div>
+            <div>{el.content}</div>
           </div>
         </div>
       }

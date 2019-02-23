@@ -51,7 +51,7 @@ exports.postNouvelleRecette = function(title, content, product, image) {
           poceBlo: 5,
           visionageParticipatif: 0
         });
-        
+
         fun(
           db.collection("recette").insertOne({
             title: title,
@@ -71,7 +71,7 @@ exports.getRecette = function(title) {
   return new Promise(fun => {
     MongoClient.connect(url, function(err, client) {
       var db = client.db(dbName);
-      if  (!err) {
+      if (!err) {
         var resultat = db
           .collection("france")
           .find({ title: { $regex: ".*" + title + ".*" } })
@@ -114,27 +114,41 @@ exports.getRecettes = function(number, sort, page) {
 };
 
 exports.retrieveImage = function(id) {
-  var resultat = db
-    .collection("recette")
-    .find({ id: id })
-    .toArray();
+  return new Promise(fun => {
+    MongoClient.connect(url, function(err, client) {
+      var db = client.db(dbName);
 
-  var image = resultat[0].image;
-  if (image) {
-    return base64_decode(image);
-  }
+      var resultat = db.collection("recette").find({ _id: id }).toArray().then(x => {
+        console.log(x);
+        console.log("momo")
+        if (x != undefined) {
+          var image = x[0].image;
+        }
+        if (image) {
+          fun(base64_decode(image));
+          return ;
+        }});
+        fun(undefined)
+      
+    });
+  });
 };
 function base64_decode(base64str, file) {
   // create buffer object from base64 encoded string, it is important to tell the constructor that the string is base64 encoded
-  var bitmap = new Buffer(base64str, 'base64');
+  var bitmap = new Buffer(base64str, "base64");
   // write buffer to file
-  console.log('******** File created from base64 encoded string ********');
+  console.log("******** File created from base64 encoded string ********");
   return bitmap;
 }
 
-exports.addComment = function(userID, recipeID,content){
+exports.addComment = function(userID, recipeID, content) {
   var resultat = db
-  .collection("comments")
-  .insertOne({ recipeId : recipeID, userId: userID, content: content, time : new Date().getTime()   })
-  .then()
-} 
+    .collection("comments")
+    .insertOne({
+      recipeId: recipeID,
+      userId: userID,
+      content: content,
+      time: new Date().getTime()
+    })
+    .then();
+};

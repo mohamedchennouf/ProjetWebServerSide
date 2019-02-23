@@ -10,6 +10,7 @@ exports.getFirstFood = function () {
   return new Promise(fun => {
     MongoClient.connect(
       url,
+      { useNewUrlParser: true },
       function (err, client) {
         var db = client.db(dbName);
         if (!err) {
@@ -64,15 +65,39 @@ function convert(data) {
   return res;
 };
 
-exports.get_all_foods = function () {
+exports.get_all_foods_size = function () {
   return new Promise(fun => {
     MongoClient.connect(
       url,
+      { useNewUrlParser: true },
       function (err, client) {
         var db = client.db(dbName);
         if (!err) {
           db.collection("france")
             .find({}).toArray()
+            .then(x => fun(x.length));
+        } else {
+          fun(-1);
+        }
+      }
+    );
+  });
+}
+
+exports.get_100_foods = function (i) {
+  console.log(i);
+  return new Promise(fun => {
+    MongoClient.connect(
+      url,
+      { useNewUrlParser: true },
+      function (err, client) {
+        var db = client.db(dbName);
+        if (!err) {
+          db.collection("france")
+            .find({})
+            .skip(i * 100)
+            .limit(100)
+            .toArray()
             .then(x => fun(x));
         } else {
           fun(-1);
@@ -83,19 +108,44 @@ exports.get_all_foods = function () {
 }
 
 exports.maj_custom_score = function (data) {
-  diff = 0;
-  for (i = 0; i < data.length; i++) {
+  var i = 0;
+  while (i < data.length) {
     if (data[i]['nutriments'] != null) {
-      diff++;
       nutriments = data[i]['nutriments'];
       if (nutriments['sodium_100g'] != null && nutriments['saturated-fat_100g'] != null
         && nutriments['sugars_100g'] != null && nutriments['energy_100g'] != null && nutriments['proteins_100g'] != null) {
-        diff--;
-        console.log(compute_score(nutriments));
+          console.log("A");
+          new Promise(fun => {
+            console.log("B");
+            MongoClient.connect(
+              url,
+              { useNewUrlParser: true },
+              function (err, client) {
+                console.log("C");
+                var db = client.db(dbName);
+                console.log("D");
+                if (err) {
+                  console.error('An error occurred connecting to MongoDB: ', err);
+                  i++;
+                }
+                else {
+                  var score = compute_score(nutriments);
+                  db.collection("france").updateOne(
+                    {_id: data['_id']},
+                    {$: {custom_score: score}},
+                    {upsert:false}
+                  ).then(res => {i++;})
+                }
+              }
+            );
+          });
+      } else {
+        i++;
       }
+    } else {
+      i++;
     }
   }
-  console.log("Diff : " + diff);
   return "";
 }
 

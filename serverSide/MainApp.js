@@ -75,9 +75,32 @@ app.route("/API/FOODS").post(function(req, res) {
 
 // TODO COMPLETE
 app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
-  foodManager.get_all_foods().then(data => {
-    foodManager.maj_custom_score(data);
-    res.send("OK");
+  foodManager.get_all_foods_size().then(data => {
+    var taille = data;
+    console.log(taille);
+    var i = 0;
+    var size = 100;
+    if ((i + 1) * 100 < taille) {
+      size = taille - i * 100;
+    }
+    while(size == 100) {
+      // do request update score (create new route with limit 1000 and skip i * 1000 foods)
+      foodManager.get_100_foods(i).then(x => {
+        foodManager.maj_custom_score(x).then(rep => {
+          console.log("fini: " + i);
+          i++;
+          if ((i + 1) * 100 > taille) {
+            size = taille - i * 100;
+          }
+        })
+      })
+    }
+    // do request one more time
+    foodManager.get_100_foods(i).then(x => {
+      foodManager.maj_custom_score(x).then(rep => {
+        res.send("OK");
+      })
+    })
   });
 });
 
@@ -88,9 +111,10 @@ app
   .post(function(req, res) {
     var title = req.param("title");
     var content = req.param("content");
-    var name = req.param("name");
+    var product = req.param("product");
+    var image = req.param("image")
     recetteManager
-      .postNouvelleRecette(title, content, name)
+      .postNouvelleRecette(title, content, product, image)
       .then(x => res.send(x));
   })
   .get(function(req, res) {
@@ -110,15 +134,20 @@ app.route("/API/STORES/ADD").post(function(req, res) {
 
 app.route("/API/image/:id").get(function(req, res) {
   recetteManager.retrieveImage(req.params.id).then(x => {
+    if(x == undefined){
+      res.sendStatus(403);
+      return;
+    }
     res.contentType("png");
     res.write(x);
   });
 });
 
 app.route("/API/USER/subscribe").post(function(req, res) {
-  console.log(req.body);
 
-  userManager.subscribe(req.body).then(x => {
+
+  userManager.subscribe(req.body.data).then(x => {
+    console.log(x);
     if (x) {
       res.sendStatus(403);
     } else{
@@ -136,17 +165,32 @@ function test(x, data, res) {
 }
 
 app.route("/API/STORES/GET_STORES_CITY").post(function(req, res) {
+  console.log("here");
   data = req.body;
   console.log(data);
   storeManager.get_stores_by_city(data).then(x => res.send(x));
 });
 
-// TODO COMPLETE
-app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
-  foodManager.get_all_foods().then(data => {
-    foodManager.maj_custom_score(data);
-    res.send("OK");
-  });
+app.route("/API/STORES/GET_STORES_CITIES").post(function(req, res) {
+  console.log("here");
+  data = req.body;
+  console.log(data);
+  if (data['villes'] != null) {
+    l = []
+    for (i = 0; i < data['villes'].length; i++) {
+      storeManager.get_stores_by_city(
+        {ville: data['villes'][i]}).then(x => {
+          console.log(x);
+          l.push(x);
+          if (l.length == data['villes'].length)
+           {res.send({stores: l})}
+        }
+      );
+    }
+  }
+  else {
+    res.send("Clé manquante : villes")
+  }
 });
 
 app.route("/API/STORES/GET_STORES_NAME").post(function(req, res) {
@@ -156,10 +200,10 @@ app.route("/API/STORES/GET_STORES_NAME").post(function(req, res) {
 });
 
 app.route("/API/STORES/GET_CITIES").post(function(req, res) {
-  console.log(req)
   data = req.body;
-  console.log(data);
   storeManager.get_cities(data).then(x => check_cities(x, res));
+}).get(function(req, res) {
+  storeManager.get_cities({ville: ""}).then(x => check_cities(x, res));
 });
 
 ///// PRICES ROUTES \\\\\
