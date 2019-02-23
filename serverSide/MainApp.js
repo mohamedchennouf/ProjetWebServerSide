@@ -11,6 +11,7 @@ const bodyParser = require("body-parser");
 
 // var multer = require('multer');
 // var multerData = multer();
+
 // app.configure(function() {
 //   // Allow parsing cookies from request headers
 //   this.use(express.cookieParser());
@@ -25,6 +26,7 @@ const bodyParser = require("body-parser");
 // });
 
 function requireLogin(req, res, next) {
+  console.log(req.session);
   if (req.session.username) {
     // User is authenticated, let him in
     next();
@@ -57,7 +59,7 @@ server.listen(port, function() {
   console.log("Server listening on port " + port);
 });
 
-app.route("/index").get(function(req, res) {
+app.route("/index").get(requireLogin,function(req, res) {
   res.sendfile("./DebugUI/xxx.html");
 });
 
@@ -109,7 +111,7 @@ app
 
 app.route("/API/RECETTE/:title").get(function(req, res) {
   var title = req.param("title") || req.params.title || res.body.data.title;
-  recetteManager.getRecette(title, userID).then(x => res.send(x));
+  recetteManager.getRecette(title).then(x => res.send(x));
 });
 
 app.route("/API/RECETTE/LIKE/:id").post(function(req, res) {
@@ -143,10 +145,12 @@ app
     var content = req.param("content") || res.body.data.content;
     recetteManager.addComment(userID, recipeID, content).then(x => res.send(x));
   })
-  .get(function(req, res) {
-    var recipeID = req.param("recipeID") || res.body.data.recipeID;
+
+  app
+  .route("/API/RECETTES/COMMENT/:recipeID").get(function(req, res) {
+    var recipeID = req.param("recipeID") || req.params.recipeID || res.body.data.recipeID;
     recetteManager
-      .retrieveComments(userID, recipeID, content)
+      .retrieveComments(recipeID)
       .then(x => res.send(x));
   });
 

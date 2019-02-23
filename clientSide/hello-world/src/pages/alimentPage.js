@@ -14,9 +14,10 @@ class alimentPage extends Component {
           aliments: "",
           id:"",
           notation:4,
-          poceBleu:0
+          poceBleu:0,
+          commentary:[],
+          pseudo:[]
       };
-      this.commentary = [];
     }
 
     init(){
@@ -27,7 +28,6 @@ class alimentPage extends Component {
 
     urlParser(){
         var res = (window.location.href).split("?");
-        console.log(res[1]);
         return res[1];
       }
 
@@ -51,7 +51,8 @@ class alimentPage extends Component {
     }
 
     commentsFetch(){
-        let url = "http://localhost:8080/API/RECETTES/COMMENTS" + this.urlParser();
+        let url = "http://localhost:8080/API/RECETTES/COMMENT/" + this.state.id;
+        console.log(url)
         fetch(url, {
             method: "GET",
             headers: {
@@ -59,10 +60,22 @@ class alimentPage extends Component {
             'Content-Type': 'application/json'}
         })
         .then(res => res.json())
-        .then(res => this.setData(res))
+        .then(res => this.commentaryParse(res))
         .catch(function (err) {
             console.log(err);
         });
+    }
+
+    commentaryParse(res){
+        console.log(res)
+        var newPseudo = [];
+        var newCommentary = [];
+        for(var i = 0; i < res.length;i++){
+            newPseudo.push(res[i].userId);
+            newCommentary.push(res[i].content);
+        }
+        this.setState({pseudo : newPseudo})
+        this.setState({commentary : newCommentary})
     }
 
     setData(res){
@@ -70,8 +83,9 @@ class alimentPage extends Component {
         this.setState({alimentIMG : 'http://localhost:8080/API/image/' + res._id });
         this.setState({text : res.content});
         this.setState({aliments : res.ingredient});
-        this.setState({id : res._id});
         this.setState({poceBleu : res.poceBlo});
+        this.setState({id : res._id});
+        this.commentsFetch();
 
     }
 
@@ -127,11 +141,13 @@ class alimentPage extends Component {
         </div>
         <div className="commentarySection">
             <div className="alimentName"> Commentary : </div>
+            {this.state.commentary.map((elm,index) => 
             <div className="commentaryBlock">
-                <div className="pseudo">Damoy :</div>
-                <div className="commentaryText">ce plat est vraiment typiquement Noukoutou!</div>
+                <div className="pseudo">{this.state.pseudo[index]}</div>
+                <div className="commentaryText">{elm}</div>
                 
             </div>
+            )}
             <Link to={this.urlCreator()}>
                 <button className="buttonComment">new Comment</button>
             </Link>
