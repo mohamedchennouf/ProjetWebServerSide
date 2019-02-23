@@ -164,3 +164,16 @@ exports.addComment = function(userID, recipeID, content) {
     });
   });
 };
+
+exports.retrieveComments = function( recipeID) {
+  return new Promise(fun => {
+    MongoClient.connect(url, function(err, client) {
+      db
+        .collection("comments")
+        .find({
+          recipeId : recipeID,
+        }).sort({time : -1}).toArray()
+        .then(x => fun(x));
+    });
+  });
+};

@@ -132,13 +132,16 @@ app.route("/API/RECETTES/SEARCH").post(function(req, res) {
   recetteManager.getRecettesByTitle(title).then(x => res.send(x));
 });
 
-app.route("/API/RECETTES/COMMENTS").post(function(req, res) {
+app.route("/API/RECETTES/COMMENTS")
+.post(function(req, res) {
   var userID = req.param("userID") || res.body.data.userID;
   var recipeID = req.param("recipeID") || res.body.data.recipeID;
   var content = req.param("content") || res.body.data.recipeID;
 
-  recetteManager.addComment(userID, recipeID, content).then(x => res.send(x));
-});
+  recetteManager.addComment(userID, recipeID, content).then(x => res.send(x));})
+  .get(function(req, res) {
+  var recipeID = req.param("recipeID") || res.body.data.recipeID;
+  recetteManager.retrieveComments(userID, recipeID, content).then(x => res.send(x));
 
 ///// STORES ROUTES \\\\\
 
