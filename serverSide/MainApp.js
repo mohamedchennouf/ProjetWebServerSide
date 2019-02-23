@@ -72,7 +72,6 @@ app.route("/API/FOODS").post(function(req, res) {
   foodManager.postFoods(data).then(x => check_results(x, data, res));
 });
 
-
 // TODO COMPLETE
 app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
   foodManager.get_foods_with_nutriments().then(x => res.send(x));
@@ -85,7 +84,8 @@ app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
 });
 
 ///// RECETTES ROUTES \\\\\
-app.route("/API/RECETTES")
+app
+  .route("/API/RECETTES")
   .post(function(req, res) {
     var title = req.param("title") || res.body.data.title;
     var content = req.param("content") || res.body.data.content;
@@ -104,12 +104,25 @@ app.route("/API/RECETTES")
 
 app.route("/API/RECETTE/:title").get(function(req, res) {
   var title = req.param("title") || req.params.title || res.body.data.title;
-  recetteManager.getRecette(title).then(x => res.send(x));
+  recetteManager.getRecette(title, userID).then(x => res.send(x));
 });
 
-app.route("/API/RECETTE/LIKE/:title").post(function(req, res) {
-  var title = req.param("title") || req.params.title || res.body.data.title;
-  recetteManager.getRecette(title).then(x => res.send(x));
+app.route("/API/RECETTE/LIKE/:id").post(function(req, res) {
+  var id = req.param("id") || req.params.id || res.body.data.id;
+  var userID = req.param("userID") || req.params.userID || res.body.data.userID;
+  recetteManager.likeRecette(id, userID).then(x => res.send(x));
+});
+
+app.route("/API/RECETTE/LIKES/:id").post(function(req, res) {
+  var id = req.param("id") || req.params.id || res.body.data.id;
+  var userID = req.param("userID") || req.params.userID || res.body.data.userID;
+  recetteManager.haveLikedRecette(id, userID).then(x => {
+    if (x != null) {
+      res.send(true);
+    } else {
+      res.send(false);
+    }
+  });
 });
 
 app.route("/API/RECETTES/SEARCH").post(function(req, res) {
@@ -117,15 +130,20 @@ app.route("/API/RECETTES/SEARCH").post(function(req, res) {
   recetteManager.getRecettesByTitle(title).then(x => res.send(x));
 });
 
-app.route("/API/RECETTES/COMMENTS")
-.post(function(req, res) {
-  var userID = req.param("userID") || res.body.data.userID;
-  var recipeID = req.param("recipeID") || res.body.data.recipeID;
-  var content = req.param("content") || res.body.data.content;
-  recetteManager.addComment(userID, recipeID, content).then(x => res.send(x));})
+app
+  .route("/API/RECETTES/COMMENTS")
+  .post(function(req, res) {
+    var userID = req.param("userID") || res.body.data.userID;
+    var recipeID = req.param("recipeID") || res.body.data.recipeID;
+    var content = req.param("content") || res.body.data.content;
+    recetteManager.addComment(userID, recipeID, content).then(x => res.send(x));
+  })
   .get(function(req, res) {
-  var recipeID = req.param("recipeID") || res.body.data.recipeID;
-  recetteManager.retrieveComments(userID, recipeID, content).then(x => res.send(x));
+    var recipeID = req.param("recipeID") || res.body.data.recipeID;
+    recetteManager
+      .retrieveComments(userID, recipeID, content)
+      .then(x => res.send(x));
+  });
 
 ///// STORES ROUTES \\\\\
 
@@ -192,7 +210,6 @@ app.route("/API/STORES/GET_STORES_CITY").post(function(req, res) {
 app.route("/API/STORES/GET_STORES_CITIES").post(function(req, res) {
   data = req.body;
   if (data["villes"] != null) {
-    
     storeManager.get_stores_by_cities(data["villes"]).then(x => {
       res.send({ stores: x });
     });

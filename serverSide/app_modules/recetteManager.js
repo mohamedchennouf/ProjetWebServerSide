@@ -47,7 +47,7 @@ exports.postNouvelleRecette = function(title, content, product, image) {
             content: content,
             ingredients: [resultat],
             poceBlo: 0,
-            visionageParticipatif: 0,
+            visionageParticipatif: 0
           })
         );
       }
@@ -75,20 +75,43 @@ exports.getRecette = function(title) {
   });
 };
 
-exports.likeRecette = function(title) {
+exports.likeRecette = function(recetteID, userID) {
+  return new Promise(fun => {
+    MongoClient.connect(url, function(err, client) {
+      var db = client.db(dbName);
+      if (!err) {
+            db.collection("recette").update(
+              { _id: ObjectId(recetteID) },
+              {
+                $inc: {
+                  poceBlo: { $cond: [{ $nin: { users: userID } }, 1, -1] }
+                }
+              },
+              {
+                $push: {
+                  $cond: [{ $nin: { users: userID } }, { users: userID }, null]
+                }
+              },
+              {
+                $pull: {
+                  $cond: [{ $in: { users: userID } }, { users: userID }, null]
+                }
+              }
+            ).then(x => fun(x));
+      }
+    });
+  });
+};
+
+exports.haveLikedRecette = function(title, userID) {
   return new Promise(fun => {
     MongoClient.connect(url, function(err, client) {
       var db = client.db(dbName);
       if (!err) {
         db.collection("recette")
-          .findOne({ title: title })
-          .then(x => {
-            db.collection("recette").update(
-              { title: title },
-              { $inc: { poceBlo: 1 } }
-            );
-            fun(x);
-          });
+          .findOne({ title: title , $  })
+          .then(x =>
+            fun(x));
       }
     });
   });
