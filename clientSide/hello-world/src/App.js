@@ -9,6 +9,7 @@ import Aliments from './pages/alimentPage.js';
 import searchAdvanced from './pages/searchAdvanced.js';
 import recipe from './pages/recipePage.js';
 import alimentList from './pages/alimentListPage.js'
+import addNewRecipe from './pages/newRecipe.js'
 
 class App extends Component {
 
@@ -24,6 +25,8 @@ class App extends Component {
           <Route exact path="/advancedSearch" component={searchAdvanced}/>
           <Route exact path="/recipe" component={recipe}/>
           <Route exact path="/alimentList" component={alimentList}/>
+          <Route exact path="/addNewRecipe" component={addNewRecipe}/>
+          
         </div>
       </Router>
     )
