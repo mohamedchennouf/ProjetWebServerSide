@@ -59,6 +59,16 @@ class HomePage extends Component {
   }
 
 
+  getImg(id) {
+    fetch('http://localhost:8080/API/image/'+id)
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ img: data });
+      })
+      .catch(e => console.log(e));
+  }
+
+
 
   render() {
 

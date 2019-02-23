@@ -18,7 +18,7 @@ class recipePage extends Component {
   }
 
   getRecipe() {
-    fetch('http://localhost:8080/API/RECETTES')
+    fetch('http://localhost:8080/API/RECETTES?res=50')
       .then(response => response.json())
       .then(data => {
         this.setState({ menusList: data });
