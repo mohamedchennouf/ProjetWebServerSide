@@ -75,12 +75,13 @@ app.route("/API/FOODS").post(function(req, res) {
 
 // TODO COMPLETE
 app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
-  foodManager.getFirstFood().then(data => {
+  foodManager.get_foods_with_nutriments().then(x => res.send(x));
+  /*foodManager.getFirstFood().then(data => {
     console.log(data);
     foodManager.maj_score(data[16]).then(x => {
       res.send(data[16]);
     });
-  });
+  });*/
 });
 
 ///// RECETTES ROUTES \\\\\

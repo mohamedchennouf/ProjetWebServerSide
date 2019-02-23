@@ -86,6 +86,25 @@ exports.get_all_foods_size = function () {
   });
 }
 
+exports.get_foods_with_nutriments = function () {
+  return new Promise(fun => {
+    MongoClient.connect(
+      url,
+      { useNewUrlParser: true },
+      function (err, client) {
+        var db = client.db(dbName);
+        if (!err) {
+          db.collection("france")
+            .find({nutriments: {$gt: {}}}).toArray()
+            .then(x => fun(x));
+        } else {
+          fun(-1);
+        }
+      }
+    );
+  });
+}
+
 exports.get_100_foods = function (i) {
   return new Promise(fun => {
     MongoClient.connect(
