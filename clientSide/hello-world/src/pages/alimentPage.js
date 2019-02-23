@@ -14,10 +14,11 @@ class alimentPage extends Component {
           aliments: "",
           id:"",
           notation:4,
-          poceBleu:0,
+          poceBlo:0,
           commentary:[],
           pseudo:[]
       };
+      this.poceBloPost = this.poceBloPost.bind(this);
     }
 
     init(){
@@ -33,6 +34,11 @@ class alimentPage extends Component {
 
     componentDidMount(){
         this.recipeFetch();
+    }
+
+    poceBloPost(){
+        var newCount = this.state.poceBlo + 1;
+        this.setState({poceBlo : newCount})
     }
 
     recipeFetch(){
@@ -67,7 +73,6 @@ class alimentPage extends Component {
     }
 
     commentaryParse(res){
-        console.log(res)
         var newPseudo = [];
         var newCommentary = [];
         for(var i = 0; i < res.length;i++){
@@ -83,7 +88,7 @@ class alimentPage extends Component {
         this.setState({alimentIMG : 'http://localhost:8080/API/image/' + res._id });
         this.setState({text : res.content});
         this.setState({aliments : res.ingredient});
-        this.setState({poceBleu : res.poceBlo});
+        this.setState({poceBlo : res.poceBlo});
         this.setState({id : res._id});
         this.commentsFetch();
 
@@ -131,10 +136,10 @@ class alimentPage extends Component {
                 <div className="reward">
                 {notes}
                 </div>
-                <div className="poceBleuBloc">
-                    <img className="poceBleuImg" src="resources/poceBleu.png"/>
-                    <div className="poceBleuRes">
-                        {this.state.poceBleu}
+                <div className="poceBloBloc">
+                    <button className="buttonPoceBlo" onClick={this.poceBloPost}><img className="poceBloImg" src="resources/poceBleu.png"/></button>
+                    <div className="poceBloRes">
+                        {this.state.poceBlo}
                     </div>
                 </div>
             </div>
