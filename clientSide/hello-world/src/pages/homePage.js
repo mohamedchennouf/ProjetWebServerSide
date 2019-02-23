@@ -10,7 +10,9 @@ class HomePage extends Component {
     super(props);
     this.state = {
       bestRecette: [{ title: 'couscous' }, { title: 'pâtes' }, { title: 'unknown' }],
-      imgTopRecipes: ['resources/couscous.png', 'resources/pâte.png', 'resources/unknown.png']
+      imgTopRecipes: ['resources/couscous.png', 'resources/pâte.png', 'resources/unknown.png'],
+      search:"",
+      urlSearch:""
     }
   }
 
@@ -64,16 +66,17 @@ class HomePage extends Component {
   }
 
 
-  urlCreator(input){
+  urlCreator(text){
     var url = "/searchresult?"
-    var tabInput = input.split(" ");
+    console.log(text)
+    var tabInput = text.split(" ");
     console.log("tab :" +tabInput)
     for(var i = 0; i  < tabInput.length-1; i++){
       url += tabInput[i] + "&";
     }
     url += tabInput[tabInput.length-1];
     console.log(url)
-    return url;
+    this.setState({urlSearch : url});
   }
 
   render() {
@@ -107,8 +110,8 @@ class HomePage extends Component {
       <div className="search">
         <div className="search-content">
           <p><span className="title-search">Find a recipe...</span></p>
-          <input className="search-input" type="search" />
-          <Link to={this.urlCreator("lol mdr")}>
+          <input className="search-input" type="search" onChange={e => this.urlCreator(e.target.value)} />
+          <Link to={this.state.urlSearch}>
             <button className="search-button">search</button>
           </Link>
           <div><Link to="/advancedSearch">advanced Search</Link></div>
