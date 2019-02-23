@@ -7,9 +7,10 @@ class alimentPage extends Component {
     constructor(props) {
       super(props);
       this.state = {
-          alimentIMG:  'resources/couscous.png',
+          alimentIMG:  '',
           name: "",
           text: "",
+          aliments: "",
           notation:4,
           poceBleu:0
       };
@@ -29,10 +30,10 @@ class alimentPage extends Component {
       }
 
     componentDidMount(){
-        this.commentaryFetch();
+        this.recipeFetch();
     }
 
-    commentaryFetch(){
+    recipeFetch(){
         let url = "http://localhost:8080/API/RECETTE/" + this.urlParser();
         fetch(url, {
             method: "GET",
@@ -50,10 +51,10 @@ class alimentPage extends Component {
     setData(res){
         console.log(res)
         this.setState({name : res.title});
-        this.setState({alimentIMG : "./couscous.png"});
-        var description = "description:\n" + res.content;
-        //description += "aliment : \n" + res.aliment,
-        this.setState({text : description});
+        this.setState({alimentIMG : 'http://localhost:8080/API/image/' + res._id });
+        console.log(this.state.alimentIMG);
+        this.setState({text : res.content});
+        this.setState({aliments : res.ingredient})
         this.setState({poceBleu : res.poceBlo});
 
     }
@@ -80,7 +81,13 @@ class alimentPage extends Component {
         let insideContent = <div className="body-content">
         <div className="upperBlock">
             <div className="textSection">
+                decription : 
+                <br></br>
                 {this.state.text}
+                <br></br>
+                ingredient :
+                <br></br>
+                {this.state.aliments}
             </div>
             <div className="alimentBlock">
                 <div className="alimentName">
