@@ -129,13 +129,7 @@ app
     recetteManager
     .getRecette(title)
     .then(x => res.send(x));
-  }
-  
-
-
-
-
-
+  });
 
 ///// STORES ROUTES \\\\\
 
