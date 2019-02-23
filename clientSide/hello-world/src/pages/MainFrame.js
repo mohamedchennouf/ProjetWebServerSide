@@ -34,12 +34,8 @@ class MainFrame extends Component {
       },
       id: "",
       body: JSON.stringify({ data: {id: this.state.id,password: this.state.password}})
-    })
-      .then(function (responseJSON) {
-        responseJSON.json()
-          .then(function (res) {
-            console.log(res)
-          });
+      }).then(function (res) {
+        console.log(res)
       })
       .catch(function (err) {
         console.log(err);
