@@ -124,7 +124,7 @@ app
   });
 
   app
-  .route("/API/RECETTE").post(function(req, res) {
+  .route("/API/RECETTES").get(function(req, res) {
     var title = req.param("title") || res.body.data.title;
     recetteManager
     .getRecette(title)
