@@ -146,8 +146,9 @@ app.route("/API/image/:id").get(function(req, res) {
 
 app.route("/API/USER/subscribe").post(function(req, res) {
 
-
+  console.log(req.body.data)
   userManager.subscribe(req.body.data).then(x => {
+    
     console.log(x);
     if (x) {
       res.sendStatus(403);

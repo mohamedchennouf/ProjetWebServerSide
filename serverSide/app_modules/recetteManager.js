@@ -43,14 +43,7 @@ exports.postNouvelleRecette = function(title, content, product, image) {
           .limit(100)
           .toArray();
 
-        db.collection("recette").insertOne({
-          title: title,
-          image: image,
-          content: content,
-          ingredients: [resultat],
-          poceBlo: 5,
-          visionageParticipatif: 0
-        });
+       
 
         fun(
           db.collection("recette").insertOne({
@@ -137,9 +130,6 @@ exports.retrieveImage = function(id) {
 function base64_decode(base64str, file) {
   // create buffer object from base64 encoded string, it is important to tell the constructor that the string is base64 encoded
   var bitmap = new Buffer(base64str, "base64");
-  console.log(base64str);
-  // write buffer to file
-  console.log("******** File created from base64 encoded string ********");
   return bitmap;
 }
 

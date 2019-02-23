@@ -28,13 +28,6 @@ class inscription extends Component {
             body: JSON.stringify({data : this.state.formulaire})
         })
         .then(function(responseJSON) {
-            responseJSON.json()
-                .then(function(res) {
-                    console.log(res)
-                // Maintenant res est un vrai objet JavaScript
-                    let div = document.querySelector("#reponsePOST");
-                    div.innerHTML = res.msg;
-                });
             })
         .catch(function (err) {
             console.log(err);
