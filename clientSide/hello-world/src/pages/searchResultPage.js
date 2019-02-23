@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import './searchResultPage.css';
+import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import MainFrame from './MainFrame';
 class searchPage extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      menusList : ["Couscous","Pâtes","Unknown"],
+      menusList : [],
      // menusList : ["Couscous"],
-      imgMenusRecipes: ['resources/couscous.png','resources/pâte.png','resources/unknown.png'],
+      imgMenusRecipes: [],
      // imgMenusRecipes: ['resources/couscous.png'],
-     stringMenusText: ["je fait du couscous avec toutes la famille","j'aime les banane","Wat"]
+     stringMenusText: []
     }
   }
 
@@ -25,7 +26,7 @@ class searchPage extends Component {
   }
 
   searchFoodFetch(){
-    let url = "http://localhost:8080/API/RECETTE/SEARCH";
+    let url = "http://localhost:8080/API/RECETTES/SEARCH";
     fetch(url, {
         method: "POST",
         headers: {
@@ -33,13 +34,27 @@ class searchPage extends Component {
         'Content-Type': 'application/json'},
         body:JSON.stringify({'title' : this.urlParser()})
     })
-    .then(res => console.log(res))
-    .then(res => res.job())
-    .then(res => console.log(res))
+    .then(res => res.json())
+    //.then(res => console.log(res))
+    .then(res => this.stateParse(res))
     .catch(function (err) {
         console.log(err);
     });
 }
+
+  stateParse(res){
+    var newMenuList = [];
+    var newImgMenusRecipes = [];
+    var newStringMenusText = [];
+    for(var i =0; i < res.length ; i++){
+      newMenuList.push(res[i].title)
+      newImgMenusRecipes.push('http://localhost:8080/API/image/' + res[i]._id)
+      newStringMenusText.push(res[i].content)
+    }
+    this.setState({menusList : newMenuList})
+    this.setState({imgMenusRecipes : newImgMenusRecipes})
+    this.setState({stringMenusText : newStringMenusText})
+  }
 
   newRecipe(newMenu,newImg,newText){
     this.state.menusList.push(newMenu);
@@ -55,15 +70,24 @@ class searchPage extends Component {
     return this.state.stringMenusText[index];
   }
 
-  render() {
+  urlCreator(input){
+    return "/aliments?" + input;
+  }
 
+  render() {
     let alimentBlockList = this.state.menusList.map(
       (el, index) => {
-        return <div className="alimentLineBlock">
-          <img className="imgAliment" name={el} indice={index} alt="" src={this.getImage(index)} ></img>
-          <div className="textAliment"> 
-            {this.getText(index)}
-          </div>
+        return <div>
+          <Link to={this.urlCreator(el)}>
+            <div className="alimentLineBlock">
+              <img className="imgAliment" name={el} indice={index} alt="" src={this.getImage(index)} ></img>
+              <div className="textAliment"> 
+                {el}
+                <br></br>
+                {this.getText(index)}
+              </div>
+            </div>
+          </Link>
         </div>
       }
     );
