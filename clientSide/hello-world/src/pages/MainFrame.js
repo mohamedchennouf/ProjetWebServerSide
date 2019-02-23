@@ -25,7 +25,7 @@ class MainFrame extends Component {
     console.log(this.state.id)
     console.log(this.state.password)
     console.log("--------")
-    let url = "http://localhost:8080/API/CONNECT";
+    let url = "http://localhost:8080/API/USER/CONNECT";
     fetch(url, {
       method: "POST",
       headers: {
