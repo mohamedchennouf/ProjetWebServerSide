@@ -22,7 +22,7 @@ class magasinPage extends Component {
     super(props);
     this.state = {
         cityList : [],
-        magasinList : {},
+        magasinList : {} ,
       //imgMagasinRecipes: ['resources/couscous.png','resources/pâte.png','resources/unknown.png'],
         stringMagasinText: []
     }
@@ -42,22 +42,24 @@ class magasinPage extends Component {
       body:JSON.stringify({villes : this.state.cityList})
     })
     .then(response => response.json())
-    //.then(response => console.log(response.store))
-    .then(response => this.constructTabStore(response.store))
+    //.then(response => console.log(response))
+    .then(response => this.constructTabStore(response))
     .catch(function (err) {
       console.log(err);
     });
   }
 
   constructTabStore(data){
-    console.log(data)
     var tab = {};
     for(var i = 0 ; i< this.state.cityList.length;i++){
       //console.log(data.store[0].nom);
       tab[this.state.cityList[i]] = data[i];
+      console.log("city : " + this.state.cityList[i]);
+      console.log("data : " + tab.NICE);
     }
     
    // Promise.all(promesse).then(
+    console.log("blta" + tab["NICE"][0].nom);
     this.setState({magasinList : tab});
   }
 
@@ -115,7 +117,22 @@ class magasinPage extends Component {
                 <div className="cityNameStyle">
                     {city}                
                 </div>
-                {this.renderHashTable(city)}
+                {this.state.magasinList[city].map(
+                  (el, index) => {
+                    return <div className="magasinLineBlock">
+                    <div className="nomMagasin"> 
+                      {this.getName(city,index)}
+                    </div>
+                    <button className="buttonMap" name={el} indice={index}>
+                      Show map
+                      <img className="imgButton" alt="" src="resources/maps.png"/>
+                    </button>
+                    <div className="textMagasin"> 
+                      {this.getText(index)}
+                    </div>
+                   </div>
+                  })
+                  }
             </div>
         }
       );
