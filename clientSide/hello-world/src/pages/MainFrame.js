@@ -13,18 +13,20 @@ class MainFrame extends Component {
       topRecipes: ['couscous', 'pâtes', 'unknown'],
       linkList: ["/", "/recipe", "/alimentList", "/shops"],
       id: "",
-      password: ""
+      password: "",
+      isLoggedIn: false
     };
     this.login = this.login.bind(this);
     this.onChangeId = this.onChangeId.bind(this);
     this.onChangePass = this.onChangePass.bind(this);
   }
 
+
+  componentDidMount() {
+   console.log(this.state.isLoggedIn);
+  }
+
   login() {
-    console.log("--------")
-    console.log(this.state.id)
-    console.log(this.state.password)
-    console.log("--------")
     let url = "http://localhost:8080/API/USER/CONNECT";
     fetch(url, {
       method: "POST",
@@ -33,16 +35,20 @@ class MainFrame extends Component {
         'Content-Type': 'application/json'
       },
       id: "",
-      body: JSON.stringify({ data: {id: this.state.id,password: this.state.password}})
-      }).then(function (res) {
-        console.log(res)
-      })
-      .catch(function (err) {
+      body: JSON.stringify({ data: { id: this.state.id, password: this.state.password } })
+    }).then(data => {
+      console.log(data);
+        if(data.status=== 200){
+          this.setState({ isLoggedIn: true });
+        }
+      }).catch(function (err) {
         console.log(err);
       });
   }
 
-
+  logout() {
+    this.setState({ isLoggedIn: false });
+  }
 
 
 
@@ -62,7 +68,9 @@ class MainFrame extends Component {
   }
 
   render() {
-
+    console.log("-------main--------");
+    console.log(this.state);
+    console.log("-------main--------");
     if (this.props.inside !== this.state.inside) {
       this.state.inside = this.props.inside;
     }
@@ -72,6 +80,31 @@ class MainFrame extends Component {
         <button className="button" indice={index} >{el}</button>
       </Link>
     );
+
+    let logging_register = (<div className="login">
+      <div class="section1">
+        <div>login</div>
+        <input className="input" type="login" value={this.state.id} onChange={this.onChangeId} />
+        <div>password</div>
+        <input className="input" type="password" value={this.state.password} onChange={this.onChangePass} />
+        <div>
+          <Link to="/subscribe">SignIn</Link></div>
+      </div>
+      <div class="section2">
+        <button onClick={this.login}>login</button>
+      </div>
+    </div>);
+
+    if (this.state.isLoggedIn) {
+      logging_register = (<div className="login">
+        <div class="section1">
+          Bonjour {this.state.id}
+        </div>
+        <div class="section2">
+          <button onClick={this.logout}>logout</button>
+        </div>
+      </div>);
+    }
 
 
     return (
@@ -83,23 +116,8 @@ class MainFrame extends Component {
           <div className="titre">
             <h1> Miam Miam Eat </h1>
           </div>
-          <div className="login">
 
-            <div class="section1">
-              <div>login</div>
-              <input className="input" type="login" value={this.state.id} onChange={this.onChangeId} />
-              <div>password</div>
-              <input className="input" type="password" value={this.state.password} onChange={this.onChangePass} />
-              <div>
-                <Link to="/subscribe">SignIn</Link></div>
-            </div>
-
-            <div class="section2">
-              <button onClick={this.login}>login</button>
-            </div>
-
-          </div>
-
+          {logging_register}
 
 
         </div>

@@ -18,6 +18,8 @@ class recipePage extends Component {
   componentDidMount() {
     this.getRecipe()
   }
+  
+  
 
   getRecipe() {
     fetch('http://localhost:8080/API/RECETTES?res=50')
@@ -48,7 +50,7 @@ class recipePage extends Component {
 
 
   render() {
-
+    console.log(this.state);
 
     let recipeBlockList = this.state.menusList.map(
       (el, index) => {

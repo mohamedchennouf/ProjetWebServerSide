@@ -14,16 +14,16 @@ class searchPage extends Component {
     }
   }
 
-  test(){
+  urlParser(){
     var frst = (window.location.href).split("?");
     var res = frst[1].split("&");
-    console.log(res);
+    return res;
   }
 
   searchFoodFetch(){
-    let url = "http://localhost:8080/API/FOODS";
+    let url = "http://localhost:8080/API/RECETTE";
     fetch(url, {
-        method: "POST",
+        method: "GET",
         headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'},
@@ -55,7 +55,6 @@ class searchPage extends Component {
     let alimentBlockList = this.state.menusList.map(
       (el, index) => {
         return <div className="alimentLineBlock">
-        {this.test()}
           <img className="imgAliment" name={el} indice={index} alt="" src={this.getImage(index)} ></img>
           <div className="textAliment"> 
             {this.getText(index)}
