@@ -16,7 +16,6 @@ exports.calag = function(title, fukfuk, ids) {
           .find({ id: { $regex: "[0123456789]*" } })
           .limit(100)
           .toArray();
-
         resultat = db
           .collection("france")
           .find({
@@ -24,7 +23,6 @@ exports.calag = function(title, fukfuk, ids) {
           })
           .limit(10)
           .toArray();
-
         db.collection("recette").insertOne({ title, fukfuk });
         fun(resultat);
       }
@@ -49,7 +47,7 @@ exports.postNouvelleRecette = function(title, content, product, image) {
             content: content,
             ingredients: [resultat],
             poceBlo: 0,
-            visionageParticipatif: 0
+            visionageParticipatif: 0,
           })
         );
       }
@@ -77,13 +75,32 @@ exports.getRecette = function(title) {
   });
 };
 
+exports.likeRecette = function(title) {
+  return new Promise(fun => {
+    MongoClient.connect(url, function(err, client) {
+      var db = client.db(dbName);
+      if (!err) {
+        db.collection("recette")
+          .findOne({ title: title })
+          .then(x => {
+            db.collection("recette").update(
+              { title: title },
+              { $inc: { poceBlo: 1 } }
+            );
+            fun(x);
+          });
+      }
+    });
+  });
+};
+
 exports.getRecettesByTitle = function(title) {
   return new Promise(fun => {
     MongoClient.connect(url, function(err, client) {
       var db = client.db(dbName);
       if (!err) {
         db.collection("recette")
-          .find({ title: { $regex : ".*" + title + ".*" } })
+          .find({ title: { $regex: ".*" + title + ".*" } })
           .limit(100)
           .toArray()
           .then(x => fun(x));
@@ -118,7 +135,6 @@ exports.retrieveImage = function(id) {
   return new Promise(fun => {
     MongoClient.connect(url, function(err, client) {
       var db = client.db(dbName);
-
       var resultat = db
         .collection("recette")
         .findOne({ _id: ObjectId(id) })
@@ -148,10 +164,10 @@ exports.addComment = function(userID, recipeID, content) {
       var resultat = db
         .collection("comments")
         .insertOne({
-          recipeId : recipeID,
-          userId  :  userID,
-          content :  content,
-          time    :  new Date().getTime()
+          recipeId: recipeID,
+          userId: userID,
+          content: content,
+          time: new Date().getTime()
         })
         .then(
           fun({
@@ -165,14 +181,15 @@ exports.addComment = function(userID, recipeID, content) {
   });
 };
 
-exports.retrieveComments = function( recipeID) {
+exports.retrieveComments = function(recipeID) {
   return new Promise(fun => {
     MongoClient.connect(url, function(err, client) {
-      db
-        .collection("comments")
+      db.collection("comments")
         .find({
-          recipeId : recipeID,
-        }).sort({time : -1}).toArray()
+          recipeId: recipeID
+        })
+        .sort({ time: -1 })
+        .toArray()
         .then(x => fun(x));
     });
   });

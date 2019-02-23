@@ -127,6 +127,11 @@ app.route("/API/RECETTE/:title").get(function(req, res) {
   recetteManager.getRecette(title).then(x => res.send(x));
 });
 
+app.route("/API/RECETTE/LIKE/:title").post(function(req, res) {
+  var title = req.param("title") || req.params.title || res.body.data.title;
+  recetteManager.getRecette(title).then(x => res.send(x));
+});
+
 app.route("/API/RECETTES/SEARCH").post(function(req, res) {
   var title = req.param("title") || res.body.data.title;
   recetteManager.getRecettesByTitle(title).then(x => res.send(x));
@@ -137,7 +142,6 @@ app.route("/API/RECETTES/COMMENTS")
   var userID = req.param("userID") || res.body.data.userID;
   var recipeID = req.param("recipeID") || res.body.data.recipeID;
   var content = req.param("content") || res.body.data.recipeID;
-
   recetteManager.addComment(userID, recipeID, content).then(x => res.send(x));})
   .get(function(req, res) {
   var recipeID = req.param("recipeID") || res.body.data.recipeID;
