@@ -179,12 +179,12 @@ app.route("/API/USER/subscribe").post(function(req, res) {
 app.route("/API/USER/CONNECT").post(function(req, res) {
   userManager.connect(req.body.data).then(x => {
     if (x) {
-      console.log("oui")
+      console.log("oui");
       res.sendStatus(200);
+      res.send(x.data);
     } else{
       console.log("non")
-
-      res.sendStatus(500);
+      res.sendStatus(400);
     }
   });
 });
