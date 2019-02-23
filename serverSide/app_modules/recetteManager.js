@@ -110,10 +110,6 @@ exports.getRecettes = function(number, sort, page) {
           .limit(eval(number))
           .skip(eval(number) * eval(page))
           .toArray();
-        //   db.products.update(
-        //     { title: { $regex: (".*"+ title +".*") } },
-        //     { $inc: { visionageParticipatif: 1 } }
-        // )
         fun(resultat);
       }
     });

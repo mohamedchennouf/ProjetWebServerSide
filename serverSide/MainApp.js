@@ -179,12 +179,12 @@ app.route("/API/USER/subscribe").post(function(req, res) {
 app.route("/API/USER/CONNECT").post(function(req, res) {
   userManager.connect(req.body.data).then(x => {
     if (x) {
-      console.log("oui")
+      console.log("oui");
       res.sendStatus(200);
+      res.send(x.data);
     } else{
       console.log("non")
-
-      res.sendStatus(500);
+      res.sendStatus(400);
     }
   });
 });
@@ -249,8 +249,13 @@ app.route("/API/PRICES/ADD").post(function(req, res) {
 app.route("/API/PRICES").post(function(req, res) {
   data = req.body;
   console.log(data);
-  priceManager.get_prices(data).then(x => res.send(x));
+  priceManager.get_prices(data).then(x => check_other_crit(res, data, x));
 });
+
+function check_other_crit(res, data, x) {
+  console.log(x);
+  foodManager.get_foods_from_list(data, x).then(y => res.send(y));
+}
 
 // Methodes
 function check_results(x, data, res) {

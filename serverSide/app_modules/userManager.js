@@ -52,7 +52,7 @@ exports.connect = function(identify) {
           .findOne({ Email : user }).then(p => {
             console.log(p);
             if (p != null && p.Password == pass) {
-              fun(true);
+              fun({data : p.Pseudo});
               return;
             }
             fun(false);

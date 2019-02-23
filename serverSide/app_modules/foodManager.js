@@ -55,11 +55,13 @@ function convert(data) {
   var res = "{";
   var i = 0;
   for (field in data) {
-    if (i > 0) {
-      res += ",";
+    if (dict[field] != null) {
+      if (i > 0) {
+        res += ",";
+      }
+      res += "\"" + dict[field] + "\"" + ":" + "\"" + data[field] + "\"";
+      i++;
     }
-    res += "\"" + dict[field] + "\"" + ":" + "\"" + data[field] + "\"";
-    i++;
   }
   res += "}";
   return res;
@@ -97,6 +99,38 @@ exports.get_100_foods = function (i) {
             .find({})
             .skip(i * 100)
             .limit(100)
+            .toArray()
+            .then(x => fun(x));
+        } else {
+          fun(-1);
+        }
+      }
+    );
+  });
+}
+
+exports.get_foods_from_list = function (data, x) {
+  var request = JSON.parse(convert(data));
+  var list = [];
+  for (i = 0; i < x.length; i++) {
+    list.push({"id": x[i]['food']});
+  }
+  var id_query = {$or: list};
+  var list2=[];
+  list2.push(id_query);
+  list2.push(request);
+  var query = {$and: list2};
+  console.log(id_query);
+  console.log(request);
+  return new Promise(fun => {
+    MongoClient.connect(
+      url,
+      { useNewUrlParser: true },
+      function (err, client) {
+        var db = client.db(dbName);
+        if (!err) {
+          db.collection("france")
+            .find(query)
             .toArray()
             .then(x => fun(x));
         } else {

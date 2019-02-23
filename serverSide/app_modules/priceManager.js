@@ -36,7 +36,7 @@ exports.get_prices = function (data) {
                     request = {}
                     try {
                         request['magasin'] = data['magasin'];
-                        if (!request['magasin'] != undefined) {
+                        if (request['magasin'] == undefined) {
                             request = {};
                             request['ville'] = data['ville'];
                         }
