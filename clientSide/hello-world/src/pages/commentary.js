@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './commentary.css';
 import MainFrame from './MainFrame';
 import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import { inherits } from 'util';
 
 class commentary extends Component {
 
@@ -35,7 +34,6 @@ class commentary extends Component {
             body: JSON.stringify({userID: this.state.userId, recipeID: this.state.id, content: this.state.text})
         })
         .then(res => res.json())
-        .then(res => this.setData(res))
         .catch(function (err) {
             console.log(err);
         });

@@ -27,7 +27,6 @@ class alimentPage extends Component {
 
     urlParser(){
         var res = (window.location.href).split("?");
-        console.log(res[1]);
         return res[1];
       }
 
@@ -51,15 +50,16 @@ class alimentPage extends Component {
     }
 
     commentsFetch(){
-        let url = "http://localhost:8080/API/RECETTES/COMMENTS" + this.urlParser();
+        let url = "http://localhost:8080/API/RECETTES/COMMENTS/" + this.state.id;
+        console.log(url)
         fetch(url, {
             method: "GET",
             headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'}
         })
-        .then(res => res.json())
-        .then(res => this.setData(res))
+        .then(res => console.log(res.json()))
+        .then(res => console.log(res))
         .catch(function (err) {
             console.log(err);
         });
@@ -70,8 +70,9 @@ class alimentPage extends Component {
         this.setState({alimentIMG : 'http://localhost:8080/API/image/' + res._id });
         this.setState({text : res.content});
         this.setState({aliments : res.ingredient});
-        this.setState({id : res._id});
         this.setState({poceBleu : res.poceBlo});
+        this.setState({id : res._id});
+        this.commentsFetch();
 
     }
 
