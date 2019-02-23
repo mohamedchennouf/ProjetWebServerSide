@@ -19,20 +19,21 @@ exports.subscribe = function(tab) {
           .find({ id: { $regex: tab[2] } })
           .limit(100)
           .toArray();
-          
-          if (resultat.length != 0) {
-              db.collection("user").insertOne({
-                  Name: tab[0],
-                  FirstName: tab[1],
-                  Email: tab[2],
-                  Pseudo: tab[3],
-                  Password: tab[4]
-                });
-                fun(true);
-                return ;
-            }
-            fun(false);
-            return; 
+
+        if (resultat.length != 0) {
+          db.collection("user").insertOne({
+            Name: tab[0],
+            FirstName: tab[1],
+            Email: tab[2],
+            Pseudo: tab[3],
+            Password: tab[4]
+          });
+
+          fun(true);
+          return;
+        }
+        fun(false);
+        return;
       }
     });
   });

@@ -117,7 +117,8 @@ app.route("/API/image/:id").get(function(req, res) {
 
 app.route("/API/USER/subscribe").post(function(req, res) {
   console.log(req.body);
-  userManager.subscribe(JSON.parse(req.body)).then(x => {
+
+  userManager.subscribe(req.body).then(x => {
     if (x) {
       res.sendStatus(403);
     } else{
@@ -147,6 +148,7 @@ app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
     res.send("OK");
   });
 });
+
 app.route("/API/STORES/GET_STORES_NAME").post(function(req, res) {
   data = req.body;
   console.log(data);
