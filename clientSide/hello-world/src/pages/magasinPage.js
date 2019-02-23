@@ -51,9 +51,16 @@ class magasinPage extends Component {
   constructTabStore(data){
     var tab = {};
     for(var i = 0 ; i< this.state.cityList.length;i++){
-      tab[this.state.cityList[i]] = data[i];
+      if(this.state.cityList[i] == data[i][0].ville){
+        tab[this.state.cityList[i]] = data[i];
+      }else{
+        var j = 0;
+        while(this.state.cityList[j] != data[i][0].ville){
+          j++
+        }
+        tab[this.state.cityList[j]] = data[i];
+      }
     }
-    
     this.setState({magasinList : tab});
   }
 
@@ -81,6 +88,13 @@ class magasinPage extends Component {
   getName(city,index){
     return this.state.magasinList[city][index].nom;
 }
+
+  linkCreator(city,index){
+    var res = "https://www.google.com/maps/?q=";
+    var data = this.state.magasinList[city][index];
+    res = res + data.latitude + "," + data.longitude;
+    return res
+  }
   render() {
     let magasinBlockList = null;
     if(Object.keys(this.state.magasinList).length > 0){
@@ -96,10 +110,11 @@ class magasinPage extends Component {
                     <div className="nomMagasin"> 
                       {this.getName(city,index)}
                     </div>
-                    <button className="buttonMap" name={el} indice={index}>
+                    <a href={this.linkCreator(city,index)}
+                     className="buttonMap" name={el} indice={index}>
                       Show map
                       <img className="imgButton" alt="" src="resources/maps.png"/>
-                    </button>
+                    </a>
                     <div className="textMagasin"> 
                       {this.getText(index)}
                     </div>
