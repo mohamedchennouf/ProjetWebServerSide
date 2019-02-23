@@ -60,8 +60,7 @@ exports.getRecette = function(title) {
     MongoClient.connect(url, function(err, client) {
       var db = client.db(dbName);
       if (!err) {
-        var resultat = db
-          .collection("recette")
+        db.collection("recette")
           .findOne({ title: title })
           .then(x => {
             db.collection("recette").update(
@@ -80,24 +79,26 @@ exports.likeRecette = function(recetteID, userID) {
     MongoClient.connect(url, function(err, client) {
       var db = client.db(dbName);
       if (!err) {
-            db.collection("recette").update(
-              { _id: ObjectId(recetteID) },
-              {
-                $inc: {
-                  poceBlo: { $cond: [{ $nin: { users: userID } }, 1, -1] }
-                }
-              },
-              {
-                $push: {
-                  $cond: [{ $nin: { users: userID } }, { users: userID }, null]
-                }
-              },
-              {
-                $pull: {
-                  $cond: [{ $in: { users: userID } }, { users: userID }, null]
-                }
+        db.collection("recette")
+          .update(
+            { _id: ObjectId(recetteID) },
+            {
+              $inc: {
+                poceBlo: { $cond: [{ $nin: { users: userID } }, 1, -1] }
               }
-            ).then(x => fun(x));
+            },
+            {
+              $push: {
+                $cond: [{ $nin: { users: userID } }, { users: userID }, null]
+              }
+            },
+            {
+              $pull: {
+                $cond: [{ $in: { users: userID } }, { users: userID }, null]
+              }
+            }
+          )
+          .then(x => fun(x));
       }
     });
   });
@@ -109,9 +110,8 @@ exports.haveLikedRecette = function(title, userID) {
       var db = client.db(dbName);
       if (!err) {
         db.collection("recette")
-          .findOne({ title: title , $  })
-          .then(x =>
-            fun(x));
+          .findOne({ title: title, $ })
+          .then(x => fun(x));
       }
     });
   });
@@ -185,8 +185,7 @@ exports.addComment = function(userID, recipeID, content) {
   return new Promise(fun => {
     MongoClient.connect(url, function(err, client) {
       var db = client.db(dbName);
-       db
-        .collection("comments")
+      db.collection("comments")
         .insertOne({
           recipeId: recipeID,
           userId: userID,
