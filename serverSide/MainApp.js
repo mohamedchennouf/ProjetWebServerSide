@@ -106,7 +106,7 @@ app
 
 app.route("/API/RECETTE/:title").get(function(req, res) {
   var title = req.param("title") || req.params.title || res.body.data.title;
-  recetteManager.getRecette(title, userID).then(x => res.send(x));
+  recetteManager.getRecette(title).then(x => res.send(x));
 });
 
 app.route("/API/RECETTE/LIKE/:id").post(function(req, res) {
