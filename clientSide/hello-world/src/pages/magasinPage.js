@@ -42,8 +42,7 @@ class magasinPage extends Component {
       body:JSON.stringify({villes : this.state.cityList})
     })
     .then(response => response.json())
-    //.then(response => console.log(response))
-    .then(response => this.constructTabStore(response))
+    .then(response => this.constructTabStore(response.stores))
     .catch(function (err) {
       console.log(err);
     });
@@ -52,14 +51,9 @@ class magasinPage extends Component {
   constructTabStore(data){
     var tab = {};
     for(var i = 0 ; i< this.state.cityList.length;i++){
-      //console.log(data.store[0].nom);
       tab[this.state.cityList[i]] = data[i];
-      console.log("city : " + this.state.cityList[i]);
-      console.log("data : " + tab.NICE);
     }
     
-   // Promise.all(promesse).then(
-    console.log("blta" + tab["NICE"][0].nom);
     this.setState({magasinList : tab});
   }
 
@@ -87,27 +81,6 @@ class magasinPage extends Component {
   getName(city,index){
     return this.state.magasinList[city][index].nom;
 }
-
-  renderHashTable(city){
-    var table = this.state.magasinList[city];
-    console.log(table)
-    table.map(
-      (el, index) => {
-        return <div className="magasinLineBlock">
-          <div className="nomMagasin"> 
-              {this.getName(city,index)}
-          </div>
-          <button className="buttonMap" name={el} indice={index}>
-              Show map
-              <img className="imgButton" alt="" src="resources/maps.png"/>
-          </button>
-          <div className="textMagasin"> 
-              {this.getText(index)}
-          </div>
-      </div>
-  });
-  }
-
   render() {
     let magasinBlockList = null;
     if(Object.keys(this.state.magasinList).length > 0){
