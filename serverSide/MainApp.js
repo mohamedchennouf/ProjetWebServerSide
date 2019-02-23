@@ -111,9 +111,10 @@ app
   .post(function(req, res) {
     var title = req.param("title");
     var content = req.param("content");
-    var name = req.param("name");
+    var product = req.param("product");
+    var image = req.param("image")
     recetteManager
-      .postNouvelleRecette(title, content, name)
+      .postNouvelleRecette(title, content, product, image)
       .then(x => res.send(x));
   })
   .get(function(req, res) {

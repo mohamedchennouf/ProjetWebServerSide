@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import './searchAdvanced.css';
 import MainFrame from './MainFrame';
 import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import select2 from  'react-select2';
-import pokemon from 'react-select2-wrapper'
+/*import select2 from  'react-select2';
+import pokemon from 'react-select2-wrapper'*/
 class searchAdvanced extends Component {
 
     constructor(props) {
@@ -49,9 +49,9 @@ class searchAdvanced extends Component {
             </div>
             }
         );
-           var pok =  new select2();
+           /*var pok =  new select2();
            console.log(pok);
-        let insideContent = <div className="body-content">
+           let insideContent = <div className="body-content">
             <div className="advancedSearchSection">
                
               {searchLine}
@@ -65,9 +65,9 @@ class searchAdvanced extends Component {
                     </button>
                 </Link>
             </div>
-        </div>
+        </div>*/
         return (
-            <MainFrame inside = {insideContent}></MainFrame>
+            <MainFrame inside = "{insideContent}"></MainFrame>
         );
     }
 }
