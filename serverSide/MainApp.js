@@ -73,8 +73,6 @@ server.listen(port, function() {
 app.route("/index").get(requireLogin, function(req, res) {
   console.log(req.session);
   console.log();
-  
-
   res.cookie('x','val');
   req.session.user =  "x";
   res.sendfile("./DebugUI/xxx.html");
@@ -180,10 +178,11 @@ app.route("/API/image/:id").get(function(req, res) {
       res.sendStatus(403);
       return;
     }
+
     res.contentType("png");
     res.write(x);
     res.end();
-    res.connection.end();
+    // res.connection.end();
     return;
   });
 });
@@ -201,8 +200,9 @@ app.route("/API/USER/subscribe").post(function(req, res) {
 app.route("/API/USER/CONNECT").post(function(req, res) {
   userManager.connect(req.body.data).then(x => {
     if (x) {
-      var x = hashCode(cacahueteCasseroleZoro + req.body.data.id)
-      res.session[x] = true;
+      console.log("XXD");
+      var x = hashCode("cacahueteCasseroleZoro"+ req.body.data.id)
+      req.session[x] = true;
       res.cookie('id',x);
       res.cookie('mail',req.body.data.id);
       res.send(x.data);
