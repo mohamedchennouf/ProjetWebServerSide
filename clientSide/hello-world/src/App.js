@@ -13,6 +13,13 @@ import addNewRecipe from './pages/newRecipe.js'
 
 class App extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      log: false
+    };
+  }
+
   render() {
     return (
       <Router>
