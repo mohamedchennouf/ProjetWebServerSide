@@ -17,19 +17,24 @@ class searchPage extends Component {
   urlParser(){
     var frst = (window.location.href).split("?");
     var res = frst[1].split("&");
-    return res;
+    return res[0];
+  }
+
+  componentDidMount() {
+    this.searchFoodFetch()
   }
 
   searchFoodFetch(){
-    let url = "http://localhost:8080/API/RECETTE";
+    let url = "http://localhost:8080/API/RECETTE/SEARCH";
     fetch(url, {
-        method: "GET",
+        method: "POST",
         headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'},
-        body:JSON.stringify({'nom' : "fromage",'marque' : "", 'mot-cle' : ""})
+        body:JSON.stringify({'title' : this.urlParser()})
     })
-    .then(res => res.json())
+    .then(res => console.log(res))
+    .then(res => res.job())
     .then(res => console.log(res))
     .catch(function (err) {
         console.log(err);
