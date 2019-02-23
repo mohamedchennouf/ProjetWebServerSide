@@ -91,15 +91,20 @@ app.route("/API/FOODS").post(function(req, res) {
   foodManager.postFoods(data).then(x => check_results(x, data, res));
 });
 
-// TODO COMPLETE
 app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
-  foodManager.get_foods_with_nutriments().then(x => res.send(x));
-  /*foodManager.getFirstFood().then(data => {
-    console.log(data);
-    foodManager.maj_score(data[16]).then(x => {
-      res.send(data[16]);
-    });
-  });*/
+  console.log("Start data recovery")
+  foodManager.get_foods_with_nutriments().then(x => {
+    console.log("End of data recovery")
+    var size = x.length;
+    var j = 0;
+    for (i = 0; i < size; i++) {
+      foodManager.maj_score(x[i]).then(y => {
+        j++;
+        console.log("Done " + j + " / " + size);
+      });
+    }
+    res.sendStatus(200);
+  });
 });
 
 ///// RECETTES ROUTES \\\\\

@@ -18,8 +18,8 @@ class recipePage extends Component {
   componentDidMount() {
     this.getRecipe()
   }
-  
-  
+
+
 
   getRecipe() {
     fetch('http://localhost:8080/API/RECETTES?res=50')
@@ -48,19 +48,24 @@ class recipePage extends Component {
     console.log("zzzooss");
   }
 
+  urlCreatorDetail(el){
+    return "/recipeDetails?" + el;
+  }
+
 
   render() {
     console.log(this.state);
-
     let recipeBlockList = this.state.menusList.map(
       (el, index) => {
-        return <div className="recipeLineBlock">
-          <img className="imgRecipe" name={el} indice={index} alt="" src={el.urlImg} ></img>
-          <div className="textRecipe">
-            <div> <span className="titleChamp"> Name : </span>{el.title}</div>
-            <div> <span className="titleChamp"> Description: </span> {el.content}</div>
+        return <Link to={this.urlCreatorDetail(el.title)}>
+          <div className="recipeLineBlock">
+            <img className="imgRecipe" name={el} indice={index} alt="" src={el.urlImg} ></img>
+            <div className="textRecipe">
+              <div> <span className="titleChamp"> Name : </span>{el.title}</div>
+              <div> <span className="titleChamp"> Description: </span> {el.content}</div>
+            </div>
           </div>
-        </div>
+        </Link>
       }
     );
 

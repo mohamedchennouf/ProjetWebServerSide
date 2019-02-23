@@ -68,9 +68,6 @@ class MainFrame extends Component {
   }
 
   render() {
-    console.log("-------main--------");
-    console.log(this.state);
-    console.log("-------main--------");
     if (this.props.inside !== this.state.inside) {
       this.state.inside = this.props.inside;
     }
@@ -88,10 +85,8 @@ class MainFrame extends Component {
         <div>password</div>
         <input className="input" type="password" value={this.state.password} onChange={this.onChangePass} />
         <div>
-          <Link to="/subscribe">SignIn</Link></div>
-      </div>
-      <div class="section2">
         <button onClick={this.login}>login</button>
+           or <Link to="/subscribe">SignIn</Link></div>
       </div>
     </div>);
 
@@ -111,7 +106,9 @@ class MainFrame extends Component {
       <div className="App">
         <div className="header">
           <div className="logo">
+          <Link to="/">
             <img className="imgLogo" alt="" src="resources/logo.png" />
+          </Link>
           </div>
           <div className="titre">
             <h1> Miam Miam Eat </h1>

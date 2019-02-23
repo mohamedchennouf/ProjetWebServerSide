@@ -15,7 +15,7 @@ exports.getFirstFood = function () {
         var db = client.db(dbName);
         if (!err) {
           db.collection("france")
-            .find({}).limit(20).toArray()
+            .find({product_name_fr: {$exists: true}}).limit(100).toArray()
             .then(x => fun(x));
         } else {
           fun(-1);
@@ -160,8 +160,8 @@ exports.get_foods_from_list = function (data, x) {
 exports.maj_score = function (data) {
   return new Promise(fun => {
     if (data['nutriments'] != null) {
-      nutriments = data['nutriments'];
-      if (nutriments['sodium_100g'] != null && nutriments['saturated-fat_100g'] != null && nutriments['fiber_100g'] != null
+      var nutriments = data['nutriments'];
+      if (nutriments['sodium_100g'] != null && nutriments['saturated-fat_100g'] != null
         && nutriments['sugars_100g'] != null && nutriments['energy_100g'] != null && nutriments['proteins_100g'] != null) {
         MongoClient.connect(
           url,
@@ -170,24 +170,20 @@ exports.maj_score = function (data) {
             var db = client.db(dbName);
             if (!err) {
               var score = compute_score(nutriments);
-              console.log(score);
               db.collection("france").updateOne(
                 { _id: data['_id'] },
                 { $set: { custom_score: score } },
                 { upsert: false }
-              ).then(x => { console.log("A"); fun(x); })
+              ).then(x => {fun(x);})
             } else {
-              console.log("B");
               fun(-1);
             }
           }
         );
       } else {
-        console.log("C");
         fun(-1);
       }
     } else {
-      console.log("D");
       fun(-1);
     }
   }
@@ -201,7 +197,7 @@ function compute_score(nutriments) {
   var sugars = nutriments['sugars_100g'];
   var energy = nutriments['energy_100g'];
   var proteins = nutriments['proteins_100g'];
-  var fiber = nutriments['fiber_100g'];
+  //var fiber = nutriments['fiber_100g'];
 
   if (sodium > 0.9) {
     score += 10;
@@ -303,7 +299,7 @@ function compute_score(nutriments) {
     score -= 1;
   }
 
-  if (fiber > 3.5) {
+  /*if (fiber > 3.5) {
     score -= 5;
   } else if (fiber > 2.8) {
     score -= 4;
@@ -313,7 +309,7 @@ function compute_score(nutriments) {
     score -= 2;
   } else if (fiber > 0.7) {
     score -= 1;
-  }
+  }*/
 
   return score;
 }

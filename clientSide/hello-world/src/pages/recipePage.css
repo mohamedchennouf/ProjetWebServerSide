@@ -15,9 +15,7 @@
     transition: 1s;
 }
 
-.recipeLineBlock:hover{
-    height: 300px;
-}
+
 
 .imgRecipe{
     float: left;
@@ -32,10 +30,6 @@
     font-style: italic;
     height:60px;
     width:90%;
-}
-
-.textRecipe:hover{
-    height: 300px;
 }
 
 
