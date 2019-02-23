@@ -121,7 +121,7 @@ app.route("/API/RECETTES/COMMENTS")
 .post(function(req, res) {
   var userID = req.param("userID") || res.body.data.userID;
   var recipeID = req.param("recipeID") || res.body.data.recipeID;
-  var content = req.param("content") || res.body.data.recipeID;
+  var content = req.param("content") || res.body.data.content;
   recetteManager.addComment(userID, recipeID, content).then(x => res.send(x));})
   .get(function(req, res) {
   var recipeID = req.param("recipeID") || res.body.data.recipeID;
