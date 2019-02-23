@@ -42,7 +42,6 @@ exports.postNouvelleRecette = function(title, content, product, image) {
           .find({ id: { $regex: "[0123456789]*" }, product_name: product })
           .limit(100)
           .toArray();
-
         fun(
           db.collection("recette").insertOne({
             title: title,
@@ -64,15 +63,32 @@ exports.getRecette = function(title) {
       var db = client.db(dbName);
       if (!err) {
         var resultat = db
-          .collection("france")
+          .collection("recette")
+          .findOne({ title: title })
+          .then(x => 
+            {db.collection("recette").update(
+            { title: title },
+            { $inc: { visionageParticipatif: 1 } }
+          );
+          fun(x);
+        });
+      }
+    });
+  });
+};
+
+exports.getRecettesByTitle = function(title) {
+  return new Promise(fun => {
+    MongoClient.connect(url, function(err, client) {
+      var db = client.db(dbName);
+      if (!err) {
+        var resultat = db
+          .collection("recette")
           .find({ title: { $regex: ".*" + title + ".*" } })
           .limit(100)
-          .toArray();
-        db.products.update(
-          { title: { $regex: ".*" + title + ".*" } },
-          { $inc: { visionageParticipatif: 1 } }
+          .toArray().then(x => 
+          fun(x)
         );
-        fun(resultat);
       }
     });
   });

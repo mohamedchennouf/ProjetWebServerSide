@@ -124,21 +124,13 @@ app
   });
 
   app
-  .route("/API/RECETTES/COMMENT")
-  .post(function(req, res) {
-    var title   =   req.param("title");
-    var content =   req.param("content");
-    var product =   req.param("product");
-    var image   =   req.param("image");
-    recetteManager.postNouvelleRecette(title, content, product, image)
-      .then(x => res.send(x));
-  })
-  .get(function(req, res) {
-    var resu = req.param("res") || 10;
-    var sort = req.param("sort") || "normal";
-    var page = eval(req.param("page")) || "0";
-    recetteManager.getRecettes(resu, sort, page).then(x => res.send(x));
-  });
+  .route("/API/RECETTE").post(function(req, res) {
+    var title = req.param("title") || res.body.data.title;
+    recetteManager
+    .getRecette(title)
+    .then(x => res.send(x));
+  }
+  
 
 
 
