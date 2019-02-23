@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './alimentListPage.css';
 import MainFrame from './MainFrame';
-import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Row, Col, Container } from 'react-bootstrap';
 
 class alimentListPage extends Component {
 
@@ -10,67 +11,67 @@ class alimentListPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menusList : ["jusdespermdeXavier","Pâtes","Unknown"],
-     // menusList : ["Couscous"],
-      imgMenusRecipes: ['resources/couscous.png','resources/pâte.png','resources/unknown.png'],
-     // imgMenusRecipes: ['resources/couscous.png'],
-     stringMenusText: ["commentary1","commentary2","commentary3"]
+      alimentList: []
     }
   }
 
-
-  newRecipe(newMenu,newImg,newText){
-    this.state.menusList.push(newMenu);
-    this.state.imgMenusRecipes.push(newImg);
-    this.state.stringMenusText.push(newText);
+  componentDidMount() {
+    this.getAliment()
   }
 
-  getImage(index){
-    return this.state.imgMenusRecipes[index];
+  getAliment() {
+    fetch('http://localhost:8080/API/FOODS/RANDOM')
+      .then(response => response.json())
+      .then(data => {
+        var myData = [];
+        data.forEach(element => {
+          if (element.product_name) {
+            myData.push(element);
+          }
+        });
+        this.setState({ alimentList: myData });
+      })
+      .catch(e => console.log(e));
   }
 
-  getText(index){
-    return this.state.stringMenusText[index];
-  }
 
-  onSubmit(image,element){
-    console.log(image);
-    console.log(element);
-    localStorage.setItem("image",image);
-    localStorage.setItem("name",element);
-  }
 
-  urlCreator(input){
-    return "/recipeDetails?" + input;
-  }
+
+
 
   render() {
 
-    let recipeBlockList = this.state.menusList.map(
-      (el, index) => {
-        return <div>
-            <Link to={this.urlCreator(el)}>
-              <button className="alimentListLineBlock" onClick={this.onSubmit.bind(this,this.getImage(index),el)}>
-                <img className="imgAlimentList" name={el} indice={index} alt="" src={this.getImage(index)}></img>
-                <div className="textAlimentList"> 
-                  {this.getText(index)}
-                </div>
-              </button>
-            </Link>
+    let aliments = this.state.alimentList.slice(0, 5).map(
+      (el) => {
+        console.log(el);
+        return <div className="aliment">
+          <div>{el.product_name}</div>
+          <div>Nutrition : {el.nutrition_data_per}</div>
+          <div>quantity : {el.quantity}</div>
         </div>
       }
     );
 
-    let insideContent = 
-    <div className="body-content">
-    <div>
-      {recipeBlockList}
-    </div>
-    </div>
+    let rowAliments = this.state.alimentList.map(
+      (el, index) => {
+        if(index%5){
+          return <Row>
+            {aliments}
+          </Row>
+        }
+      }
+    );
+
+    
+
+    let insideContent = <Container>
+      {rowAliments}
+    </Container>
 
     return (
-      <MainFrame inside = {insideContent}></MainFrame>
+      <MainFrame inside={insideContent}></MainFrame>
     );
+
   }
 
 
