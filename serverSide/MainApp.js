@@ -124,10 +124,18 @@ app
   });
 
   app
-  .route("/API/RECETTE").get(function(req, res) {
-    var title = req.param("title") || res.body.data.title;
+  .route("/API/RECETTE/:title").get(function(req, res) {
+    var title = req.param("title") || req.params.title || res.body.data.title;
     recetteManager
     .getRecette(title)
+    .then(x => res.send(x));
+  });
+
+  app
+  .route("/API/RECETTES/SEARCH").get(function(req, res) {
+    var title = req.param("title") || res.body.data.title;
+    recetteManager
+    .getRecettesByTitle(title)
     .then(x => res.send(x));
   });
 
@@ -171,12 +179,12 @@ app.route("/API/USER/subscribe").post(function(req, res) {
 app.route("/API/USER/CONNECT").post(function(req, res) {
   userManager.connect(req.body.data).then(x => {
     if (x) {
-      console.log("oui")
+      console.log("oui");
       res.sendStatus(200);
+      res.send(x.data);
     } else{
       console.log("non")
-
-      res.sendStatus(500);
+      res.sendStatus(400);
     }
   });
 });
@@ -287,15 +295,19 @@ app.route("/miammiameat").get(function(req, res) {
 app.route("/miammiameat/resources/logo").get(function(req, res) {
   res.sendfile(pathClientSide + "/resources/logo.png");
 });
+
 app.route("/miammiameat/resources/header").get(function(req, res) {
   res.sendfile(pathClientSide + "/resources/imgHeader.jpg");
 });
+
 app.route("/miammiameat/resources/menu").get(function(req, res) {
   res.sendfile(pathClientSide + "/resources/menu.jpg");
 });
+
 app.route("/miammiameat/resources/search").get(function(req, res) {
   res.sendfile(pathClientSide + "/resources/search.jpg");
 });
+
 app.route("/miammiameat/resources/defaultIMG").get(function(req, res) {
   res.sendfile(pathClientSide + "/resources/defaultIMG.jpg");
 });

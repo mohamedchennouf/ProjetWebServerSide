@@ -39,16 +39,16 @@ exports.postNouvelleRecette = function(title, content, product, image) {
       if (!err) {
         var resultat = db
           .collection("france")
-          .find({ id: { $regex: "[0123456789]*" }, product_name: product })
+          .find({ id : { $regex: "[0123456789]*" }, product_name: product })
           .limit(100)
           .toArray();
-        fun(
-          db.collection("recette").insertOne({
+        fun(db.collection("recette")
+        .insertOne({
             title: title,
             image: image,
             content: content,
             ingredients: [resultat],
-            poceBlo: 5,
+            poceBlo: 0,
             visionageParticipatif: 0
           })
         );
@@ -110,10 +110,6 @@ exports.getRecettes = function(number, sort, page) {
           .limit(eval(number))
           .skip(eval(number) * eval(page))
           .toArray();
-        //   db.products.update(
-        //     { title: { $regex: (".*"+ title +".*") } },
-        //     { $inc: { visionageParticipatif: 1 } }
-        // )
         fun(resultat);
       }
     });

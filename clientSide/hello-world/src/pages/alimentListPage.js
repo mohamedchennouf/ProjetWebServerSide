@@ -10,7 +10,7 @@ class alimentListPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menusList : ["Couscous","Pâtes","Unknown"],
+      menusList : ["jusdespermdeXavier","Pâtes","Unknown"],
      // menusList : ["Couscous"],
       imgMenusRecipes: ['resources/couscous.png','resources/pâte.png','resources/unknown.png'],
      // imgMenusRecipes: ['resources/couscous.png'],
@@ -40,12 +40,16 @@ class alimentListPage extends Component {
     localStorage.setItem("name",element);
   }
 
+  urlCreator(input){
+    return "/aliments?" + input;
+  }
+
   render() {
 
     let recipeBlockList = this.state.menusList.map(
       (el, index) => {
         return <div>
-            <Link to="/aliments">
+            <Link to={this.urlCreator(el)}>
         <button className="alimentListLineBlock" onClick={this.onSubmit.bind(this,this.getImage(index),el)}>
           <img className="imgAlimentList" name={el} indice={index} alt="" src={this.getImage(index)}></img>
           <div className="textAlimentList"> 
