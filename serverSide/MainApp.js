@@ -37,7 +37,8 @@ function requireLogin(req, res, next) {
 app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/clientSide"));
 
-const pathClientSide = __dirname.substring(0, __dirname.length - 10) + "clientSide";
+const pathClientSide =
+  __dirname.substring(0, __dirname.length - 10) + "clientSide";
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -59,7 +60,6 @@ server.listen(port, function() {
 app.route("/index").get(function(req, res) {
   res.sendfile("./DebugUI/xxx.html");
 });
-
 
 ///// FOODS ROUTES \\\\\
 
@@ -83,7 +83,7 @@ app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
     if ((i + 1) * 100 < taille) {
       size = taille - i * 100;
     }
-    while(size == 100) {
+    while (size == 100) {
       // do request update score (create new route with limit 1000 and skip i * 1000 foods)
       foodManager.get_100_foods(i).then(x => {
         foodManager.maj_custom_score(x).then(rep => {
@@ -92,15 +92,15 @@ app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
           if ((i + 1) * 100 > taille) {
             size = taille - i * 100;
           }
-        })
-      })
+        });
+      });
     }
     // do request one more time
     foodManager.get_100_foods(i).then(x => {
       foodManager.maj_custom_score(x).then(rep => {
         res.send("OK");
-      })
-    })
+      });
+    });
   });
 });
 
@@ -109,35 +109,30 @@ app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
 app
   .route("/API/RECETTES")
   .post(function(req, res) {
-    var title =     req.param("title") || res.body.data.title;
-    var content =   req.param("content") || res.body.data.content;
-    var product =   req.param("product") || res.body.data.product;
-    var image =     req.param("image") || res.body.data.image;
+    var title = req.param("title") || res.body.data.title;
+    var content = req.param("content") || res.body.data.content;
+    var product = req.param("product") || res.body.data.product;
+    var image = req.param("image") || res.body.data.image;
     recetteManager
       .postNouvelleRecette(title, content, product, image)
       .then(x => res.send(x));
-  }).get(function(req, res) {
+  })
+  .get(function(req, res) {
     var resu = req.param("res") || 10;
     var sort = req.param("sort") || "normal";
     var page = eval(req.param("page")) || "0";
     recetteManager.getRecettes(resu, sort, page).then(x => res.send(x));
   });
 
-  app
-  .route("/API/RECETTE/:title").get(function(req, res) {
-    var title = req.param("title") || req.params.title || res.body.data.title;
-    recetteManager
-    .getRecette(title)
-    .then(x => res.send(x));
-  });
+app.route("/API/RECETTE/:title").get(function(req, res) {
+  var title = req.param("title") || req.params.title || res.body.data.title;
+  recetteManager.getRecette(title).then(x => res.send(x));
+});
 
-  app
-  .route("/API/RECETTES/SEARCH").get(function(req, res) {
-    var title = req.param("title") || res.body.data.title;
-    recetteManager
-    .getRecettesByTitle(title)
-    .then(x => res.send(x));
-  });
+app.route("/API/RECETTES/SEARCH").post(function(req, res) {
+  var title = req.param("title") || res.body.data.title;
+  recetteManager.getRecettesByTitle(title).then(x => res.send(x));
+});
 
 ///// STORES ROUTES \\\\\
 
@@ -149,13 +144,13 @@ app.route("/API/STORES/ADD").post(function(req, res) {
 
 app.route("/API/image/:id").get(function(req, res) {
   recetteManager.retrieveImage(req.params.id).then(x => {
-    if(x == undefined){
+    if (x == undefined) {
       res.sendStatus(403);
       return;
     }
     res.contentType("png");
     res.write(x);
-    
+
     // res.sendStatus(200);
     res.end();
     res.connection.end();
@@ -164,13 +159,12 @@ app.route("/API/image/:id").get(function(req, res) {
 });
 
 app.route("/API/USER/subscribe").post(function(req, res) {
-  console.log(req.body.data)
+  console.log(req.body.data);
   userManager.subscribe(req.body.data).then(x => {
-    
     console.log(x);
     if (x) {
       res.sendStatus(200);
-    } else{
+    } else {
       res.sendStatus(403);
     }
   });
@@ -182,8 +176,8 @@ app.route("/API/USER/CONNECT").post(function(req, res) {
       console.log("oui");
       res.sendStatus(200);
       res.send(x.data);
-    } else{
-      console.log("non")
+    } else {
+      console.log("non");
       res.sendStatus(400);
     }
   });
@@ -208,21 +202,28 @@ app.route("/API/STORES/GET_STORES_CITIES").post(function(req, res) {
   console.log("here");
   data = req.body;
   console.log(data);
-  if (data['villes'] != null) {
-    l = []
-    for (i = 0; i < data['villes'].length; i++) {
-      storeManager.get_stores_by_city(
-        {ville: data['villes'][i]}).then(x => {
-          console.log(x);
-          l.push(x);
-          if (l.length == data['villes'].length)
-           {res.send({stores: l})}
-        }
-      );
-    }
-  }
-  else {
-    res.send("Clé manquante : villes")
+  if (data["villes"] != null) {
+    
+    console.time("6");
+    storeManager.get_stores_by_cities(data["villes"]).then(x => {
+      res.send({ stores: x });
+    });
+    // l = [];
+    // for (i = 0; i < data["villes"].length; i++) {
+    //   storeManager
+    //     .get_stores_by_city({
+    //       ville: data["villes"][i]
+    //     })
+    //     .then(x => {
+    //       l.push(x);
+    //       if (l.length == data["villes"].length) {
+    //         console.log(l);
+    //         res.send({ stores: l });
+    //       }
+    //     });
+    // }
+  } else {
+    res.send("Clé manquante : villes");
   }
 });
 
@@ -232,12 +233,15 @@ app.route("/API/STORES/GET_STORES_NAME").post(function(req, res) {
   storeManager.get_stores_by_name(data).then(x => res.send(x));
 });
 
-app.route("/API/STORES/GET_CITIES").post(function(req, res) {
-  data = req.body;
-  storeManager.get_cities(data).then(x => check_cities(x, res));
-}).get(function(req, res) {
-  storeManager.get_cities({ville: ""}).then(x => check_cities(x, res));
-});
+app
+  .route("/API/STORES/GET_CITIES")
+  .post(function(req, res) {
+    data = req.body;
+    storeManager.get_cities(data).then(x => check_cities(x, res));
+  })
+  .get(function(req, res) {
+    storeManager.get_cities({ ville: "" }).then(x => check_cities(x, res));
+  });
 
 ///// PRICES ROUTES \\\\\
 app.route("/API/PRICES/ADD").post(function(req, res) {

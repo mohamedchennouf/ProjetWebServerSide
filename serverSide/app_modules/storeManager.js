@@ -52,11 +52,13 @@ exports.get_stores_by_cities = function (data) {
             { useNewUrlParser: true },
             function (err, client) {
                 var db = client.db(dbName);
-                if (!err && data.ville != null) {
+                if (!err && data != null) {
+                    
                     db.collection("magasin")
-                        .find({ville: { $in : data['ville'].map(x => toUpperCase())}})
+                        .find({ville: { $in : data.map(x => x.toUpperCase())}})
                         .toArray()
                         .then(x => fun(x));
+
                 } else {
                     fun(-1);
                 }
