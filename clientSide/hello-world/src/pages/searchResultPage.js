@@ -43,6 +43,10 @@ class searchPage extends Component {
 }
 
   stateParse(res){
+    console.log(res.length)
+    if(res.length == 0){
+
+    }else{
     var newMenuList = [];
     var newImgMenusRecipes = [];
     var newStringMenusText = [];
@@ -54,6 +58,7 @@ class searchPage extends Component {
     this.setState({menusList : newMenuList})
     this.setState({imgMenusRecipes : newImgMenusRecipes})
     this.setState({stringMenusText : newStringMenusText})
+  }
   }
 
   newRecipe(newMenu,newImg,newText){
@@ -75,23 +80,29 @@ class searchPage extends Component {
   }
 
   render() {
-    let alimentBlockList = this.state.menusList.map(
-      (el, index) => {
-        return <div>
-          <Link to={this.urlCreator(el)}>
-            <div className="alimentLineBlock">
-              <img className="imgAliment" name={el} indice={index} alt="" src={this.getImage(index)} ></img>
-              <div className="textAliment"> 
-                {el}
-                <br></br>
-                {this.getText(index)}
+    let alimentBlockList;
+    if(this.state.menusList.length == 0){
+      alimentBlockList = <div>
+        nothing has been found
+      </div>
+    }else{
+      alimentBlockList = this.state.menusList.map(
+        (el, index) => {
+          return <div>
+            <Link to={this.urlCreator(el)}>
+              <div className="alimentLineBlock">
+                <img className="imgAliment" name={el} indice={index} alt="" src={this.getImage(index)} ></img>
+                <div className="textAliment"> 
+                  {el}
+                  <br></br>
+                  {this.getText(index)}
+                </div>
               </div>
-            </div>
-          </Link>
-        </div>
-      }
-    );
-
+            </Link>
+          </div>
+        }
+      );
+    }
     let insideContent = 
     <div className="body-content">
     <div>
