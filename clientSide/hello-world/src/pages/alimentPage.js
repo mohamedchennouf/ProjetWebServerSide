@@ -12,6 +12,7 @@ class alimentPage extends Component {
       this.name = "Couscous";
       this.text = "bla bla bla bla bla";
       this.notation = 4;
+      this.commentary = [];
     }
 
     init(){
@@ -20,6 +21,21 @@ class alimentPage extends Component {
         this.alimentIMG = localStorage.getItem("image");
         this.name = localStorage.getItem("name");
         localStorage.clear();
+    }
+
+    commentaryFetch(){
+        let url = "http://localhost:8080/API/RECETTES";
+        fetch(url, {
+            method: "POST",
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'},
+            body:JSON.stringify({ville : ''})
+        })
+        .then(res => res.json())
+        .catch(function (err) {
+            console.log(err);
+        });
     }
 
     note(){

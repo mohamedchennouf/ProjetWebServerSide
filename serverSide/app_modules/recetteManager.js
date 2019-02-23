@@ -39,26 +39,16 @@ exports.postNouvelleRecette = function(title, content, product, image) {
       if (!err) {
         var resultat = db
           .collection("france")
-          .find({ id: { $regex: "[0123456789]*" }, product_name: product })
+          .find({ id : { $regex: "[0123456789]*" }, product_name: product })
           .limit(100)
           .toArray();
-
-        db.collection("recette").insertOne({
-          title: title,
-          image: image,
-          content: content,
-          ingredients: [resultat],
-          poceBlo: 5,
-          visionageParticipatif: 0
-        });
-
-        fun(
-          db.collection("recette").insertOne({
+        fun(db.collection("recette")
+        .insertOne({
             title: title,
             image: image,
             content: content,
             ingredients: [resultat],
-            poceBlo: 5,
+            poceBlo: 0,
             visionageParticipatif: 0
           })
         );
@@ -73,15 +63,32 @@ exports.getRecette = function(title) {
       var db = client.db(dbName);
       if (!err) {
         var resultat = db
-          .collection("france")
+          .collection("recette")
+          .findOne({ title: title })
+          .then(x => 
+            {db.collection("recette").update(
+            { title: title },
+            { $inc: { visionageParticipatif: 1 } }
+          );
+          fun(x);
+        });
+      }
+    });
+  });
+};
+
+exports.getRecettesByTitle = function(title) {
+  return new Promise(fun => {
+    MongoClient.connect(url, function(err, client) {
+      var db = client.db(dbName);
+      if (!err) {
+        var resultat = db
+          .collection("recette")
           .find({ title: { $regex: ".*" + title + ".*" } })
           .limit(100)
-          .toArray();
-        db.products.update(
-          { title: { $regex: ".*" + title + ".*" } },
-          { $inc: { visionageParticipatif: 1 } }
+          .toArray().then(x => 
+          fun(x)
         );
-        fun(resultat);
       }
     });
   });
@@ -118,39 +125,48 @@ exports.retrieveImage = function(id) {
     MongoClient.connect(url, function(err, client) {
       var db = client.db(dbName);
 
-      var resultat = db.collection("recette").findOne({ _id: ObjectId(id) }).then(x => {
-        if (x != undefined) {
-          var image = x.image;
-        }
-        if(image) {
-          fun(base64_decode(image));
-          return ;
-        }
-        fun(undefined);
-      }
-      );
-        
-      
+      var resultat = db
+        .collection("recette")
+        .findOne({ _id: ObjectId(id) })
+        .then(x => {
+          if (x != undefined) {
+            var image = x.image;
+          }
+          if (image) {
+            fun(base64_decode(image));
+            return;
+          }
+          fun(undefined);
+        });
     });
   });
 };
+
 function base64_decode(base64str, file) {
   // create buffer object from base64 encoded string, it is important to tell the constructor that the string is base64 encoded
   var bitmap = new Buffer(base64str, "base64");
-  console.log(base64str);
-  // write buffer to file
-  console.log("******** File created from base64 encoded string ********");
   return bitmap;
 }
 
 exports.addComment = function(userID, recipeID, content) {
-  var resultat = db
-    .collection("comments")
-    .insertOne({
-      recipeId: recipeID,
-      userId: userID,
-      content: content,
-      time: new Date().getTime()
-    })
-    .then();
+  return new Promise(fun => {
+    MongoClient.connect(url, function(err, client) {
+      var resultat = db
+        .collection("comments")
+        .insertOne({
+          recipeId: recipeID,
+          userId: userID,
+          content: content,
+          time: new Date().getTime()
+        })
+        .then(
+          fun({
+            recipeId: recipeID,
+            userId: userID,
+            content: content,
+            time: new Date().getTime()
+          })
+        );
+    });
+  });
 };

@@ -64,6 +64,17 @@ class HomePage extends Component {
   }
 
 
+  urlCreator(input){
+    var url = "/searchresult?"
+    var tabInput = input.split(" ");
+    console.log("tab :" +tabInput)
+    for(var i = 0; i  < tabInput.length-1; i++){
+      url += tabInput[i] + "&";
+    }
+    url += tabInput[tabInput.length-1];
+    console.log(url)
+    return url;
+  }
 
   render() {
 
@@ -97,7 +108,7 @@ class HomePage extends Component {
         <div className="search-content">
           <p><span className="title-search">Find a recipe...</span></p>
           <input className="search-input" type="search" />
-          <Link to="/searchresult">
+          <Link to={this.urlCreator("lol mdr")}>
             <button className="search-button">search</button>
           </Link>
           <div><Link to="/advancedSearch">advanced Search</Link></div>
