@@ -11,8 +11,8 @@ class HomePage extends Component {
     this.state = {
       bestRecette: [{ title: 'couscous' }, { title: 'pâtes' }, { title: 'unknown' }],
       imgTopRecipes: ['resources/couscous.png', 'resources/pâte.png', 'resources/unknown.png'],
-      search:"",
-      urlSearch:""
+      search: "",
+      urlSearch: ""
     }
   }
 
@@ -56,8 +56,8 @@ class HomePage extends Component {
       .then(response => response.json())
       .then(data => {
         var myData = data;
-        myData.forEach(function(element){
-          element.urlImg='http://localhost:8080/API/image/'+element._id;
+        myData.forEach(function (element) {
+          element.urlImg = 'http://localhost:8080/API/image/' + element._id;
         });
         console.log(myData);
         this.setState({ bestRecette: myData });
@@ -66,30 +66,40 @@ class HomePage extends Component {
   }
 
 
-  urlCreator(text){
+  urlCreator(text) {
     var url = "/searchresult?"
     console.log(text)
     var tabInput = text.split(" ");
-    console.log("tab :" +tabInput)
-    for(var i = 0; i  < tabInput.length-1; i++){
+    console.log("tab :" + tabInput)
+    for (var i = 0; i < tabInput.length - 1; i++) {
       url += tabInput[i] + "&";
     }
-    url += tabInput[tabInput.length-1];
+    url += tabInput[tabInput.length - 1];
     console.log(url)
-    this.setState({urlSearch : url});
+    this.setState({ urlSearch: url });
   }
+
+  urlCreatorDetail(el){
+    return "/recipeDetails?" + el;
+  }
+  
 
   render() {
 
     let alimentList = this.state.bestRecette.slice(0, 3).map(
       (el, index) => {
         return (
-          <Col sm>
-            <div className="cardRecipe">
-              <img className="cardimg" name={el.title} indice={index} alt="" src={el.urlImg} ></img>
-              <div className="cardname">{el.title}</div>
-            </div>
-          </Col>)
+        
+            <Col sm>
+             <Link to={this.urlCreatorDetail(el.title)}>
+              <div className="cardRecipe">
+                <img className="cardimg" name={el.title} indice={index} alt="" src={el.urlImg} ></img>
+                <div className="cardname">{el.title}</div>
+              </div>
+              </Link>
+            </Col>
+         
+        )
       }
     );
 
@@ -97,12 +107,16 @@ class HomePage extends Component {
     let alimentList2 = this.state.bestRecette.slice(3, 6).map(
       (el, index) => {
         return (
-          <Col sm>
-            <div className="cardRecipe">
-              <img className="cardimg" name={el.title} indice={index} alt="" src={el.urlImg} ></img>
-              <div className="cardname">{el.title}</div>
-            </div>
-          </Col>)
+          
+            <Col sm>
+            <Link to={this.urlCreatorDetail(el.title)}>
+              <div className="cardRecipe">
+                <img className="cardimg" name={el.title} indice={index} alt="" src={el.urlImg} ></img>
+                <div className="cardname">{el.title}</div>
+              </div>
+              </Link>
+            </Col>
+          )
       }
     );
 
