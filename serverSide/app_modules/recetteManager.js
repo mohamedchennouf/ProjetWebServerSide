@@ -184,7 +184,8 @@ function base64_decode(base64str, file) {
 exports.addComment = function(userID, recipeID, content) {
   return new Promise(fun => {
     MongoClient.connect(url, function(err, client) {
-      var resultat = db
+      var db = client.db(dbName);
+       db
         .collection("comments")
         .insertOne({
           recipeId: recipeID,
