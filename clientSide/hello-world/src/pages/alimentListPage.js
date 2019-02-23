@@ -50,13 +50,13 @@ class alimentListPage extends Component {
       (el, index) => {
         return <div>
             <Link to={this.urlCreator(el)}>
-        <button className="alimentListLineBlock" onClick={this.onSubmit.bind(this,this.getImage(index),el)}>
-          <img className="imgAlimentList" name={el} indice={index} alt="" src={this.getImage(index)}></img>
-          <div className="textAlimentList"> 
-            {this.getText(index)}
-          </div>
-        </button>
-        </Link>
+              <button className="alimentListLineBlock" onClick={this.onSubmit.bind(this,this.getImage(index),el)}>
+                <img className="imgAlimentList" name={el} indice={index} alt="" src={this.getImage(index)}></img>
+                <div className="textAlimentList"> 
+                  {this.getText(index)}
+                </div>
+              </button>
+            </Link>
         </div>
       }
     );

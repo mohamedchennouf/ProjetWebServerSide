@@ -75,33 +75,13 @@ app.route("/API/FOODS").post(function(req, res) {
 
 // TODO COMPLETE
 app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
-  foodManager.get_all_foods_size().then(data => {
-    var taille = data;
-    console.log(taille);
-    var i = 0;
-    var size = 100;
-    if ((i + 1) * 100 < taille) {
-      size = taille - i * 100;
-    }
-    while (size == 100) {
-      // do request update score (create new route with limit 1000 and skip i * 1000 foods)
-      foodManager.get_100_foods(i).then(x => {
-        foodManager.maj_custom_score(x).then(rep => {
-          console.log("fini: " + i);
-          i++;
-          if ((i + 1) * 100 > taille) {
-            size = taille - i * 100;
-          }
-        });
-      });
-    }
-    // do request one more time
-    foodManager.get_100_foods(i).then(x => {
-      foodManager.maj_custom_score(x).then(rep => {
-        res.send("OK");
-      });
+  foodManager.get_foods_with_nutriments().then(x => res.send(x));
+  /*foodManager.getFirstFood().then(data => {
+    console.log(data);
+    foodManager.maj_score(data[16]).then(x => {
+      res.send(data[16]);
     });
-  });
+  });*/
 });
 
 ///// RECETTES ROUTES \\\\\

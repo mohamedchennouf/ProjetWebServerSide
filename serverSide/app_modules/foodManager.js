@@ -15,7 +15,7 @@ exports.getFirstFood = function () {
         var db = client.db(dbName);
         if (!err) {
           db.collection("france")
-            .find({}).limit(10).toArray()
+            .find({}).limit(20).toArray()
             .then(x => fun(x));
         } else {
           fun(-1);
@@ -86,8 +86,26 @@ exports.get_all_foods_size = function () {
   });
 }
 
+exports.get_foods_with_nutriments = function () {
+  return new Promise(fun => {
+    MongoClient.connect(
+      url,
+      { useNewUrlParser: true },
+      function (err, client) {
+        var db = client.db(dbName);
+        if (!err) {
+          db.collection("france")
+            .find({nutriments: {$gt: {}}}).toArray()
+            .then(x => fun(x));
+        } else {
+          fun(-1);
+        }
+      }
+    );
+  });
+}
+
 exports.get_100_foods = function (i) {
-  console.log(i);
   return new Promise(fun => {
     MongoClient.connect(
       url,
@@ -113,15 +131,13 @@ exports.get_foods_from_list = function (data, x) {
   var request = JSON.parse(convert(data));
   var list = [];
   for (i = 0; i < x.length; i++) {
-    list.push({"id": x[i]['food']});
+    list.push({ "id": x[i]['food'] });
   }
-  var id_query = {$or: list};
-  var list2=[];
+  var id_query = { $or: list };
+  var list2 = [];
   list2.push(id_query);
   list2.push(request);
-  var query = {$and: list2};
-  console.log(id_query);
-  console.log(request);
+  var query = { $and: list2 };
   return new Promise(fun => {
     MongoClient.connect(
       url,
@@ -141,46 +157,41 @@ exports.get_foods_from_list = function (data, x) {
   });
 }
 
-exports.maj_custom_score = function (data) {
-  var i = 0;
-  while (i < data.length) {
-    if (data[i]['nutriments'] != null) {
-      nutriments = data[i]['nutriments'];
-      if (nutriments['sodium_100g'] != null && nutriments['saturated-fat_100g'] != null
+exports.maj_score = function (data) {
+  return new Promise(fun => {
+    if (data['nutriments'] != null) {
+      nutriments = data['nutriments'];
+      if (nutriments['sodium_100g'] != null && nutriments['saturated-fat_100g'] != null && nutriments['fiber_100g'] != null
         && nutriments['sugars_100g'] != null && nutriments['energy_100g'] != null && nutriments['proteins_100g'] != null) {
-          console.log("A");
-          new Promise(fun => {
-            console.log("B");
-            MongoClient.connect(
-              url,
-              { useNewUrlParser: true },
-              function (err, client) {
-                console.log("C");
-                var db = client.db(dbName);
-                console.log("D");
-                if (err) {
-                  console.error('An error occurred connecting to MongoDB: ', err);
-                  i++;
-                }
-                else {
-                  var score = compute_score(nutriments);
-                  db.collection("france").updateOne(
-                    {_id: data['_id']},
-                    {$: {custom_score: score}},
-                    {upsert:false}
-                  ).then(res => {i++;})
-                }
-              }
-            );
-          });
+        MongoClient.connect(
+          url,
+          { useNewUrlParser: true },
+          function (err, client) {
+            var db = client.db(dbName);
+            if (!err) {
+              var score = compute_score(nutriments);
+              console.log(score);
+              db.collection("france").updateOne(
+                { _id: data['_id'] },
+                { $set: { custom_score: score } },
+                { upsert: false }
+              ).then(x => { console.log("A"); fun(x); })
+            } else {
+              console.log("B");
+              fun(-1);
+            }
+          }
+        );
       } else {
-        i++;
+        console.log("C");
+        fun(-1);
       }
     } else {
-      i++;
+      console.log("D");
+      fun(-1);
     }
   }
-  return "";
+  );
 }
 
 function compute_score(nutriments) {
@@ -190,6 +201,7 @@ function compute_score(nutriments) {
   var sugars = nutriments['sugars_100g'];
   var energy = nutriments['energy_100g'];
   var proteins = nutriments['proteins_100g'];
+  var fiber = nutriments['fiber_100g'];
 
   if (sodium > 0.9) {
     score += 10;
@@ -280,15 +292,27 @@ function compute_score(nutriments) {
   }
 
   if (proteins > 8) {
-    score -= 10;
+    score -= 5;
   } else if (proteins > 6.4) {
-    score -= 8;
-  } else if (proteins > 4.8) {
-    score -= 6;
-  } else if (proteins > 3.2) {
     score -= 4;
-  } else if (proteins > 1.6) {
+  } else if (proteins > 4.8) {
+    score -= 3;
+  } else if (proteins > 3.2) {
     score -= 2;
+  } else if (proteins > 1.6) {
+    score -= 1;
+  }
+
+  if (fiber > 3.5) {
+    score -= 5;
+  } else if (fiber > 2.8) {
+    score -= 4;
+  } else if (fiber > 2.1) {
+    score -= 3;
+  } else if (fiber > 1.4) {
+    score -= 2;
+  } else if (fiber > 0.7) {
+    score -= 1;
   }
 
   return score;

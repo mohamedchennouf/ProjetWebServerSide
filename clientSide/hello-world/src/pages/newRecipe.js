@@ -6,15 +6,17 @@ class inscription extends Component {
     constructor(props) {
       super(props);
       this.state = {
-          inputList: ["Title","Description","Ingredients","Image"],
-          formulaire:["","","","",""]
+          inputList: ["Title","Description","Ingredients"],
+          formulaire:["","","",""],
+          file:null
       };
+      this.handleChange = this.handleChange.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
     }
 
     onSubmit(){
         let url = "http://localhost:8080/API/RECETTES";
-        let body = {title:this.formulaire[0],content:this.formulaire[1],product:this.formulaire[2],image:this.formulaire[3]};
+        let body = {title:this.state.formulaire[0],content:this.state.formulaire[1],product:this.state.formulaire[2],image:this.state.file};
         fetch(url, {
             method: "POST",
             headers: {
@@ -30,13 +32,43 @@ class inscription extends Component {
         });
     }
 
+    getBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+        });
+      }
+
+  
+
+    
+      
+
     onChange(e,indice){
         this.state.formulaire[indice.index] = e.target.value;
     }
 
+    handleChange(e){
+        console.log(e.target.files[0]);
+        this.getBase64(e.target.files[0])
+        var imageReader = new FileReader();
+        var loadedImage;
+        var b64encoded;
+        imageReader.onloadend = function () {
+            loadedImage = new Uint8Array(imageReader.result);
+            b64encoded = btoa(String.fromCharCode.apply(null, loadedImage))
+            console.log(b64encoded);
+            //this.setState({"file":b64encoded});
+        } 
+        imageReader.readAsArrayBuffer(e.target.files[0]);
+    }
+
     render() {
+
         let renderInputList = this.state.inputList.map(
-            (el,index) =>         
+            (el,index) =>        
             <div>
                 <div>{el}</div>
                 <input onChange={e => this.onChange(e,{index})} className="inputSubscribe" indice={index} name={el}/>
@@ -48,7 +80,11 @@ class inscription extends Component {
             <div className="subscribeSection">
                 <div className="subscribeTitle">ADD RECIPE</div>
                     {renderInputList}
-                <button className="subscribeButton" onClick={this.onSubmit}>Inscription</button>
+                    <div>
+                        <div>Image</div>
+                        <input type="file" onChange={ (e) => this.handleChange(e) }/>
+                     </div>
+                <button className="subscribeButton" onClick={this.onSubmit}>Add recipe</button>
             </div>
             <div className="commentary">
         Retrouvez sur notre site des recettes de cuisine faciles pour réussir à tous les coups en cuisine !
