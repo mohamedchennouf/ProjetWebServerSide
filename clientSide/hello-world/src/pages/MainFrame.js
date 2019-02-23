@@ -11,8 +11,20 @@ class MainFrame extends Component {
       inside: props.inside,
       menus: ['Home', 'Recipe', 'Aliments', "Shops"],
       topRecipes: ['couscous', 'pâtes', 'unknown'],
-      linkList: ["/", "/recipe", "/alimentList", "/shops"]
-    }
+      linkList: ["/", "/recipe", "/alimentList", "/shops"],
+      id: "",
+      password: ""
+    };
+    this.login =this.login.bind(this);
+    this.onChangeId =this.onChangeId.bind(this);
+    this.onChangePass =this.onChangePass.bind(this);
+  }
+
+  login(){
+    console.log("--------")
+    console.log(this.state.id)
+    console.log(this.state.password)
+    console.log("--------")
   }
 
 
@@ -26,12 +38,15 @@ class MainFrame extends Component {
     this.props.history.push(page);
   }
 
+  onChangeId(event){
+    this.setState({id : event.target.value});
+  }
+
+  onChangePass(event){
+    this.setState({password : event.target.value});
+  }
+
   render() {
-
-
-    function login(e){
-      console.log("login")
-    }
 
     if (this.props.inside !== this.state.inside) {
       this.state.inside = this.props.inside;
@@ -42,6 +57,7 @@ class MainFrame extends Component {
         <button className="button" indice={index} >{el}</button>
       </Link>
     );
+
 
     return (
       <div className="App">
@@ -56,16 +72,15 @@ class MainFrame extends Component {
 
             <div class="section1">
               <div>login</div>
-              <input className="input" type="login" />
+              <input className="input" type="login" value={this.state.id}  onChange={this.onChangeId}/>
               <div>password</div>
-              <input className="input" type="password" />
-
+              <input className="input" type="password" value={this.state.password} onChange={this.onChangePass}/>
               <div>
                 <Link to="/subscribe">SignIn</Link></div>
             </div>
 
             <div class="section2">
-              <button onClick={login}>login</button>
+              <button onClick={this.login}>login</button>
             </div>
 
           </div>
