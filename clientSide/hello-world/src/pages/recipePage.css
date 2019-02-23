@@ -37,3 +37,9 @@
 .textRecipe:hover{
     height: 300px;
 }
+
+
+.titleChamp{
+    margin-left:2px;
+    font-weight: bold;
+}

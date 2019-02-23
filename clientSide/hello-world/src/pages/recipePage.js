@@ -21,9 +21,11 @@ class recipePage extends Component {
     fetch('http://localhost:8080/API/RECETTES?res=50')
       .then(response => response.json())
       .then(data => {
-        this.setState({ menusList: data });
-        console.log(this.state.menusList)
-
+        var myData = data;
+        myData.forEach(function(element){
+          element.urlImg='http://localhost:8080/API/image/'+element._id;
+        });
+        this.setState({ menusList: myData });
       })
       .catch(e => console.log(e));
   }
@@ -44,10 +46,10 @@ class recipePage extends Component {
     let recipeBlockList = this.state.menusList.map(
       (el, index) => {
         return <div className="recipeLineBlock">
-          <img className="imgRecipe" name={el} indice={index} alt="" src={this.getImage(index)} ></img>
+          <img className="imgRecipe" name={el} indice={index} alt="" src={el.urlImg} ></img>
           <div className="textRecipe"> 
-            <div>{el.title}</div>
-            <div>{el.content}</div>
+            <div> <span className="titleChamp"> Name : </span>{el.title}</div>
+            <div> <span className="titleChamp"> Description: </span> {el.content}</div>
           </div>
         </div>
       }
