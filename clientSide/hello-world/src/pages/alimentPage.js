@@ -21,12 +21,6 @@ class alimentPage extends Component {
       this.poceBloPost = this.poceBloPost.bind(this);
     }
 
-    init(){
-        this.alimentIMG = localStorage.getItem("image");
-        this.name = localStorage.getItem("name");
-        localStorage.clear();
-    }
-
     urlParser(){
         var res = (window.location.href).split("?");
         return res[1];
@@ -58,7 +52,6 @@ class alimentPage extends Component {
 
     commentsFetch(){
         let url = "http://localhost:8080/API/RECETTES/COMMENT/" + this.state.id;
-        console.log(url)
         fetch(url, {
             method: "GET",
             headers: {
@@ -109,7 +102,6 @@ class alimentPage extends Component {
     }
 
     render() {
-        this.init();
         let notes = this.note().map(
             (img)=>{
                 return <img alt="" src={img} className="rewardImg"></img>
