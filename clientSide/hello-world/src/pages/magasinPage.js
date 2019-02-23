@@ -110,10 +110,11 @@ class magasinPage extends Component {
                     <div className="nomMagasin"> 
                       {this.getName(city,index)}
                     </div>
-                    <a href={this.linkCreator(city,index)}
-                     className="buttonMap" name={el} indice={index}>
+                    <a href={this.linkCreator(city,index)}>
+                    <button className="buttonMap" name={el} indice={index}>
                       Show map
                       <img className="imgButton" alt="" src="resources/maps.png"/>
+                    </button>
                     </a>
                     <div className="textMagasin"> 
                       {this.getText(index)}
