@@ -208,6 +208,7 @@ exports.addComment = function(userID, recipeID, content) {
 exports.retrieveComments = function(recipeID) {
   return new Promise(fun => {
     MongoClient.connect(url, function(err, client) {
+      var db = client.db(dbName);
       db.collection("comments")
         .find({
           recipeId: recipeID
