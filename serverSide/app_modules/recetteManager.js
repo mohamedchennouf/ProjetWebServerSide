@@ -43,8 +43,6 @@ exports.postNouvelleRecette = function(title, content, product, image) {
           .limit(100)
           .toArray();
 
-       
-
         fun(
           db.collection("recette").insertOne({
             title: title,
@@ -111,22 +109,23 @@ exports.retrieveImage = function(id) {
     MongoClient.connect(url, function(err, client) {
       var db = client.db(dbName);
 
-      var resultat = db.collection("recette").findOne({ _id: ObjectId(id) }).then(x => {
-        if (x != undefined) {
-          var image = x.image;
-        }
-        if(image) {
-          fun(base64_decode(image));
-          return ;
-        }
-        fun(undefined);
-      }
-      );
-        
-      
+      var resultat = db
+        .collection("recette")
+        .findOne({ _id: ObjectId(id) })
+        .then(x => {
+          if (x != undefined) {
+            var image = x.image;
+          }
+          if (image) {
+            fun(base64_decode(image));
+            return;
+          }
+          fun(undefined);
+        });
     });
   });
 };
+
 function base64_decode(base64str, file) {
   // create buffer object from base64 encoded string, it is important to tell the constructor that the string is base64 encoded
   var bitmap = new Buffer(base64str, "base64");
@@ -134,13 +133,24 @@ function base64_decode(base64str, file) {
 }
 
 exports.addComment = function(userID, recipeID, content) {
-  var resultat = db
-    .collection("comments")
-    .insertOne({
-      recipeId: recipeID,
-      userId: userID,
-      content: content,
-      time: new Date().getTime()
-    })
-    .then();
+  return new Promise(fun => {
+    MongoClient.connect(url, function(err, client) {
+      var resultat = db
+        .collection("comments")
+        .insertOne({
+          recipeId: recipeID,
+          userId: userID,
+          content: content,
+          time: new Date().getTime()
+        })
+        .then(
+          fun({
+            recipeId: recipeID,
+            userId: userID,
+            content: content,
+            time: new Date().getTime()
+          })
+        );
+    });
+  });
 };

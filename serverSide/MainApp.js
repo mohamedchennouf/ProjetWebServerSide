@@ -109,12 +109,28 @@ app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
 app
   .route("/API/RECETTES")
   .post(function(req, res) {
-    var title = req.param("title");
-    var content = req.param("content");
-    var product = req.param("product");
-    var image = req.param("image")
+    var title =     req.param("title") || res.body.data.title;
+    var content =   req.param("content") || res.body.data.content;
+    var product =   req.param("product") || res.body.data.product;
+    var image =     req.param("image") || res.body.data.image;
     recetteManager
       .postNouvelleRecette(title, content, product, image)
+      .then(x => res.send(x));
+  }).get(function(req, res) {
+    var resu = req.param("res") || 10;
+    var sort = req.param("sort") || "normal";
+    var page = eval(req.param("page")) || "0";
+    recetteManager.getRecettes(resu, sort, page).then(x => res.send(x));
+  });
+
+  app
+  .route("/API/RECETTES/COMMENT")
+  .post(function(req, res) {
+    var title   =   req.param("title");
+    var content =   req.param("content");
+    var product =   req.param("product");
+    var image   =   req.param("image");
+    recetteManager.postNouvelleRecette(title, content, product, image)
       .then(x => res.send(x));
   })
   .get(function(req, res) {
@@ -123,6 +139,11 @@ app
     var page = eval(req.param("page")) || "0";
     recetteManager.getRecettes(resu, sort, page).then(x => res.send(x));
   });
+
+
+
+
+
 
 ///// STORES ROUTES \\\\\
 
@@ -134,26 +155,29 @@ app.route("/API/STORES/ADD").post(function(req, res) {
 
 app.route("/API/image/:id").get(function(req, res) {
   recetteManager.retrieveImage(req.params.id).then(x => {
-    console.log(x);
     if(x == undefined){
       res.sendStatus(403);
       return;
     }
     res.contentType("png");
     res.write(x);
+    
+    // res.sendStatus(200);
+    res.end();
+    res.connection.end();
+    return;
   });
 });
 
 app.route("/API/USER/subscribe").post(function(req, res) {
-
   console.log(req.body.data)
   userManager.subscribe(req.body.data).then(x => {
     
     console.log(x);
     if (x) {
-      res.sendStatus(403);
+      res.sendStatus(200);
     } else{
-      res.sendStatus(500);
+      res.sendStatus(403);
     }
   });
 });
@@ -161,8 +185,11 @@ app.route("/API/USER/subscribe").post(function(req, res) {
 app.route("/API/USER/CONNECT").post(function(req, res) {
   userManager.connect(req.body.data).then(x => {
     if (x) {
+      console.log("oui")
       res.sendStatus(200);
     } else{
+      console.log("non")
+
       res.sendStatus(500);
     }
   });
@@ -219,7 +246,6 @@ app.route("/API/STORES/GET_CITIES").post(function(req, res) {
 });
 
 ///// PRICES ROUTES \\\\\
-
 app.route("/API/PRICES/ADD").post(function(req, res) {
   data = req.body;
   console.log(data);
