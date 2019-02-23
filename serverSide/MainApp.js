@@ -62,7 +62,6 @@ app.route("/index").get(function(req, res) {
 });
 
 ///// FOODS ROUTES \\\\\
-
 app.route("/API/FOODS/RANDOM").get(function(req, res) {
   foodManager.getFirstFood().then(x => res.send(x));
 });
@@ -72,6 +71,7 @@ app.route("/API/FOODS").post(function(req, res) {
   console.log(data);
   foodManager.postFoods(data).then(x => check_results(x, data, res));
 });
+
 
 // TODO COMPLETE
 app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
@@ -105,9 +105,7 @@ app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
 });
 
 ///// RECETTES ROUTES \\\\\
-
-app
-  .route("/API/RECETTES")
+app.route("/API/RECETTES")
   .post(function(req, res) {
     var title = req.param("title") || res.body.data.title;
     var content = req.param("content") || res.body.data.content;
@@ -132,6 +130,14 @@ app.route("/API/RECETTE/:title").get(function(req, res) {
 app.route("/API/RECETTES/SEARCH").post(function(req, res) {
   var title = req.param("title") || res.body.data.title;
   recetteManager.getRecettesByTitle(title).then(x => res.send(x));
+});
+
+app.route("/API/RECETTES/COMMENTS").post(function(req, res) {
+  var userID = req.param("userID") || res.body.data.userID;
+  var recipeID = req.param("recipeID") || res.body.data.recipeID;
+  var content = req.param("content") || res.body.data.recipeID;
+
+  recetteManager.addComment(userID, recipeID, content).then(x => res.send(x));
 });
 
 ///// STORES ROUTES \\\\\
@@ -192,36 +198,17 @@ function test(x, data, res) {
 }
 
 app.route("/API/STORES/GET_STORES_CITY").post(function(req, res) {
-  console.log("here");
   data = req.body;
-  console.log(data);
   storeManager.get_stores_by_city(data).then(x => res.send(x));
 });
 
 app.route("/API/STORES/GET_STORES_CITIES").post(function(req, res) {
-  console.log("here");
   data = req.body;
-  console.log(data);
   if (data["villes"] != null) {
     
-    console.time("6");
     storeManager.get_stores_by_cities(data["villes"]).then(x => {
       res.send({ stores: x });
     });
-    // l = [];
-    // for (i = 0; i < data["villes"].length; i++) {
-    //   storeManager
-    //     .get_stores_by_city({
-    //       ville: data["villes"][i]
-    //     })
-    //     .then(x => {
-    //       l.push(x);
-    //       if (l.length == data["villes"].length) {
-    //         console.log(l);
-    //         res.send({ stores: l });
-    //       }
-    //     });
-    // }
   } else {
     res.send("Clé manquante : villes");
   }

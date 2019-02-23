@@ -39,11 +39,11 @@ exports.postNouvelleRecette = function(title, content, product, image) {
       if (!err) {
         var resultat = db
           .collection("france")
-          .find({ id : { $regex: "[0123456789]*" }, product_name: product })
+          .find({ id: { $regex: "[0123456789]*" }, product_name: product })
           .limit(100)
           .toArray();
-        fun(db.collection("recette")
-        .insertOne({
+        fun(
+          db.collection("recette").insertOne({
             title: title,
             image: image,
             content: content,
@@ -65,13 +65,13 @@ exports.getRecette = function(title) {
         var resultat = db
           .collection("recette")
           .findOne({ title: title })
-          .then(x => 
-            {db.collection("recette").update(
-            { title: title },
-            { $inc: { visionageParticipatif: 1 } }
-          );
-          fun(x);
-        });
+          .then(x => {
+            db.collection("recette").update(
+              { title: title },
+              { $inc: { visionageParticipatif: 1 } }
+            );
+            fun(x);
+          });
       }
     });
   });
@@ -82,13 +82,11 @@ exports.getRecettesByTitle = function(title) {
     MongoClient.connect(url, function(err, client) {
       var db = client.db(dbName);
       if (!err) {
-        var resultat = db
-          .collection("recette")
-          .find({ title: { $regex: ".*" + title + ".*" } })
+        db.collection("recette")
+          .find({ title: { $regex : ".*" + title + ".*" } })
           .limit(100)
-          .toArray().then(x => 
-          fun(x)
-        );
+          .toArray()
+          .then(x => fun(x));
       }
     });
   });
@@ -150,10 +148,10 @@ exports.addComment = function(userID, recipeID, content) {
       var resultat = db
         .collection("comments")
         .insertOne({
-          recipeId: recipeID,
-          userId: userID,
-          content: content,
-          time: new Date().getTime()
+          recipeId : recipeID,
+          userId  :  userID,
+          content :  content,
+          time    :  new Date().getTime()
         })
         .then(
           fun({
