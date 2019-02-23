@@ -30,15 +30,16 @@ app.use(cookieParser());
 app.use(
   session({
     secret: "cacahueteCasseroleZoro",
-    connect: []
     // store: new express.session.MemoryStore({ reapInterval: 60000 * 10 })
   })
 );
 
 function requireLogin(req, res, next) {
   console.log("req print :");
+  console.log(req.sesion);
+
   if(req.session[req.cookies.connect]){
-    next();
+     next();
   } else {
     res.sendStatus(401);
   }
@@ -57,11 +58,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
+  res.header("Access-Control-Allow-Credentials",true);
   res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
   next();
 });
@@ -73,7 +75,7 @@ server.listen(port, function() {
 app.route("/index").get(requireLogin, function(req, res) {
   console.log(req.session);
   console.log();
-  res.cookie('x','val');
+  res.cookie('x','valu');
   req.session.user =  "x";
   res.sendfile("./DebugUI/xxx.html");
 });
@@ -200,12 +202,12 @@ app.route("/API/USER/subscribe").post(function(req, res) {
 app.route("/API/USER/CONNECT").post(function(req, res) {
   userManager.connect(req.body.data).then(x => {
     if (x) {
-      console.log("XXD");
       var x = hashCode("cacahueteCasseroleZoro"+ req.body.data.id)
       req.session[x] = true;
-      res.cookie('id',x);
+      res.cookie('connect', x );
       res.cookie('mail',req.body.data.id);
       res.send(x.data);
+      res.sendStatus(200);
     } else {
       res.sendStatus(400);
     }

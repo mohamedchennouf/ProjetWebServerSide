@@ -30,6 +30,7 @@ class MainFrame extends Component {
     let url = "http://localhost:8080/API/USER/CONNECT";
     fetch(url, {
       method: "POST",
+      credentials: 'include',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
