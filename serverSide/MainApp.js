@@ -134,6 +134,7 @@ app.route("/API/STORES/ADD").post(function(req, res) {
 
 app.route("/API/image/:id").get(function(req, res) {
   recetteManager.retrieveImage(req.params.id).then(x => {
+    console.log(x);
     if(x == undefined){
       res.sendStatus(403);
       return;

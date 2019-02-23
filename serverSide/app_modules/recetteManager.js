@@ -118,17 +118,18 @@ exports.retrieveImage = function(id) {
     MongoClient.connect(url, function(err, client) {
       var db = client.db(dbName);
 
-      var resultat = db.collection("recette").find({ _id: id }).toArray().then(x => {
-        console.log(x);
-        console.log("momo")
+      var resultat = db.collection("recette").findOne({ _id: ObjectId(id) }).then(x => {
         if (x != undefined) {
-          var image = x[0].image;
+          var image = x.image;
         }
-        if (image) {
+        if(image) {
           fun(base64_decode(image));
           return ;
-        }});
-        fun(undefined)
+        }
+        fun(undefined);
+      }
+      );
+        
       
     });
   });
@@ -136,6 +137,7 @@ exports.retrieveImage = function(id) {
 function base64_decode(base64str, file) {
   // create buffer object from base64 encoded string, it is important to tell the constructor that the string is base64 encoded
   var bitmap = new Buffer(base64str, "base64");
+  console.log(base64str);
   // write buffer to file
   console.log("******** File created from base64 encoded string ********");
   return bitmap;
