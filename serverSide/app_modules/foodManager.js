@@ -15,7 +15,7 @@ exports.getFirstFood = function () {
         var db = client.db(dbName);
         if (!err) {
           db.collection("france")
-            .find({}).limit(20).toArray()
+            .find({product_name_fr: {$exists: true}}).limit(100).toArray()
             .then(x => fun(x));
         } else {
           fun(-1);

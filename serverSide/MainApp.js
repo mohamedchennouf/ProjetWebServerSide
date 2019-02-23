@@ -8,32 +8,43 @@ const app = express();
 const server = require("http").Server(app);
 const port = process.env.PORT || 8080;
 const bodyParser = require("body-parser");
-
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
 // var multer = require('multer');
 // var multerData = multer();
 
 // app.configure(function() {
-//   // Allow parsing cookies from request headers
-//   this.use(express.cookieParser());
-//   // Session management
-//   this.use(
-//     express.session({
-//       // Private crypting key
-//       secret: "cacahueteCasseroleZoro",
-//       store: new express.session.MemoryStore({ reapInterval: 60000 * 10 })
-//     })
-//   );
 // });
 
+// Allow parsing cookies from request headers
+// app.use(cookiesParser.parse);
+// Session management
+// app.use(session.Session({
+//     // Private crypting key
+//     secret: "cacahueteCasseroleZoro",
+//     store: new express.session.MemoryStore({ reapInterval: 60000 * 10 })
+//   })
+// );
+
+app.use(cookieParser());
+app.use(
+  session({
+    secret: "cacahueteCasseroleZoro",
+    connect: []
+    // store: new express.session.MemoryStore({ reapInterval: 60000 * 10 })
+  })
+);
+
 function requireLogin(req, res, next) {
-  console.log(req.session);
-  if (req.session.username) {
-    // User is authenticated, let him in
+  console.log("req print :");
+  if(req.session[req.cookies.connect]){
     next();
   } else {
-    // Otherwise, we redirect him to login form
     res.sendStatus(401);
   }
+  // } else {
+  //   // Otherwise, we redirect him to login form
+  // }
 }
 
 app.use(express.static(__dirname + "/public"));
@@ -59,7 +70,13 @@ server.listen(port, function() {
   console.log("Server listening on port " + port);
 });
 
-app.route("/index").get(requireLogin,function(req, res) {
+app.route("/index").get(requireLogin, function(req, res) {
+  console.log(req.session);
+  console.log();
+  
+
+  res.cookie('x','val');
+  req.session.user =  "x";
   res.sendfile("./DebugUI/xxx.html");
 });
 
@@ -137,28 +154,23 @@ app.route("/API/RECETTES/SEARCH").post(function(req, res) {
   recetteManager.getRecettesByTitle(title).then(x => res.send(x));
 });
 
-app
-  .route("/API/RECETTES/COMMENTS")
-  .post(function(req, res) {
-    var userID = req.param("userID") || res.body.data.userID;
-    var recipeID = req.param("recipeID") || res.body.data.recipeID;
-    var content = req.param("content") || res.body.data.content;
-    recetteManager.addComment(userID, recipeID, content).then(x => res.send(x));
-  })
+app.route("/API/RECETTES/COMMENTS").post(function(req, res) {
+  var userID = req.param("userID") || res.body.data.userID;
+  var recipeID = req.param("recipeID") || res.body.data.recipeID;
+  var content = req.param("content") || res.body.data.content;
+  recetteManager.addComment(userID, recipeID, content).then(x => res.send(x));
+});
 
-  app
-  .route("/API/RECETTES/COMMENT/:recipeID").get(function(req, res) {
-    var recipeID = req.param("recipeID") || req.params.recipeID || res.body.data.recipeID;
-    recetteManager
-      .retrieveComments(recipeID)
-      .then(x => res.send(x));
-  });
+app.route("/API/RECETTES/COMMENT/:recipeID").get(function(req, res) {
+  var recipeID =
+    req.param("recipeID") || req.params.recipeID || res.body.data.recipeID;
+  recetteManager.retrieveComments(recipeID).then(x => res.send(x));
+});
 
 ///// STORES ROUTES \\\\\
 
 app.route("/API/STORES/ADD").post(function(req, res) {
   data = req.body;
-  console.log(data);
   foodManager.postFoods(data).then(x => test(x, data, res));
 });
 
@@ -170,8 +182,6 @@ app.route("/API/image/:id").get(function(req, res) {
     }
     res.contentType("png");
     res.write(x);
-
-    // res.sendStatus(200);
     res.end();
     res.connection.end();
     return;
@@ -179,9 +189,7 @@ app.route("/API/image/:id").get(function(req, res) {
 });
 
 app.route("/API/USER/subscribe").post(function(req, res) {
-  console.log(req.body.data);
   userManager.subscribe(req.body.data).then(x => {
-    console.log(x);
     if (x) {
       res.sendStatus(200);
     } else {
@@ -193,11 +201,12 @@ app.route("/API/USER/subscribe").post(function(req, res) {
 app.route("/API/USER/CONNECT").post(function(req, res) {
   userManager.connect(req.body.data).then(x => {
     if (x) {
-      console.log("oui");
-      res.sendStatus(200);
+      var x = hashCode(cacahueteCasseroleZoro + req.body.data.id)
+      res.session[x] = true;
+      res.cookie('id',x);
+      res.cookie('mail',req.body.data.id);
       res.send(x.data);
     } else {
-      console.log("non");
       res.sendStatus(400);
     }
   });
@@ -242,6 +251,7 @@ app
   .get(function(req, res) {
     storeManager.get_cities({ ville: "" }).then(x => check_cities(x, res));
   });
+  
 
 ///// PRICES ROUTES \\\\\
 app.route("/API/PRICES/ADD").post(function(req, res) {
@@ -291,27 +301,8 @@ function check_cities(x, res) {
   }
 }
 
-//main page
-app.route("/miammiameat").get(function(req, res) {
-  res.sendfile(pathClientSide + "/main.html");
-});
-//resources for main page
-app.route("/miammiameat/resources/logo").get(function(req, res) {
-  res.sendfile(pathClientSide + "/resources/logo.png");
-});
 
-app.route("/miammiameat/resources/header").get(function(req, res) {
-  res.sendfile(pathClientSide + "/resources/imgHeader.jpg");
-});
 
-app.route("/miammiameat/resources/menu").get(function(req, res) {
-  res.sendfile(pathClientSide + "/resources/menu.jpg");
-});
-
-app.route("/miammiameat/resources/search").get(function(req, res) {
-  res.sendfile(pathClientSide + "/resources/search.jpg");
-});
-
-app.route("/miammiameat/resources/defaultIMG").get(function(req, res) {
-  res.sendfile(pathClientSide + "/resources/defaultIMG.jpg");
-});
+ function hashCode(s){
+  return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
+}
