@@ -10,33 +10,19 @@ class searchAdvanced extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: ["Nom", "Ville", "Magasin", "Prix", "Marque"]
+      search: ["Nom", "Ville", "Magasin", "Prix", "Marque"],
+      result:["","","","","",[]]
     };
   }
 
-  onSubmit() {
-    // REQUETES POST
-    //let data = new HTMLFormElement();
-    //data.elements =  this.state.formulaire;
-    //let donneesFormulaire = new FormData(data);
+  changedResult(index,value){
+    var newResult = this.state.result;
+    newResult[index] = value;
+    this.setState({result : newResult});
+  }
 
-    let url = "http://localhost:8080/API/USER/subscribe";
-    console.log(this.state.formulaire);
-    fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(this.state.formulaire)
-    })
-      .then(function(responseJSON) {
-        responseJSON.json().then(function(res) {
-          // Maintenant res est un vrai objet JavaScript
-          let div = document.querySelector("#reponsePOST");
-          div.innerHTML = res.msg;
-        });
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
+  changedKeyElement(value){
+    console.log(value.length)
   }
 
   render() {
@@ -48,6 +34,7 @@ class searchAdvanced extends Component {
             className="search-input-aliment"
             indice={index}
             type="search"
+            onChange = {e => this.changedResult(index,e.target.value)}
           />
         </div>
       );
@@ -63,7 +50,7 @@ class searchAdvanced extends Component {
         <div className="advancedSearchSection">
           {searchLine}
           <div>Mot-clé
-            <Select2 multiple options={prop} className="search-input-aliment" />
+            <Select2 multiple options={prop} className="search-input-aliment" onChange={e => this.changedKeyElement(prop)}/>
           </div>
           <Link to="/searchresult">
             <button className="advancedSearchButton">Search</button>
