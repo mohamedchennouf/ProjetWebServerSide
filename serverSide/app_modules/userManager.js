@@ -44,11 +44,11 @@ exports.connect = function(identify) {
     MongoClient.connect(url, function(err, client) {
       var db = client.db(dbName);
 
-      var user = identify.user;
+      var user = identify.id;
       var pass = identify.password;
 
       if (!err) {
-        var resultat = db
+          db
           .collection("user")
           .find({ user: user })
           .limit(100)

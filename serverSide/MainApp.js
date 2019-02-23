@@ -158,6 +158,16 @@ app.route("/API/USER/subscribe").post(function(req, res) {
   });
 });
 
+app.route("/API/USER/CONNECT").post(function(req, res) {
+  userManager.connect(req.body.data).then(x => {
+    if (x) {
+      res.sendStatus(200);
+    } else{
+      res.sendStatus(500);
+    }
+  });
+});
+
 function test(x, data, res) {
   if (x.length == 0) {
     if (data.hasOwnProperty("nom")) {
