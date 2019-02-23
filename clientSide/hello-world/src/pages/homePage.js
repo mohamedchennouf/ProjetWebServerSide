@@ -53,17 +53,12 @@ class HomePage extends Component {
     fetch('http://localhost:8080/API/RECETTES?res=6')
       .then(response => response.json())
       .then(data => {
-        this.setState({ bestRecette: data });
-      })
-      .catch(e => console.log(e));
-  }
-
-
-  getImg(id) {
-    fetch('http://localhost:8080/API/image/'+id)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({ img: data });
+        var myData = data;
+        myData.forEach(function(element){
+          element.urlImg='http://localhost:8080/API/image/'+element._id;
+        });
+        console.log(myData);
+        this.setState({ bestRecette: myData });
       })
       .catch(e => console.log(e));
   }
@@ -77,7 +72,7 @@ class HomePage extends Component {
         return (
           <Col sm>
             <div className="cardRecipe">
-              <img className="cardimg" name={el.title} indice={index} alt="" src={this.getImage(index)} ></img>
+              <img className="cardimg" name={el.title} indice={index} alt="" src={el.urlImg} ></img>
               <div className="cardname">{el.title}</div>
             </div>
           </Col>)
@@ -90,7 +85,7 @@ class HomePage extends Component {
         return (
           <Col sm>
             <div className="cardRecipe">
-              <img className="cardimg" name={el.title} indice={index} alt="" src={this.getImage(index)} ></img>
+              <img className="cardimg" name={el.title} indice={index} alt="" src={el.urlImg} ></img>
               <div className="cardname">{el.title}</div>
             </div>
           </Col>)
