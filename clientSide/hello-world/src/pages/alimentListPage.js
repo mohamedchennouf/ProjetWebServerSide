@@ -23,10 +23,61 @@ class alimentListPage extends Component {
     this.getAliment()
   }
 
+  onSearch = () => {
+    console.log(this.state.result[0]);
+    console.log(this.state.result[1]);
+    console.log(this.state.result[2]);
+    console.log(this.state.result[3]);
+    console.log(this.state.result[4]);
+    let body =  { nom : this.state.result[0] , ville : this.state.result[1], magasin : this.state.result[2], prix : this.state.result[3],
+      Comparateur: "<=", marque: this.state.result[4]};
+   
+    fetch(settings.url + "API/FOODS/ADVANCE_SEARCH", {
+      method: "POST",
+      credentials: 'include',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    }).then(response => response.json(response))
+    .then(response => this.setState({ alimentList: response }))
+    .catch(function (err) {
+        console.error(err);
+      });
+  }
+
+  onRefresh = () => {
+    fetch(settings.url + 'API/FOODS/RANDOM')
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ alimentList: data });
+      })
+      .catch(e => console.error(e));
+  }
+
+
+
+
   changedResult(index, value) {
     var newResult = this.state.result;
     newResult[index] = value;
     this.setState({ result: newResult });
+  }
+
+  changedSelect(value) {
+    let alim = [];
+    alim = this.state.alimentList;
+    if (value === "Price") {
+      alim.sort(function (a, b) {
+        return a.price - b.price;
+      });
+    } else {
+      alim.sort(function (a, b) {
+        return a.custom_score - b.custom_score;
+      });
+    }
+    this.setState({ alimentList: alim })
   }
 
   getAliment() {
@@ -64,14 +115,20 @@ class alimentListPage extends Component {
     let elementStr = "<div className='flex'>\n";
     this.state.alimentList.map(
       (el, index) => {
+
+        var score = 0
+        if (el.custom_score) {
+          score = el.custom_score;
+        }
+
         if (index !== 0) {
-          elementStr += "<div className='aliment'>\n <div>" + el.product_name + "</div>\n <div>Nutrition : " + el.nutrition_data_per + "</div> \n<div>quantity : " + el.quantity + "</div> \n</div>";
+          elementStr += "<div className='aliment'>\n <div>" + el.product_name + "</div>\n <div> <span >Nutrition</span> : " + el.nutrition_data_per + "</div> \n<div> <span >Quantity </span>: " + el.quantity + "</div> \n   <div> <span>Score : </span> " + score + "</div>   <div> <span>Price : </span>" + el.price + " </div> </div>";
         }
         if (index % 5 === 0 && index > 0) {
           elementStr += "</div>\n<div className='flex' >\n"
         }
         if (index === this.state.alimentList.length - 1) {
-          elementStr += "<div className='aliment'>\n <div>" + this.state.alimentList[0].product_name + "</div>\n <div>Nutrition : " + this.state.alimentList[0].nutrition_data_per + "</div> \n<div>quantity : " + this.state.alimentList[0].quantity + "</div> \n</div> \n</div>";
+          elementStr += "<div className='aliment'>\n <div>" + this.state.alimentList[0].product_name + "</div>\n <div> <span >Nutrition</span> : " + this.state.alimentList[0].nutrition_data_per + "</div> \n<div><span>Quantity </span> : " + this.state.alimentList[0].quantity + "</div>    <div><span>Score : </span> " + score + " </div>  <div> <span>Price : </span>" + el.price + " </div>   \n</div> \n</div>";
         }
       }
     );
@@ -85,12 +142,13 @@ class alimentListPage extends Component {
 
           <Col className="specialCol">
             <button className="advancedSearchButton" onClick={this.onSearch}> Search </button>
+            <button className="advancedSearchButton" onClick={this.onRefresh}> Refresh </button>
           </Col>
 
 
           <Col className="specialCol2">
             <span className="title"> Filter by  </span>
-            <select className="form-control size-form" id="exampleFormControlSelect1">
+            <select className="form-control size-form" id="exampleFormControlSelect1" onChange={e => this.changedSelect(e.target.value)}>
               <option>Price</option>
               <option>Score</option>
             </select>

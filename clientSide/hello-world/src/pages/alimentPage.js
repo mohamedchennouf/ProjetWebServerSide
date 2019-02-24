@@ -13,11 +13,12 @@ class alimentPage extends Component {
           alimentIMG:  '',
           name: "",
           text: "",
-          aliments: "",
+          aliments: [],
           id:"",
           poceBlo:0,
           commentary:[],
-          pseudo:[]
+          pseudo:[],
+          price : 0
       };
       this.poceBloPost = this.poceBloPost.bind(this);
     }
@@ -39,6 +40,7 @@ class alimentPage extends Component {
                 credentials: "include"
                 ,
                 headers: {
+                'credentials': "include",
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'},
                 body: JSON.stringify({userId:  (cookie.get("mail") || localStorage.getItem("mail") || "" ) } )
@@ -92,10 +94,11 @@ class alimentPage extends Component {
     }
 
     setData(res){
+        console.log(res)
         this.setState({name : res.title});
         this.setState({alimentIMG : settings.url+'API/image/' + res._id });
         this.setState({text : res.content});
-        this.setState({aliments : res.ingredient});
+        this.setState({aliments : res.ingredients[0]});
         this.setState({poceBlo : res.poceBlo});
         this.setState({id : res._id});
         this.commentsFetch();
@@ -119,15 +122,25 @@ class alimentPage extends Component {
     }
 
     render() {
+        let list = this.state.aliments.map((elm) =>
+            <div>{elm.product_name} (id: {elm._id})</div>
+            );
+
+        var price =0;
+        this.state.aliments.map((elm) =>
+            price += elm.price    
+        );
+
 
         let insideContent = <div className="body-content">
         <div className="upperBlock">
             <div className="textSection">
-                <div className="textTitle">decription : </div>
+                <div className="textTitle">Description : </div>
                 {this.state.text}
                 <br></br>
-                <div className="textTitle">ingredients : </div>
-                {this.state.aliments}
+                <div className="textTitle">Ingredients : </div>
+                {list}      
+                <div className="textTitle">Price :  <span className="price"> {price} €</span></div>
             </div>
             <div className="alimentBlock">
                 <div className="alimentName">
