@@ -10,8 +10,20 @@ class searchAdvanced extends Component {
     this.state = {
       search: ["Nom", "Ville", "Magasin", "Prix", "Marque"],
       result: ["", "", "", "", ""],
-      keyWord:[]
+      keyWord:[],
+      select : (<Select2
+      multiple
+      options={{
+        tags: true,
+        multiple: true
+      }}
+      className="search-input-aliment"
+      
+      // onChange={e => this.changedKeyElement(e)}
+    />)
+
     };
+    
     this.changedKeyElement = this.changedKeyElement.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -37,7 +49,7 @@ class searchAdvanced extends Component {
     }
     console.log("keyword : " + this.state.keyWord.length);
     console.log("res : " + result.length)
-    if(this.state.keyWord != result){
+    if(this.state.keyWord.length !== result.length){
       this.setState({keyWord : result});
     }
     return result;
@@ -74,12 +86,7 @@ class searchAdvanced extends Component {
           {searchLine}
           <div>
             Mot-clé
-            <Select2
-              multiple
-              options={prop}
-              className="search-input-aliment"
-              onChange={e => this.changedKeyElement(e)}
-            />
+            {this.state.select}
           </div>
           <Link to="/advancedresult">
             <button className="advancedSearchButton" onClick={this.onSubmit}>Search</button>
