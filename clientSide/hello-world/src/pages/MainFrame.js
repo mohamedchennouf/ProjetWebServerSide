@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './MainFrame.css';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { withCookies, Cookies } from 'react-cookie';
+import { Cookies } from 'react-cookie';
 import settings from './../settings';
 
 
@@ -25,6 +25,7 @@ class MainFrame extends Component {
 
 
   componentDidMount() {
+  
   }
 
   login() {
@@ -34,7 +35,6 @@ class MainFrame extends Component {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        
       },
       mode: 'cors',
       id: "",
