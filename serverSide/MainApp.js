@@ -101,14 +101,13 @@ app.route("/API/FOODS/MAJSCORE").get(function (req, res) {
   });
 });
 
-app.route("/API/FOODS/RANDOM_PRICE").post(function (req, res) {
-  data = req.body;
+app.route("/API/FOODS/RANDOM_PRICE").get(function (req, res) {
   console.log("Start data recovery");
-  foodManager.getAllFoodsWithName(data["i"]).then(x => {
+  foodManager.getAllFoodsWithName(0).then(x => {
     console.log("End of data recovery");
     var size = x.length;
     var k = 0;
-    for (i = 0; i < 500; i++) {
+    for (i = 0; i < 2000; i++) {
         foodManager.maj_prix(x[i]).then(y => {
           k++;
           console.log("Done " + k + " / " + size);
@@ -216,8 +215,8 @@ app.route("/API/USER/CONNECT").post(function (req, res) {
       req.session[x] = true;
       res.send(x.data);
       // ,domain:"client-testt.herokuapp.com"
-      res.cookie('connect', x ,           {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false,domain:"server-miammiameat.herokuapp.com"});
-      res.cookie('mail',req.body.data.id, {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false,domain:"server-miammiameat.herokuapp.com"});
+      res.cookie('connect', x ,           {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false});
+      res.cookie('mail',req.body.data.id, {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false});
       // res.sendStatus(200);
 
       res.end();
