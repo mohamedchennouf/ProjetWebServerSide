@@ -16,10 +16,10 @@ class MainFrame extends Component {
       password: "",
       connected: false
     };
-    this.login = this.login.bind(this);
-    this.onChangeId = this.onChangeId.bind(this);
-    this.onChangePass = this.onChangePass.bind(this);
-  }
+    this.login         =        this.login.bind(this);
+    this.onChangeId    =   this.onChangeId.bind(this);
+    this.onChangePass  = this.onChangePass.bind(this);
+}
 
   componentDidMount() {}
 
@@ -40,6 +40,7 @@ class MainFrame extends Component {
       .then(data => {
         console.log(data);
         if (data.status === 200) {
+          // data.headers
           console.log("toto");
           this.setState({ connected: true });
         }
@@ -71,8 +72,9 @@ class MainFrame extends Component {
 
   render() {
     console.log("ok momo");
-
-    var cookie = new Cookies({});
+    
+    var cookie = new Cookies();
+    
     if (this.props.inside !== this.state.inside) {
       this.state.inside = this.props.inside;
     }
