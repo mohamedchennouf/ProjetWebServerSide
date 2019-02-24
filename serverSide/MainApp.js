@@ -12,6 +12,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const timeout = require('connect-timeout')
 
+console.log(process.env);
 app.use(timeout(120000));
 // var multer = require('multer');
 // var multerData = multer();
