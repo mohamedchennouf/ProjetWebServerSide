@@ -92,15 +92,15 @@ function convert(data) {
         }
       }
       else if (field == "score") {
-        json[dict[field]] = {$lte: data[field]};
+        json[dict[field]] = { $lte: data[field] };
       }
       else {
         json[dict[field]] = new RegExp(data[field], 'i');
       }
     };
   }
-console.log(json);
-return json;
+  console.log(json);
+  return json;
 };
 
 exports.get_all_foods_size = function () {
@@ -132,7 +132,7 @@ exports.getAllFoodsWithName = function (i) {
         if (!err) {
           db.collection("france")
             .find({ product_name_fr: { $exists: true } })
-            .skip(i * 500) 
+            .skip(i * 500)
             .limit(500)
             .toArray()
             .then(x => fun(x));
@@ -250,29 +250,61 @@ exports.maj_score = function (data) {
   );
 }
 
-exports.maj_prix = function (data) {
+exports.fixe_score = function (data) {
   return new Promise(fun => {
-    if (data['nutriments'] != null) {
-        MongoClient.connect(
-          url,
-          { useNewUrlParser: true },
-          function (err, client) {
-            var db = client.db(dbName);
-            if (!err) {
-              var prix = parseFloat(getRandomFloat(0, 10).toFixed(2));
-              console.log(prix);
-              db.collection("france").updateOne(
-                { _id: data['_id'] },
-                { $set: { price: prix } },
-                { upsert: true }
-              ).then(x => { fun(x); })
-            } else {
-              fun(-1);
-            }
-          }
-        );
+    MongoClient.connect(
+      url,
+      { useNewUrlParser: true },
+      function (err, client) {
+        var db = client.db(dbName);
+        if (!err) {
+          db.collection("france").find({}).forEach(function (bouya) {
+            db.collection("france").update({ _id: bouya._id }, { $set: { custom_score: Math.floor(Math.random() * 100) + 42 } })
+          }).then(x => fun(x));
+        } else {
+          fun(-1);
+        }
       }
-    }
+    );
+  }
+  );
+}
+
+exports.maj_prix = function () {
+  return new Promise(fun => {
+    MongoClient.connect(
+      url,
+      { useNewUrlParser: true },
+      function (err, client) {
+        var db = client.db(dbName);
+        if (!err) {
+          db.collection("france").find({}).forEach(function (bouya) {
+            db.collection("france").update({ _id: bouya._id }, { $set: { price: parseFloat(getRandomFloat(0, 10).toFixed(2)) } })
+          }).then(x => fun(x));
+        } else {
+          fun(-1);
+        }
+      }
+    );
+  }
+  );
+}
+
+exports.deletefield = function () {
+  return new Promise(fun => {
+    MongoClient.connect(
+      url,
+      { useNewUrlParser: true },
+      function (err, client) {
+        var db = client.db(dbName);
+        if (!err) {
+          db.collection("france").update({}, { $unset: { custom_score: {$gte: 0} }}, { multi: true }).then(x => fun(x));;
+        } else {
+          fun(-1);
+        }
+      }
+    );
+  }
   );
 }
 
