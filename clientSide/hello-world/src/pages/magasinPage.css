@@ -1,7 +1,7 @@
 
 .cityBlock{
     background-color: rgb(140,30,12);
-    height: 38px;
+    height: 50px;
     overflow: hidden;
     padding-top: 10px;
     display: bloc;
@@ -10,7 +10,6 @@
     border-radius: 20px;
     border: none;
     transition-property: padding-block-end,height;
-    transition-duration: 1s;
 }
 .cityBlock:hover{
     height:auto; 

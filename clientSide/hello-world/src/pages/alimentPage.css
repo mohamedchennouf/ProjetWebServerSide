@@ -1,7 +1,7 @@
 
 .alimentBlock{
     display: block;
-    margin-left: 80px;
+    float:left;
     margin-top: 10px;
     padding-top: 10px;
     background : rgb(193, 73, 30);
@@ -22,7 +22,8 @@
 }
 
 .textSection{
-    width : 700px;
+    min-width: 500px;
+    width : 80%;
 }
 
 .poceBloBloc{
@@ -55,6 +56,7 @@
 .upperBlock{
     display: flex;
     width : 90%;
+    min-width : 800px;
     margin-top:10px;
     margin-left: 50px;
     background: rgb(200, 200, 200);
