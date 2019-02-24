@@ -12,7 +12,6 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const timeout = require('connect-timeout')
 
-console.log(process.env);
 app.use(timeout(120000));
 // var multer = require('multer');
 // var multerData = multer();
@@ -44,9 +43,6 @@ function requireLogin(req, res, next) {
   } else {
     res.sendStatus(401);
   }
-  // } else {
-  //   // Otherwise, we redirect him to login form
-  // }
 }
 
 app.use(express.static(__dirname + "/public"));
@@ -293,8 +289,6 @@ function check_cities(x, res) {
   }
 }
 
-
-
- function hashCode(s){
+function hashCode(s){
   return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
 }
