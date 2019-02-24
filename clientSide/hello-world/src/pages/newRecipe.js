@@ -25,10 +25,10 @@ class inscription extends Component {
             body: JSON.stringify( body)
         })
         .then(function(responseJSON) {
-            console.log(responseJSON);
+            //console.log(responseJSON);
         })
         .catch(function (err) {
-            console.log(err);
+            console.err(err);
         });
     }
 
@@ -44,7 +44,6 @@ class inscription extends Component {
         imageReader.onloadend = () => {
             loadedImage = new Uint8Array(imageReader.result);
             b64encoded = btoa(String.fromCharCode.apply(null, loadedImage))
-            console.log(b64encoded);
             this.setState({"file":b64encoded});
         } 
         imageReader.readAsArrayBuffer(e.target.files[0]);

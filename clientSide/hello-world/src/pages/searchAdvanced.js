@@ -55,14 +55,7 @@ class searchAdvanced extends Component {
       tags: true,
       multiple: true
     };
-    var v = (
-      <Select2
-        multiple
-        options={prop}
-        className="search-input-aliment"
-        onChange={e => this.changedKeyElement(e)}
-      />
-    );
+    
 
     let insideContent = (
       <div className="body-content">

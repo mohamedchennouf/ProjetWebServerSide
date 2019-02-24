@@ -47,7 +47,7 @@ class HomePage extends Component {
           });
       })
       .catch(function (err) {
-        console.log(err);
+        console.err(err);
       });
   }
 
@@ -59,7 +59,6 @@ class HomePage extends Component {
         myData.forEach(function (element) {
           element.urlImg = 'http://localhost:8080/API/image/' + element._id;
         });
-        console.log(myData);
         this.setState({ bestRecette: myData });
       })
       .catch(e => console.log(e));

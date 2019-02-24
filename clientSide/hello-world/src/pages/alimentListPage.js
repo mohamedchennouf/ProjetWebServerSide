@@ -31,7 +31,7 @@ class alimentListPage extends Component {
         });
         this.setState({ alimentList: myData });
       })
-      .catch(e => console.log(e));
+      .catch(e => console.err(e));
   }
 
 
@@ -43,7 +43,6 @@ class alimentListPage extends Component {
 
     let aliments = this.state.alimentList.slice(0, 5).map(
       (el) => {
-        console.log(el);
         return <div className="aliment">
           <div>{el.product_name}</div>
           <div>Nutrition : {el.nutrition_data_per}</div>

@@ -21,7 +21,7 @@ class advancedSearchResult extends Component {
           .then(response => response.json())
           .then(response => this.constructTabStore(response.stores))
           .catch(function(err) {
-            console.log(err);
+            console.err(err);
           });
       }
 

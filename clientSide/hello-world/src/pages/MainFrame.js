@@ -38,12 +38,11 @@ class MainFrame extends Component {
       id: "",
       body: JSON.stringify({ data: { id: this.state.id, password: this.state.password } })
     }).then(data => {
-      console.log(data);
         if(data.status=== 200){
           this.setState({ isLoggedIn: true });
         }
       }).catch(function (err) {
-        console.log(err);
+        console.err(err);
       });
   }
 

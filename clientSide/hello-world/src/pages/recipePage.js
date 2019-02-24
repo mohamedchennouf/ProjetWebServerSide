@@ -31,7 +31,7 @@ class recipePage extends Component {
         });
         this.setState({ menusList: myData });
       })
-      .catch(e => console.log(e));
+      .catch(e => console.err(e));
   }
 
   newRecipe(newMenu, newImg, newText) {
@@ -54,7 +54,6 @@ class recipePage extends Component {
 
 
   render() {
-    console.log(this.state);
     let recipeBlockList = this.state.menusList.map(
       (el, index) => {
         return <Link to={this.urlCreatorDetail(el.title)}>
