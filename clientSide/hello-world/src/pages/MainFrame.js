@@ -40,7 +40,9 @@ class MainFrame extends Component {
       id: "",
       body: JSON.stringify({ data: { id: this.state.id, password: this.state.password } })
     }).then(data => {
+      console.log(data);
       if (data.status === 200) {
+        console.log("toto");
         this.setState({connected: true});
       }
     }).catch(function (err) {
