@@ -12,7 +12,7 @@ class MainFrame extends Component {
     this.state = {
       inside: props.inside,
       menus: ['Home', 'Recipe', 'Aliments', "Shops"],
-      topRecipes: ['couscous', 'pâtes', 'unknown'],
+      topRecipes: [],
       linkList: ["/", "/recipe", "/alimentList", "/shops"],
       id: "",
       password: "",

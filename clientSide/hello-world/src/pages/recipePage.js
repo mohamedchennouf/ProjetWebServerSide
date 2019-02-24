@@ -9,8 +9,8 @@ class recipePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menusList: [{ title: "Couscous", content: "je fait du couscous avec toutes la famille" }, { title: "Pâtes", content: "j'aime les banane" }, { title: "Gatan", content: "Whar" }],
-      imgMenusRecipes: ['resources/couscous.png', 'resources/pâte.png', 'resources/unknown.png'],
+      menusList: [],
+      imgMenusRecipes: [],
       connected: true
     }
   }

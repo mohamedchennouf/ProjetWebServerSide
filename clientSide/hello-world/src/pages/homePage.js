@@ -10,8 +10,8 @@ class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      bestRecette: [{ title: 'couscous' }, { title: 'pâtes' }, { title: 'unknown' }],
-      imgTopRecipes: ['resources/couscous.png', 'resources/pâte.png', 'resources/unknown.png'],
+      bestRecette: [],
+      imgTopRecipes: [],
       search: "",
       urlSearch: ""
     }
