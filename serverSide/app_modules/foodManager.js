@@ -46,6 +46,29 @@ exports.postFoods = function (data) {
   });
 };
 
+exports.postFoodsOne = function (data) {
+  var request = convert(data);
+  return new Promise(fun => {
+    MongoClient.connect(
+      url,
+      { useNewUrlParser: true },
+      function (err, client) {
+        var db = client.db(dbName);
+        if (!err) {
+          db.collection("france")
+            .find(request)
+            .limit(1)
+            .toArray()
+            .then(x => fun(x));
+        } else {
+          fun(-1);
+        }
+      }
+    );
+  });
+};
+
+
 function convert(data) {
   var dict = {};
   var json = {};
@@ -98,6 +121,28 @@ exports.get_all_foods_size = function () {
     );
   });
 }
+
+exports.getAllFoodsWithName = function (i) {
+  return new Promise(fun => {
+    MongoClient.connect(
+      url,
+      { useNewUrlParser: true },
+      function (err, client) {
+        var db = client.db(dbName);
+        if (!err) {
+          db.collection("france")
+            .find({ product_name_fr: { $exists: true } })
+            .skip(i * 500) 
+            .limit(500)
+            .toArray()
+            .then(x => fun(x));
+        } else {
+          fun(-1);
+        }
+      }
+    );
+  });
+};
 
 exports.get_foods_with_nutriments = function () {
   return new Promise(fun => {
@@ -203,6 +248,36 @@ exports.maj_score = function (data) {
     }
   }
   );
+}
+
+exports.maj_prix = function (data) {
+  return new Promise(fun => {
+    if (data['nutriments'] != null) {
+        MongoClient.connect(
+          url,
+          { useNewUrlParser: true },
+          function (err, client) {
+            var db = client.db(dbName);
+            if (!err) {
+              var prix = parseFloat(getRandomFloat(0, 10).toFixed(2));
+              console.log(prix);
+              db.collection("france").updateOne(
+                { _id: data['_id'] },
+                { $set: { price: prix } },
+                { upsert: true }
+              ).then(x => { fun(x); })
+            } else {
+              fun(-1);
+            }
+          }
+        );
+      }
+    }
+  );
+}
+
+function getRandomFloat(min, max) {
+  return Math.random() * (max - min) + min;
 }
 
 function compute_score(nutriments) {
