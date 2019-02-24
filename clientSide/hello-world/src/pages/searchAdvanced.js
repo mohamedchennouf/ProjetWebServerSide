@@ -9,9 +9,11 @@ class searchAdvanced extends Component {
     super(props);
     this.state = {
       search: ["Nom", "Ville", "Magasin", "Prix", "Marque"],
-      result: ["", "", "", "", "", []]
+      result: ["", "", "", "", ""],
+      keyWord:[]
     };
     this.changedKeyElement = this.changedKeyElement.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   changedResult(index, value) {
@@ -33,7 +35,16 @@ class searchAdvanced extends Component {
         result.push(opt.value);
       }
     }
+    console.log("keyword : " + this.state.keyWord.length);
+    console.log("res : " + result.length)
+    if(this.state.keyWord != result){
+      this.setState({keyWord : result});
+    }
     return result;
+  }
+
+  onSubmit(){
+    localStorage.setItem("advancedR", this.state.result)
   }
 
   render() {
@@ -70,8 +81,8 @@ class searchAdvanced extends Component {
               onChange={e => this.changedKeyElement(e)}
             />
           </div>
-          <Link to="/searchresult">
-            <button className="advancedSearchButton">Search</button>
+          <Link to="/advancedresult">
+            <button className="advancedSearchButton" onClick={this.onSubmit}>Search</button>
           </Link>
         </div>
       </div>

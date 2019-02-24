@@ -105,7 +105,7 @@ app
   .post(requireLogin,function(req, res) {
     var title = req.param("title") || res.body.data.title;
     var content = req.param("content") || res.body.data.content;
-    var product = req.param("product") || res.body.data.product;
+    var product = req.param("product") || res.body.data.product || "";
     var image = req.param("image") || res.body.data.image;
     recetteManager
       .postNouvelleRecette(title, content, product, image)

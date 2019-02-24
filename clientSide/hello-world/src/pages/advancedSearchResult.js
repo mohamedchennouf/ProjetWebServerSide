@@ -5,7 +5,16 @@ import MainFrame from "./MainFrame";
 class advancedSearchResult extends Component {
     constructor(props) {
       super(props);
-      this.state = {};
+      this.state = {
+        advancedArgs : ["", "", "", "", "", []]
+      };
+    }
+
+    componentWillMount() {
+      this.setState({advancedArgs : localStorage.getItem("advancedR")});
+      console.log(localStorage.getItem("advancedR"));
+      localStorage.clear();
+      console.log(this.state.advancedArgs)
     }
 
     searchFetch() {
@@ -16,7 +25,7 @@ class advancedSearchResult extends Component {
             Accept: "application/json",
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({  })
+          body: JSON.stringify({magasin : "", prix : "", Comparateur: "<=", ville :"", motCle: "", nom: "", marque:""})
         })
           .then(response => response.json())
           .then(response => this.constructTabStore(response.stores))
