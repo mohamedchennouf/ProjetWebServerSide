@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './searchResultPage.css';
 import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import MainFrame from './MainFrame';
+import settings from './../settings';
 class searchPage extends Component {
 
   constructor(props) {
@@ -26,8 +27,7 @@ class searchPage extends Component {
   }
 
   searchFoodFetch(){
-    let url = "http://localhost:8080/API/RECETTES/SEARCH";
-    fetch(url, {
+    fetch(settings.url+ "API/RECETTES/SEARCH", {
         method: "POST",
         headers: {
         'Accept': 'application/json',
@@ -35,7 +35,6 @@ class searchPage extends Component {
         body:JSON.stringify({'title' : this.urlParser()})
     })
     .then(res => res.json())
-    //.then(res => console.log(res))
     .then(res => this.stateParse(res))
     .catch(function (err) {
         console.error(err);
@@ -51,7 +50,7 @@ class searchPage extends Component {
     var newStringMenusText = [];
     for(var i =0; i < res.length ; i++){
       newMenuList.push(res[i].title)
-      newImgMenusRecipes.push('http://localhost:8080/API/image/' + res[i]._id)
+      newImgMenusRecipes.push(settings.url+'API/image/' + res[i]._id)
       newStringMenusText.push(res[i].content)
     }
     this.setState({menusList : newMenuList})

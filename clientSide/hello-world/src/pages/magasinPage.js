@@ -3,6 +3,7 @@ import "./magasinPage.css";
 import MainFrame from "./MainFrame";
 import ReactDOM from "react-dom";
 import { puts } from "util";
+import settings from './../settings';
 
 class magasinJson {
   constructor(id, nom, adresse, ville, longitude, latitude) {
@@ -31,8 +32,7 @@ class magasinPage extends Component {
   }
 
   storeFetch() {
-    let url = "http://localhost:8080/API/STORES/GET_STORES_CITIES";
-    fetch(url, {
+    fetch(settings.url+"API/STORES/GET_STORES_CITIES", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -60,8 +60,7 @@ class magasinPage extends Component {
   }
 
   cityFetch() {
-    let url = "http://localhost:8080/API/STORES/GET_CITIES";
-    fetch(url, {
+    fetch(settings.url+"API/STORES/GET_CITIES", {
       method: "POST",
       headers: {
         Accept: "application/json",

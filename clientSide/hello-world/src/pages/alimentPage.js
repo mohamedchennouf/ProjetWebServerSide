@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './alimentPage.css';
 import MainFrame from './MainFrame';
 import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import settings from './../settings';
 
 class alimentPage extends Component {
 
@@ -36,8 +37,7 @@ class alimentPage extends Component {
     }
 
     recipeFetch(){
-        let url = "http://localhost:8080/API/RECETTE/" + this.urlParser();
-        fetch(url, {
+        fetch(settings.url + "API/RECETTE/"+ this.urlParser() , {
             method: "GET",
             headers: {
             'Accept': 'application/json',
@@ -51,8 +51,7 @@ class alimentPage extends Component {
     }
 
     commentsFetch(){
-        let url = "http://localhost:8080/API/RECETTES/COMMENT/" + this.state.id;
-        fetch(url, {
+        fetch(settings.url +"API/RECETTES/COMMENT/" + this.state.id, {
             method: "GET",
             credentials: 'include',
             headers: {
@@ -79,7 +78,7 @@ class alimentPage extends Component {
 
     setData(res){
         this.setState({name : res.title});
-        this.setState({alimentIMG : 'http://localhost:8080/API/image/' + res._id });
+        this.setState({alimentIMG : settings.url+'API/image/' + res._id });
         this.setState({text : res.content});
         this.setState({aliments : res.ingredient});
         this.setState({poceBlo : res.poceBlo});

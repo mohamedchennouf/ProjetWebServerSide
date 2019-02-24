@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './recipePage.css';
 import MainFrame from './MainFrame';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import settings from './../settings';
 
 class recipePage extends Component {
 
@@ -20,14 +21,13 @@ class recipePage extends Component {
   }
 
 
-
   getRecipe() {
-    fetch('http://localhost:8080/API/RECETTES?res=50')
+    fetch(settings.url+'API/RECETTES?res=50')
       .then(response => response.json())
       .then(data => {
         var myData = data;
         myData.forEach(function (element) {
-          element.urlImg = 'http://localhost:8080/API/image/' + element._id;
+          element.urlImg = settings.url+'API/image/' + element._id;
         });
         this.setState({ menusList: myData });
       })
@@ -42,10 +42,6 @@ class recipePage extends Component {
 
   getImage(index) {
     return this.state.imgMenusRecipes[index];
-  }
-
-  addNewRecipe() {
-    console.log("zzzooss");
   }
 
   urlCreatorDetail(el){

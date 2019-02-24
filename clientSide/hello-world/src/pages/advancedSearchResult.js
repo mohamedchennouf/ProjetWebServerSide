@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./advancedSearchResult.css";
 import MainFrame from "./MainFrame";
+import settings from './../settings';
 
 class advancedSearchResult extends Component {
     constructor(props) {
@@ -19,9 +20,8 @@ class advancedSearchResult extends Component {
     }
 
     searchFetch() {
-        let url = "http://localhost:8080/API/PRICE";
         var args = this.state.advancedArgs
-        fetch(url, {
+        fetch(settings.url + "API/PRICE", {
           method: "POST",
           headers: {
             Accept: "application/json",

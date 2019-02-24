@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './newRecipe.css';
 import MainFrame from './MainFrame';
+import settings from './../settings';
 class inscription extends Component {
 
     constructor(props) {
@@ -15,9 +16,8 @@ class inscription extends Component {
     }
 
     addRecipe(){
-        let url = "http://localhost:8080/API/RECETTES";
         let body = {title:this.state.formulaire[0],content:this.state.formulaire[1],product:this.state.formulaire[2],image:this.state.file};
-        fetch(url, {
+        fetch(settings.url+ "API/RECETTES", {
             method: "POST",
             credentials: 'include',
             headers: {

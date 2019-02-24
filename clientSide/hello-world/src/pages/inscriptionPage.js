@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './inscriptionPage.css';
 import MainFrame from './MainFrame';
+import settings from './../settings';
 class inscription extends Component {
 
     constructor(props) {
@@ -13,13 +14,7 @@ class inscription extends Component {
     }
 
     onSubmit(){
-       // REQUETES POST
-        //let data = new HTMLFormElement();
-        //data.elements =  this.state.formulaire;
-        //let donneesFormulaire = new FormData(data);
-
-        let url = "http://localhost:8080/API/USER/subscribe";
-        fetch(url, {
+        fetch(settings.url+"API/USER/subscribe", {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
