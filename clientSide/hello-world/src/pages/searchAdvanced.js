@@ -20,7 +20,7 @@ class searchAdvanced extends Component {
           }}
           className="search-input-aliment"
 
-          // onChange={e => this.changedKeyElement(e)}
+          onChange={e => this.changedKeyElement(e)}
         />
       )
     };
@@ -48,16 +48,17 @@ class searchAdvanced extends Component {
         result.push(opt.value);
       }
     }
-    console.log("keyword : " + this.state.keyWord.length);
-    console.log("res : " + result.length);
     if (this.state.keyWord.length !== result.length) {
       this.setState({ keyWord: result });
     }
+    console.log(this.state.keyWord)
     return result;
   }
 
   onSubmit() {
     localStorage.setItem("advancedR", this.state.result);
+    console.log(this.state.keyWord)
+    localStorage.setItem("keyWord", this.state.keyWord);
   }
 
   render() {

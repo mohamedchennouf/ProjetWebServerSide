@@ -6,29 +6,32 @@ class advancedSearchResult extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        advancedArgs : ["", "", "", "", "", []]
+        advancedArgs : ["", "", "", "", ""],
+        keyWord :[]
       };
     }
 
     componentWillMount() {
       this.setState({advancedArgs : localStorage.getItem("advancedR")});
-      console.log(localStorage.getItem("advancedR"));
+      this.setState({keyWord : localStorage.getItem("keyWord")});
       localStorage.clear();
-      console.log(this.state.advancedArgs)
+      this.searchFetch();
     }
 
     searchFetch() {
         let url = "http://localhost:8080/API/PRICE";
+        var args = this.state.advancedArgs
         fetch(url, {
           method: "POST",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({magasin : "", prix : "", Comparateur: "<=", ville :"", motCle: "", nom: "", marque:""})
+          body: JSON.stringify({nom: args[0],ville : args[1],magasin : args[2], prix :args[3],
+             Comparateur: "<=", marque: args[4], motCle: this.state.keyWord})
         })
           .then(response => response.json())
-          .then(response => this.constructTabStore(response.stores))
+          .then(response => console.log(response))
           .catch(function(err) {
             console.error(err);
           });
