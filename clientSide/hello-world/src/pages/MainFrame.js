@@ -40,7 +40,6 @@ class MainFrame extends Component {
     })
       .then(data => {
         if (data.status === 200) {
-
           data.json().then(x => {
             localStorage.setItem("mail",x.data)
             this.setState({ connected: true });
