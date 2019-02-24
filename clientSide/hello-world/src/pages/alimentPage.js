@@ -54,6 +54,7 @@ class alimentPage extends Component {
         let url = "http://localhost:8080/API/RECETTES/COMMENT/" + this.state.id;
         fetch(url, {
             method: "GET",
+            credentials: 'include',
             headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'}

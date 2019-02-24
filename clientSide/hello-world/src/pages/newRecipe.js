@@ -19,6 +19,7 @@ class inscription extends Component {
         let body = {title:this.state.formulaire[0],content:this.state.formulaire[1],product:this.state.formulaire[2],image:this.state.file};
         fetch(url, {
             method: "POST",
+            credentials: 'include',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'},
