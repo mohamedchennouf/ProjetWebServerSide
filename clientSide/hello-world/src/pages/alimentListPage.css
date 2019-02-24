@@ -12,7 +12,8 @@
 }
 
 .aliment:hover {
-    height: 100px;
+    height: 150px;
+    width : 250px;
 }
 
 .flex {
@@ -24,7 +25,7 @@
     display: inline-block;
     height: 30px;
     margin-top: 10px;
-    width : 300px;
+    width : 250px;
     font-size: 15px;
     cursor: pointer;
     color: #fff;
@@ -33,6 +34,7 @@
     border: none;
     border-radius: 10px;
     box-shadow: 0 5px rgb(156, 60, 24);
+    margin : 1px;
 }
 
 .advancedSearchButton:hover {background-color: rgb(193, 73, 30)}
@@ -65,4 +67,8 @@
 
 .marginBottom{
     margin-bottom: 40px;
+}
+
+.title{
+    color:white;
 }
