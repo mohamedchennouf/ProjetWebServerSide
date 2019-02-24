@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./MainFrame.css";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Cookies from 'universal-cookie';
+import Cookies from 'js-cookie';
 import settings from "./../settings";
 
 class MainFrame extends Component {
@@ -73,7 +73,7 @@ class MainFrame extends Component {
   render() {
     console.log("ok momo");
     
-    var cookie = new Cookies();
+    var cookie = Cookies;
     
     if (this.props.inside !== this.state.inside) {
       this.state.inside = this.props.inside;
