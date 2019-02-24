@@ -1,6 +1,6 @@
 # Projet de Programmation Web: MiamMiamEat
 ## Projet héberger sur Heroku
-**Serveur:** https://serveur-miammiameat.herokuapp.com/
+**Serveur:** https://server-miammiameat.herokuapp.com/
 
 **Client:** https://client-miammiameat.herokuapp.com/
 
