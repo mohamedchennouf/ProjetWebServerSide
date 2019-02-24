@@ -101,13 +101,14 @@ app.route("/API/FOODS/MAJSCORE").get(function (req, res) {
   });
 });
 
-app.route("/API/FOODS/RANDOM_PRICE").get(function (req, res) {
+app.route("/API/FOODS/RANDOM_PRICE").post(function (req, res) {
+  data = req.body;
   console.log("Start data recovery");
-  foodManager.getAllFoodsWithName(0).then(x => {
+  foodManager.getAllFoodsWithName(data["i"]).then(x => {
     console.log("End of data recovery");
     var size = x.length;
     var k = 0;
-    for (i = 0; i < 2000; i++) {
+    for (i = 0; i < 500; i++) {
         foodManager.maj_prix(x[i]).then(y => {
           k++;
           console.log("Done " + k + " / " + size);
