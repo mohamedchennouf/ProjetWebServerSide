@@ -17,6 +17,7 @@ class advancedSearchResult extends Component {
       this.setState({keyWord : localStorage.getItem("keyWord")});
       localStorage.clear();
       this.searchFetch();
+      
     }
 
     searchFetch() {
