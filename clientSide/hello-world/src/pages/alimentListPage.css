@@ -18,3 +18,51 @@
 .flex {
     display: flex;
 }
+
+
+.advancedSearchButton{
+    display: inline-block;
+    height: 30px;
+    margin-top: 10px;
+    width : 300px;
+    font-size: 15px;
+    cursor: pointer;
+    color: #fff;
+    font-style: Bold;
+    background-color: rgb(193, 73, 30);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px rgb(156, 60, 24);
+}
+
+.advancedSearchButton:hover {background-color: rgb(193, 73, 30)}
+
+
+.specialCol{
+    text-align: center;
+    display: flex;
+}
+
+.specialCol2{
+    text-align: center;
+    display: flex;
+    margin-top: 10px;
+}
+
+.title{
+    font-weight: bold;
+    padding: 2px;
+    margin-right: 10px;
+}
+
+.size-form{
+    width: 250px;
+}
+
+.specialRow{
+    margin: 10px;
+}
+
+.marginBottom{
+    margin-bottom: 40px;
+}
