@@ -215,6 +215,7 @@ app.route("/API/USER/CONNECT").post(function (req, res) {
       var x = hashCode("cacahueteCasseroleZoro" + req.body.data.id)
       req.session[x] = true;
       res.send(x.data);
+      // ,domain:"client-testt.herokuapp.com"
       res.cookie('connect', x ,           {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false});
       res.cookie('mail',req.body.data.id, {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false});
       // res.sendStatus(200);
