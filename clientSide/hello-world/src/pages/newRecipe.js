@@ -16,7 +16,7 @@ class inscription extends Component {
     }
 
     addRecipe(){
-        let body = {title:this.state.formulaire[0],content:this.state.formulaire[1],product:this.state.formulaire[2],image:this.state.file};
+        let body = {title:this.state.formulaire[0],content:this.state.formulaire[1],product:JSON.parse(this.state.formulaire[2]),image:this.state.file};
         fetch(settings.url+ "API/RECETTES", {
             method: "POST",
             credentials: 'include',
