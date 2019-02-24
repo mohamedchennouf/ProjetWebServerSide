@@ -12,6 +12,7 @@ import alimentList from './pages/alimentListPage.js';
 import addNewRecipe from './pages/newRecipe.js';
 import commentary from './pages/commentary.js';
 import advancedPage from './pages/advancedSearchResult.js';
+import compare from './pages/compare.js';
 
 class App extends Component {
 
@@ -37,7 +38,7 @@ class App extends Component {
           <Route exact path="/addNewRecipe" component={addNewRecipe}/>
           <Route exact path="/commentary" component={commentary}/>
           <Route exact path="/advancedresult" component={advancedPage} />
-          
+          <Route exact path="/compare" component={compare} />
         </div>
       </Router>
     )

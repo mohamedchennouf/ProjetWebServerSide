@@ -9,9 +9,9 @@ class MainFrame extends Component {
     super(props);
     this.state = {
       inside: props.inside,
-      menus: ["Home", "Recipe", "Aliments", "Shops"],
+      menus: ["Home", "Recipe", "Aliments", "Shops","compare"],
       topRecipes: [],
-      linkList: ["/", "/recipe", "/alimentList", "/shops"],
+      linkList: ["/", "/recipe", "/alimentList", "/shops","/compare"],
       id: "",
       password: "",
       connected: false
@@ -134,7 +134,7 @@ class MainFrame extends Component {
             </Link>
           </div>
           <div className="titre">
-            <h1> Miam Miam Eat </h1>
+            <img className="titreImg" src="resources/titre.png"/>
           </div>
 
           {logging_register}

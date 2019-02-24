@@ -3,6 +3,7 @@ import './alimentPage.css';
 import MainFrame from './MainFrame';
 import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import settings from './../settings';
+import { Cookies } from 'react-cookie';
 
 class alimentPage extends Component {
 
@@ -14,7 +15,6 @@ class alimentPage extends Component {
           text: "",
           aliments: "",
           id:"",
-          notation:4,
           poceBlo:0,
           commentary:[],
           pseudo:[]
@@ -32,8 +32,11 @@ class alimentPage extends Component {
     }
 
     poceBloPost(){
-        var newCount = this.state.poceBlo + 1;
-        this.setState({poceBlo : newCount})
+        var cookie = new Cookies(null);
+        if(cookie.get("mail") != null){
+            var newCount = this.state.poceBlo + 1;
+            this.setState({poceBlo : newCount})
+        }
     }
 
     recipeFetch(){
@@ -87,37 +90,31 @@ class alimentPage extends Component {
 
     }
 
-    note(){
-        let ZeroStar = "resources/star0.png";
-        let star = "resources/star.png";
-        let res = [ZeroStar,ZeroStar,ZeroStar,ZeroStar,ZeroStar];
-        for(let i=0 ; i < this.state.notation;i++){
-            res[i] = star;
-        }
-        return res;
-    }
-    
     urlCreator(){
         return "/commentary?" + this.state.id + "&" + this.state.name;
     }
+    connectedOrNot(){        
+        var cookie = new Cookies(null);
+        if(cookie.get("mail") != null){
+            return(
+                <Link to={this.urlCreator()}>
+                    <button className="buttonComment">new Comment</button>
+                </Link>);
+        }
+        else{
+            return(<div>You need to be connected to post</div>);
+        }
+    }
 
     render() {
-        let notes = this.note().map(
-            (img)=>{
-                return <img alt="" src={img} className="rewardImg"></img>
-                
-        }
-        );
 
         let insideContent = <div className="body-content">
         <div className="upperBlock">
             <div className="textSection">
-                decription : 
-                <br></br>
+                <div className="textTitle">decription : </div>
                 {this.state.text}
                 <br></br>
-                ingredient :
-                <br></br>
+                <div className="textTitle">ingredients : </div>
                 {this.state.aliments}
             </div>
             <div className="alimentBlock">
@@ -125,9 +122,6 @@ class alimentPage extends Component {
                     {this.state.name}
                 </div>  
                 <img alt="" src={this.state.alimentIMG} className="alimentImg"></img>
-                <div className="reward">
-                {notes}
-                </div>
                 <div className="poceBloBloc">
                     <button className="buttonPoceBlo" onClick={this.poceBloPost}><img className="poceBloImg" src="resources/poceBleu.png"/></button>
                     <div className="poceBloRes">
@@ -145,9 +139,7 @@ class alimentPage extends Component {
                 
             </div>
             )}
-            <Link to={this.urlCreator()}>
-                <button className="buttonComment">new Comment</button>
-            </Link>
+            {this.connectedOrNot()}
         </div>
     </div>;
 

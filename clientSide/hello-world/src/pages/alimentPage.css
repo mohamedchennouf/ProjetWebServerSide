@@ -67,16 +67,6 @@
     padding-left: 10px;
 }
 
-.reward{
-    display: inline-block;
-    padding-left: 50px;
-}
-
-.rewardImg{
-    height : 30px;
-    width : 30px;
-}
-
 .alimentImg{
     margin-left: 25px;
     height : 200px;
@@ -87,6 +77,11 @@
     color: white;
     margin-left: 10px;
     font-size: 20px;
+}
+
+.textTitle{
+    color: rgb(193, 73, 30);
+    font-size: 30px;
 }
 
 .pseudo{
