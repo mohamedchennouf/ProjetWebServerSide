@@ -101,11 +101,12 @@ class MainFrame extends Component {
       console.log("connection done");
       logging_register = (
         <div className="login">
-          <div className="section1">Bonjour {cookie.get("mail") ||  localStorage.getItem("mail") }</div>
-          <div className="section2">
-            <button onClick={this.logout}>Logout</button>
-          </div>
+        <div className="connected">
+          Bonjour {cookie.get("mail") ||  localStorage.getItem("mail") }
+          <br></br>
+          <button className="connectButton" onClick={this.logout}>Logout</button>
         </div>
+      </div>
       );
     } else {
       logging_register = (
