@@ -34,12 +34,14 @@ class alimentListPage extends Component {
     let elementStr = "<div className='flex'>\n";
     this.state.alimentList.map(
       (el, index) => {
-        elementStr += "<div className='aliment'>\n <div>"+el.product_name+"</div>\n <div>Nutrition : "+el.nutrition_data_per+"</div> \n<div>quantity : "+el.quantity+"</div> \n</div>";  
+        if(index !== 0){
+          elementStr += "<div className='aliment'>\n <div>"+el.product_name+"</div>\n <div>Nutrition : "+el.nutrition_data_per+"</div> \n<div>quantity : "+el.quantity+"</div> \n</div>";
+        }
         if (index % 5=== 0 && index > 0) {
           elementStr += "</div>\n<div className='flex' >\n"
         }
         if(index === this.state.alimentList.length - 1){
-          elementStr += "\n</div>"
+          elementStr += "<div className='aliment'>\n <div>"+this.state.alimentList[0].product_name+"</div>\n <div>Nutrition : "+this.state.alimentList[0].nutrition_data_per+"</div> \n<div>quantity : "+this.state.alimentList[0].quantity+"</div> \n</div> \n</div>";
         }
       }
     );
