@@ -1,63 +1,61 @@
-import React, { Component } from 'react';
-import './MainFrame.css';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { Cookies } from 'react-cookie';
-import settings from './../settings';
-
+import React, { Component } from "react";
+import "./MainFrame.css";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Cookies from 'js-cookie';
+import settings from "./../settings";
 
 class MainFrame extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       inside: props.inside,
-      menus: ['Home', 'Recipe', 'Aliments', "Shops"],
+      menus: ["Home", "Recipe", "Aliments", "Shops","compare"],
       topRecipes: [],
-      linkList: ["/", "/recipe", "/alimentList", "/shops"],
+      linkList: ["/", "/recipe", "/alimentList", "/shops","/compare"],
       id: "",
       password: "",
       connected: false
     };
-    this.login = this.login.bind(this);
-    this.onChangeId = this.onChangeId.bind(this);
-    this.onChangePass = this.onChangePass.bind(this);
-  }
+    this.login         =        this.login.bind(this);
+    this.onChangeId    =   this.onChangeId.bind(this);
+    this.onChangePass  = this.onChangePass.bind(this);
+}
 
-
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
   login() {
-    fetch(settings.url+ "API/USER/CONNECT", {
+    fetch(settings.url + "API/USER/CONNECT", {
       method: "POST",
-      credentials: 'include',
+      credentials: "include",
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
-      mode: 'cors',
+      mode: "cors",
       id: "",
-      body: JSON.stringify({ data: { id: this.state.id, password: this.state.password } })
-    }).then(data => {
-      if (data.status === 200) {
+      body: JSON.stringify({
+        data: { id: this.state.id, password: this.state.password }
+      })
+    })
+      .then(data => {
         console.log(data);
-        this.setState({connected: true});
-      }
-    }).catch(function (err) {
-      console.error(err);
-    });
+        if (data.status === 200) {
+          // data.headers
+          console.log("toto");
+          this.setState({ connected: true });
+        }
+      })
+      .catch(function(err) {
+        console.error(err);
+      });
   }
 
-  logout = function () {
+  logout = function() {
     var cookie = new Cookies(null);
-    cookie.remove('connect');
-    cookie.remove('mail')
-    this.setState({connected: false});
+    cookie.remove("connect");
+    cookie.remove("mail");
+    this.setState({ connected: false });
   }.bind(this);
-
-
-
-
 
   getLink(index) {
     let page = this.state.menusLinks[index];
@@ -73,52 +71,59 @@ class MainFrame extends Component {
   }
 
   render() {
-
+    console.log("ok momo");
     
-
-    var cookie = new Cookies(null)
-
-
-
+    var cookie = Cookies;
+    
     if (this.props.inside !== this.state.inside) {
       this.state.inside = this.props.inside;
     }
 
-    let list = this.state.menus.map(
-      (el, index) => <Link to={this.state.linkList[index]}>
-        <button className="button" indice={index} >{el}</button>
+    let list = this.state.menus.map((el, index) => (
+      <Link to={this.state.linkList[index]}>
+        <button className="button" indice={index}>
+          {el}
+        </button>
       </Link>
-    );
+    ));
 
     let logging_register = null;
 
-    console.log("ok momo")
-    console.log(cookie)
+    console.log("ok momo");
+    console.log(cookie);
 
-    if (cookie.get('connect') != null) {
-      logging_register = (<div className="login">
-        <div className="section1">
-          Bonjour {cookie.get('mail')}
+    if (cookie.get("connect") != null) {
+      logging_register = (
+        <div className="login">
+          <div className="section1">Bonjour {cookie.get("mail")}</div>
         </div>
-        <div className="section2">
-          <button onClick={this.logout}>logout</button>
+      );
+    } else {
+      logging_register = (
+        <div className="login">
+          <div className="section1">
+            <div>login</div>
+            <input
+              className="input"
+              type="login"
+              value={this.state.id}
+              onChange={this.onChangeId}
+            />
+            <div>password</div>
+            <input
+              className="input"
+              type="password"
+              value={this.state.password}
+              onChange={this.onChangePass}
+            />
+            <div>
+              <button onClick={this.login}>login</button>
+              or <Link to="/subscribe">SignIn</Link>
+            </div>
+          </div>
         </div>
-      </div>);
-    }else{
-      logging_register = (<div className="login">
-      <div className="section1">
-        <div>login</div>
-        <input className="input" type="login" value={this.state.id} onChange={this.onChangeId} />
-        <div>password</div>
-        <input className="input" type="password" value={this.state.password} onChange={this.onChangePass} />
-        <div>
-          <button onClick={this.login}>login</button>
-          or <Link to="/subscribe">SignIn</Link></div>
-      </div>
-    </div>)
+      );
     }
-
-
 
     return (
       <div className="App">
@@ -129,21 +134,17 @@ class MainFrame extends Component {
             </Link>
           </div>
           <div className="titre">
-            <h1> Miam Miam Eat </h1>
+            <img className="titreImg" src="resources/titre.png"/>
           </div>
 
           {logging_register}
-
         </div>
         <div className="row">
-          <div className="menu-content">
-            {list}
-          </div>
+          <div className="menu-content">{list}</div>
           {this.state.inside}
         </div>
       </div>
     );
-
   }
 }
 
