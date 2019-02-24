@@ -79,7 +79,7 @@ class MainFrame extends Component {
     );
 
     let logging_register = (<div className="login">
-      <div class="section1">
+      <div className="section1">
         <div>login</div>
         <input className="input" type="login" value={this.state.id} onChange={this.onChangeId} />
         <div>password</div>
@@ -92,10 +92,10 @@ class MainFrame extends Component {
 
     if (this.state.isLoggedIn) {
       logging_register = (<div className="login">
-        <div class="section1">
+        <div className="section1">
           Bonjour {this.state.id}
         </div>
-        <div class="section2">
+        <div className="section2">
           <button onClick={this.logout}>logout</button>
         </div>
       </div>);
