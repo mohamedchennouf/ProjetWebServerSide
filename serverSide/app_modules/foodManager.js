@@ -64,7 +64,9 @@ function convert(data) {
           console.log(req);
           list.push(req);
         }
-        json['$or'] = list;
+        if (list.length > 0) {
+          json['$or'] = list;
+        }
       }
       else if (field == "score") {
         json[dict[field]] = {$lte: data[field]};
@@ -141,12 +143,14 @@ exports.get_100_foods = function (i) {
 exports.get_foods_from_list = function (data, x) {
   var request = convert(data);
   var list = [];
+  var list2 = [];
   for (i = 0; i < x.length; i++) {
     list.push({ "id": x[i]['food'] });
   }
-  var id_query = { $or: list };
-  var list2 = [];
-  list2.push(id_query);
+  if (list.length > 0) {
+    var id_query = { $or: list };
+    list2.push(id_query);
+  }
   list2.push(request);
   var query = { $and: list2 };
   return new Promise(fun => {

@@ -87,13 +87,13 @@ class MainFrame extends Component {
 
     let logging_register = null;
 
+    console.log("ok momo");
+    console.log(cookie);
+
     if (cookie.get("connect") != null) {
       logging_register = (
         <div className="login">
           <div className="section1">Bonjour {cookie.get("mail")}</div>
-          <div className="section2">
-            <button onClick={this.logout}>logout</button>
-          </div>
         </div>
       );
     } else {
