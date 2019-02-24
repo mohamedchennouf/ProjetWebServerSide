@@ -102,7 +102,7 @@ app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
 ///// RECETTES ROUTES \\\\\
 app
   .route("/API/RECETTES")
-  .post(function(req, res) {
+  .post(requireLogin,function(req, res) {
     var title = req.param("title") || res.body.data.title;
     var content = req.param("content") || res.body.data.content;
     var product = req.param("product") || res.body.data.product;
@@ -118,7 +118,7 @@ app
     recetteManager.getRecettes(resu, sort, page).then(x => res.send(x));
   });
 
-app.route("/API/RECETTE/:title").get(requireLogin,function(req, res) {
+app.route("/API/RECETTE/:title").get(function(req, res) {
   var title = req.param("title") || req.params.title || res.body.data.title;
   recetteManager.getRecette(title).then(x => res.send(x));
 });
