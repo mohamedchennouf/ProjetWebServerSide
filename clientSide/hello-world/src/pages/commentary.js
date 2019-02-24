@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './commentary.css';
 import MainFrame from './MainFrame';
+import { Redirect } from 'react-router'
 import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import settings from './../settings';
 import { Cookies } from 'react-cookie';
@@ -14,6 +15,7 @@ class commentary extends Component {
         name:"",
         userId:"",
         text:"",
+        redirect:false
       };
       this.onSubmit = this.onSubmit.bind(this);
     }
@@ -36,7 +38,7 @@ class commentary extends Component {
                 'Content-Type': 'application/json'},
             body: JSON.stringify({userID: this.state.userId, recipeID: this.state.id, content: this.state.text})
         })
-        .then(res => console.log(res))
+        .then(res => this.setState({redirect : true}))
         .catch(function (err) {
             console.error(err);
         });
@@ -51,6 +53,9 @@ class commentary extends Component {
     }
 
     render() {
+        if(this.state.redirect === true){
+            return <Redirect to={this.urlCreator()} />
+        }
         let insideContent = <div className="commentBigBloc">
         <textarea className="commentTxtBloc" onChange={e => this.setState({text : e.target.value })}></textarea>
             <div>
