@@ -36,7 +36,7 @@ class searchAdvanced extends Component {
   }
 
   changedKeyElement(e) {
-    console.log(this.getKeyElemenents(e.target.options));
+    this.getKeyElemenents(e.target.options);
   }
 
   getKeyElemenents(options) {
@@ -51,13 +51,11 @@ class searchAdvanced extends Component {
     if (this.state.keyWord.length !== result.length) {
       this.setState({ keyWord: result });
     }
-    console.log(this.state.keyWord)
     return result;
   }
 
   onSubmit() {
     localStorage.setItem("advancedR", this.state.result);
-    console.log(this.state.keyWord)
     localStorage.setItem("keyWord", this.state.keyWord);
   }
 

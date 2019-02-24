@@ -92,7 +92,6 @@ class magasinPage extends Component {
   }
   render() {
     let magasinBlockList = null;
-    console.time("5");
     if (Object.keys(this.state.magasinList).length > 0) {
       magasinBlockList = this.state.cityList.map(city => {
         return (
@@ -120,7 +119,7 @@ class magasinPage extends Component {
         );
       });
     }
-    console.timeEnd("5");
+
 
     let insideContent = (
       <div className="body-content">
