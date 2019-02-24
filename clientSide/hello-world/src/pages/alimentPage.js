@@ -34,8 +34,18 @@ class alimentPage extends Component {
     poceBloPost(){
         var cookie = new Cookies(null);
         if(cookie.get("mail") != null || localStorage.getItem("mail")){
-            var newCount = this.state.poceBlo + 1;
-            this.setState({poceBlo : newCount})
+            fetch(settings.url + "API/RECETTE/LIKE/" + this.state.id , {
+                method: "POST",
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'},
+                body: JSON.stringify({})
+            })
+            .then(res => res.json())
+            .then(res => console.log(res))
+            .catch(function (err) {
+                console.error(err);
+            });
         }
     }
 
