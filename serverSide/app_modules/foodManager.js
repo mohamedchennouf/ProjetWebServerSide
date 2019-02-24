@@ -54,7 +54,20 @@ function convert(data) {
   dict["motcle"] = "_keywords";
   for (field in data) {
     if (dict[field] != null) {
-      json[dict[field]] = new RegExp(data[field], 'i');
+      if (dict[field] == "_keywords" && (typeof data[field]) == 'object') {
+        var list = [];
+        var mots = data[field];
+        for (i = 0; i < mots.length; i++) {
+          var req = {}
+          req["_keywords"] = new RegExp(mots[i], 'i');
+          console.log(req);
+          list.push(req);
+        }
+        json['$or'] = list;
+      }
+      else {
+        json[dict[field]] = new RegExp(data[field], 'i');
+      }
     };
   }
 console.log(json);

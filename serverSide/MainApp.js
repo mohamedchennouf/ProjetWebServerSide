@@ -263,9 +263,9 @@ function check_other_crit(res, data, x) {
 // Methodes
 function check_results(x, data, res) {
   if (x.length == 0) {
-    if (data.hasOwnProperty("nom")) {
+    if (data.hasOwnProperty("nom") && (!data.hasOwnProperty("motcle") || data['motcle'].length == 0)) {
       str = JSON.stringify(data);
-      str = str.replace(/\"nom\":/g, '"mot-cle":');
+      str = str.replace(/\"nom\":/g, '"motcle":');
       json = JSON.parse(str);
       foodManager.postFoods(json).then(x => res.send(x));
     } else {
