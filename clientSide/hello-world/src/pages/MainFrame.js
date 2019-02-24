@@ -43,13 +43,11 @@ class MainFrame extends Component {
 
           data.json().then(x => {
             localStorage.setItem("mail",x.data)
-            console.log(localStorage.getItem("mail"));
+            this.setState({ connected: true });
         });
-          this.setState({ connected: true });
         }
       })
       .catch(function(err) {
-        console.log(err);
         console.error(err);
       });
   }
@@ -92,13 +90,9 @@ class MainFrame extends Component {
 
     let logging_register = null;
 
-    console.log("ok momo");
-    console.log(cookie);
-
-    console.log(localStorage.getItem("mail"))
+    
 
     if (cookie.get("connect") != null || localStorage.getItem("mail")) {
-      console.log("connection done");
       logging_register = (
         <div className="login">
           <div className="section1">Bonjour {cookie.get("mail") ||  localStorage.getItem("mail") }</div>
