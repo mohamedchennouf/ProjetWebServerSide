@@ -5,7 +5,7 @@
     height: 50px;
     overflow: hidden;
     background : rgb(193, 73, 30);
-    border-radius: 20px;
+    border-radius: 10px;
     border: none;
     box-shadow: 0 5px rgb(156, 60, 24);
     text-align: center;
@@ -13,4 +13,8 @@
 
 .aliment:hover {
     height: 100px;
+}
+
+.flex {
+    display: flex;
 }
