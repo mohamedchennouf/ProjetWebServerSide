@@ -211,16 +211,19 @@ app.route("/API/USER/subscribe").post(function (req, res) {
 app.route("/API/USER/CONNECT").post(function (req, res) {
   userManager.connect(req.body.data).then(x => {
     if (x) {
-      var x = hashCode("cacahueteCasseroleZoro" + req.body.data.id)
-      req.session[x] = true;
-      res.send(x.data);
+      var y = hashCode("cacahueteCasseroleZoro" + req.body.data.id)
+      req.session[y] = true;
       // ,domain:"client-testt.herokuapp.com"
-      console.log();
-      res.cookie('connect', x ,           {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false});
-      res.cookie('mail',req.body.data.id, {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false});
-      // res.sendStatus(200);
-
-      res.end();
+      // console.log();
+      console.log(y);
+      console.log(x)
+      
+       res.cookie('connect', y, {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false})
+       .cookie('mail', req.body.data.id, {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false})
+      // .sendStatus(200)
+      .send({data : x.data});
+      
+      // res.end();
     } else {
       res.sendStatus(400);
     }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./MainFrame.css";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
 import settings from "./../settings";
 
 class MainFrame extends Component {
@@ -21,9 +21,10 @@ class MainFrame extends Component {
     this.onChangePass = this.onChangePass.bind(this);
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
   login() {
+    console.log("x");
     fetch(settings.url + "API/USER/CONNECT", {
       method: "POST",
       credentials: "include",
@@ -38,23 +39,24 @@ class MainFrame extends Component {
       })
     })
       .then(data => {
-        console.log(data);
         if (data.status === 200) {
-          // data.headers
-          console.log("toto");
+          data.json().then(x => console.log(x.data));
+
+          console.log(data);
           this.setState({ connected: true });
         }
       })
-      .catch(function (err) {
+      .catch(function(err) {
+        console.log(err);
         console.error(err);
       });
   }
 
-  logout = function () {
-   /* var cookie = new Cookies(null);
+  logout = function() {
+    var cookie = new Cookies(null);
     cookie.remove("connect");
     cookie.remove("mail");
-    this.setState({ connected: false });*/
+    this.setState({ connected: false });
   }.bind(this);
 
   getLink(index) {
@@ -72,7 +74,6 @@ class MainFrame extends Component {
 
   render() {
     console.log("ok momo");
-
     var cookie = new Cookies();
 
     if (this.props.inside !== this.state.inside) {
