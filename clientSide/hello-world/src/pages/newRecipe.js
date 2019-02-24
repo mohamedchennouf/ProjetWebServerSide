@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './newRecipe.css';
 import MainFrame from './MainFrame';
 import settings from './../settings';
+import { Redirect } from "react-router";
 class inscription extends Component {
 
     constructor(props) {
@@ -9,13 +10,14 @@ class inscription extends Component {
       this.state = {
           inputList: ["Title","Description","Ingredients"],
           formulaire:["","","",""],
-          file:null
+          file:null,
+          redirect:false
       };
       this.handleChange = this.handleChange.bind(this);
       this.addRecipe = this.addRecipe.bind(this);
     }
 
-    addRecipe(){
+    addRecipe = () => {
         let body = {title:this.state.formulaire[0],content:this.state.formulaire[1],product:JSON.parse(this.state.formulaire[2]),image:this.state.file};
         fetch(settings.url+ "API/RECETTES", {
             method: "POST",
@@ -26,11 +28,13 @@ class inscription extends Component {
             body: JSON.stringify( body)
         })
         .then(function(responseJSON) {
-            //console.log(responseJSON);
+            alert("Your recipe is created");
+            this.setState({redirect : true});
         })
         .catch(function (err) {
             console.error(err);
         });
+
     }
 
 
@@ -51,6 +55,10 @@ class inscription extends Component {
     }
 
     render() {
+
+        if(this.state.redirect){
+            return <Redirect to='/recipe'/>
+        }
 
         let renderInputList = this.state.inputList.map(
             (el,index) =>        
