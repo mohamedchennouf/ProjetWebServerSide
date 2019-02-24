@@ -90,8 +90,6 @@ class MainFrame extends Component {
 
     let logging_register = null;
 
-    
-
     if (cookie.get("connect") != null || localStorage.getItem("mail")) {
       logging_register = (
         <div className="login">
