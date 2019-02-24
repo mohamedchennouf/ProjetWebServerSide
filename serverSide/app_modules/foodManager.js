@@ -15,7 +15,7 @@ exports.getFirstFood = function () {
         var db = client.db(dbName);
         if (!err) {
           db.collection("france")
-            .find({product_name_fr: {$exists: true}}).limit(100).toArray()
+            .find({ product_name_fr: { $exists: true } }).limit(100).toArray()
             .then(x => fun(x));
         } else {
           fun(-1);
@@ -26,7 +26,7 @@ exports.getFirstFood = function () {
 };
 
 exports.postFoods = function (data) {
-  var request = JSON.parse(convert(data));
+  var request = convert(data);
   return new Promise(fun => {
     MongoClient.connect(
       url,
@@ -48,22 +48,17 @@ exports.postFoods = function (data) {
 
 function convert(data) {
   var dict = {};
+  var json = {};
   dict["nom"] = "product_name_fr";
   dict["marque"] = "brands";
-  dict["mot-cle"] = "_keywords";
-  var res = "{";
-  var i = 0;
+  dict["motcle"] = "_keywords";
   for (field in data) {
     if (dict[field] != null) {
-      if (i > 0) {
-        res += ",";
-      }
-      res += "\"" + dict[field] + "\"" + ":" + "\"" + data[field] + "\"";
-      i++;
-    }
+      json[dict[field]] = new RegExp(data[field], 'i');
+    };
   }
-  res += "}";
-  return res;
+console.log(json);
+return json;
 };
 
 exports.get_all_foods_size = function () {
@@ -94,7 +89,7 @@ exports.get_foods_with_nutriments = function () {
         var db = client.db(dbName);
         if (!err) {
           db.collection("france")
-            .find({nutriments: {$gt: {}}}).toArray()
+            .find({ nutriments: { $gt: {} } }).toArray()
             .then(x => fun(x));
         } else {
           fun(-1);
@@ -127,7 +122,7 @@ exports.get_100_foods = function (i) {
 }
 
 exports.get_foods_from_list = function (data, x) {
-  var request = JSON.parse(convert(data));
+  var request = convert(data);
   var list = [];
   for (i = 0; i < x.length; i++) {
     list.push({ "id": x[i]['food'] });
@@ -173,7 +168,7 @@ exports.maj_score = function (data) {
                 { _id: data['_id'] },
                 { $set: { custom_score: score } },
                 { upsert: false }
-              ).then(x => {fun(x);})
+              ).then(x => { fun(x); })
             } else {
               fun(-1);
             }
