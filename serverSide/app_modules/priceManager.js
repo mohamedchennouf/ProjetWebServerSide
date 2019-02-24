@@ -42,7 +42,7 @@ exports.get_prices = function (data) {
                         }
                     }
                     catch (e) {
-                        console.log(e);
+                        console.err(e);
                     }
 
                     comparateur = data['comparateur']
@@ -58,7 +58,6 @@ exports.get_prices = function (data) {
                         request['prix'] = {$eq: prix};
                     }
 
-                    console.log(request)
 
                     db.collection("prix")
                         .find(request)

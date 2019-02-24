@@ -30,15 +30,13 @@ app.use(cookieParser());
 app.use(
   session({
     secret: "cacahueteCasseroleZoro",
-    connect: []
     // store: new express.session.MemoryStore({ reapInterval: 60000 * 10 })
   })
 );
 
 function requireLogin(req, res, next) {
-  console.log("req print :");
   if(req.session[req.cookies.connect]){
-    next();
+     next();
   } else {
     res.sendStatus(401);
   }
@@ -57,11 +55,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
+  res.header("Access-Control-Allow-Credentials",true);
   res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
   next();
 });
@@ -71,10 +70,6 @@ server.listen(port, function() {
 });
 
 app.route("/index").get(requireLogin, function(req, res) {
-  console.log(req.session);
-  console.log();
-  res.cookie('x','val');
-  req.session.user =  "x";
   res.sendfile("./DebugUI/xxx.html");
 });
 
@@ -85,7 +80,6 @@ app.route("/API/FOODS/RANDOM").get(function(req, res) {
 
 app.route("/API/FOODS").post(function(req, res) {
   data = req.body;
-  console.log(data);
   foodManager.postFoods(data).then(x => check_results(x, data, res));
 });
 
@@ -124,18 +118,18 @@ app
     recetteManager.getRecettes(resu, sort, page).then(x => res.send(x));
   });
 
-app.route("/API/RECETTE/:title").get(function(req, res) {
+app.route("/API/RECETTE/:title").get(requireLogin,function(req, res) {
   var title = req.param("title") || req.params.title || res.body.data.title;
   recetteManager.getRecette(title).then(x => res.send(x));
 });
 
-app.route("/API/RECETTE/LIKE/:id").post(function(req, res) {
+app.route("/API/RECETTE/LIKE/:id").post(requireLogin,function(req, res) {
   var id = req.param("id") || req.params.id || res.body.data.id;
   var userID = req.param("userID") || req.params.userID || res.body.data.userID;
   recetteManager.likeRecette(id, userID).then(x => res.send(x));
 });
 
-app.route("/API/RECETTE/LIKES/:id").post(function(req, res) {
+app.route("/API/RECETTE/LIKES/:id").post(requireLogin,function(req, res) {
   var id = req.param("id") || req.params.id || res.body.data.id;
   var userID = req.param("userID") || req.params.userID || res.body.data.userID;
   recetteManager.haveLikedRecette(id, userID).then(x => {
@@ -152,7 +146,7 @@ app.route("/API/RECETTES/SEARCH").post(function(req, res) {
   recetteManager.getRecettesByTitle(title).then(x => res.send(x));
 });
 
-app.route("/API/RECETTES/COMMENTS").post(function(req, res) {
+app.route("/API/RECETTES/COMMENTS").post(requireLogin,function(req, res) {
   var userID = req.param("userID") || res.body.data.userID;
   var recipeID = req.param("recipeID") || res.body.data.recipeID;
   var content = req.param("content") || res.body.data.content;
@@ -200,12 +194,12 @@ app.route("/API/USER/subscribe").post(function(req, res) {
 app.route("/API/USER/CONNECT").post(function(req, res) {
   userManager.connect(req.body.data).then(x => {
     if (x) {
-      console.log("XXD");
       var x = hashCode("cacahueteCasseroleZoro"+ req.body.data.id)
       req.session[x] = true;
-      res.cookie('id',x);
+      res.cookie('connect', x );
       res.cookie('mail',req.body.data.id);
       res.send(x.data);
+      res.sendStatus(200);
     } else {
       res.sendStatus(400);
     }
@@ -238,7 +232,6 @@ app.route("/API/STORES/GET_STORES_CITIES").post(function(req, res) {
 
 app.route("/API/STORES/GET_STORES_NAME").post(function(req, res) {
   data = req.body;
-  console.log(data);
   storeManager.get_stores_by_name(data).then(x => res.send(x));
 });
 
@@ -256,18 +249,15 @@ app
 ///// PRICES ROUTES \\\\\
 app.route("/API/PRICES/ADD").post(function(req, res) {
   data = req.body;
-  console.log(data);
   priceManager.add_price(data).then(x => res.send(x));
 });
 
 app.route("/API/PRICES").post(function(req, res) {
   data = req.body;
-  console.log(data);
   priceManager.get_prices(data).then(x => check_other_crit(res, data, x));
 });
 
 function check_other_crit(res, data, x) {
-  console.log(x);
   foodManager.get_foods_from_list(data, x).then(y => res.send(y));
 }
 

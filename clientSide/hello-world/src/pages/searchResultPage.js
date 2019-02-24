@@ -38,13 +38,12 @@ class searchPage extends Component {
     //.then(res => console.log(res))
     .then(res => this.stateParse(res))
     .catch(function (err) {
-        console.log(err);
+        console.err(err);
     });
 }
 
   stateParse(res){
-    console.log(res.length)
-    if(res.length == 0){
+    if(res.length === 0){
 
     }else{
     var newMenuList = [];

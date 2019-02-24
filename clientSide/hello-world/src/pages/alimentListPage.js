@@ -26,7 +26,7 @@ class alimentListPage extends Component {
       .then(data => {
         this.setState({ alimentList: data });
       })
-      .catch(e => console.log(e));
+      .catch(e => console.err(e));
   }
 
   render() {
@@ -53,7 +53,6 @@ class alimentListPage extends Component {
     );
 
   }
-
 
 }
 

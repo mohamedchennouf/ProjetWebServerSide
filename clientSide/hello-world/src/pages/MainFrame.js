@@ -30,6 +30,7 @@ class MainFrame extends Component {
     let url = "http://localhost:8080/API/USER/CONNECT";
     fetch(url, {
       method: "POST",
+      credentials: 'include',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -37,12 +38,11 @@ class MainFrame extends Component {
       id: "",
       body: JSON.stringify({ data: { id: this.state.id, password: this.state.password } })
     }).then(data => {
-      console.log(data);
         if(data.status=== 200){
           this.setState({ isLoggedIn: true });
         }
       }).catch(function (err) {
-        console.log(err);
+        console.err(err);
       });
   }
 

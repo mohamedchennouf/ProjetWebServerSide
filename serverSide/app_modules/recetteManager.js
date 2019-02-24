@@ -139,8 +139,6 @@ exports.getRecettes = function(number, sort, page) {
       var order = {};
       if (!err) {
         if (sort == "popular") order = { poceBlo: -1 };
-        console.log(order);
-        console.log(eval(number) * eval(page));
         var resultat = db
           .collection("recette")
           .find({ $query: {} })

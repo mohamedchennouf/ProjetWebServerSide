@@ -27,7 +27,6 @@ exports.getFirstFood = function () {
 
 exports.postFoods = function (data) {
   var request = JSON.parse(convert(data));
-  console.log(request);
   return new Promise(fun => {
     MongoClient.connect(
       url,

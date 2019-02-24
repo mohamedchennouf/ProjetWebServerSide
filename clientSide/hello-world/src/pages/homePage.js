@@ -47,7 +47,7 @@ class HomePage extends Component {
           });
       })
       .catch(function (err) {
-        console.log(err);
+        console.err(err);
       });
   }
 
@@ -59,7 +59,6 @@ class HomePage extends Component {
         myData.forEach(function (element) {
           element.urlImg = 'http://localhost:8080/API/image/' + element._id;
         });
-        console.log(myData);
         this.setState({ bestRecette: myData });
       })
       .catch(e => console.log(e));
@@ -68,14 +67,12 @@ class HomePage extends Component {
 
   urlCreator(text) {
     var url = "/searchresult?"
-    console.log(text)
     var tabInput = text.split(" ");
-    console.log("tab :" + tabInput)
+    // console.log("tab :" + tabInput)
     for (var i = 0; i < tabInput.length - 1; i++) {
       url += tabInput[i] + "&";
     }
     url += tabInput[tabInput.length - 1];
-    console.log(url)
     this.setState({ urlSearch: url });
   }
 
@@ -103,7 +100,6 @@ class HomePage extends Component {
       }
     );
 
-    console.log(this.state.bestRecette);
     let alimentList2 = this.state.bestRecette.slice(3, 6).map(
       (el, index) => {
         return (
