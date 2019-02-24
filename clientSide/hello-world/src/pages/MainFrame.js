@@ -25,7 +25,6 @@ class MainFrame extends Component {
 
 
   componentDidMount() {
-  
   }
 
   login() {
@@ -76,6 +75,8 @@ class MainFrame extends Component {
 
   render() {
 
+    console.log("ok momo")
+
     var cookie = new Cookies(null)
 
 
@@ -90,17 +91,7 @@ class MainFrame extends Component {
       </Link>
     );
 
-    let logging_register = (<div className="login">
-      <div className="section1">
-        <div>login</div>
-        <input className="input" type="login" value={this.state.id} onChange={this.onChangeId} />
-        <div>password</div>
-        <input className="input" type="password" value={this.state.password} onChange={this.onChangePass} />
-        <div>
-          <button onClick={this.login}>login</button>
-          or <Link to="/subscribe">SignIn</Link></div>
-      </div>
-    </div>);
+    let logging_register = null;
 
 
     if (cookie.get('connect') != null) {
@@ -112,6 +103,18 @@ class MainFrame extends Component {
           <button onClick={this.logout}>logout</button>
         </div>
       </div>);
+    }else{
+      logging_register = (<div className="login">
+      <div className="section1">
+        <div>login</div>
+        <input className="input" type="login" value={this.state.id} onChange={this.onChangeId} />
+        <div>password</div>
+        <input className="input" type="password" value={this.state.password} onChange={this.onChangePass} />
+        <div>
+          <button onClick={this.login}>login</button>
+          or <Link to="/subscribe">SignIn</Link></div>
+      </div>
+    </div>)
     }
 
 
@@ -129,7 +132,6 @@ class MainFrame extends Component {
           </div>
 
           {logging_register}
-
 
         </div>
         <div className="row">
