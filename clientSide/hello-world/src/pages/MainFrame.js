@@ -75,7 +75,7 @@ class MainFrame extends Component {
 
   render() {
 
-    console.log("ok momo")
+    
 
     var cookie = new Cookies(null)
 
@@ -93,6 +93,8 @@ class MainFrame extends Component {
 
     let logging_register = null;
 
+    console.log("ok momo")
+    console.log(cookie.get('connect'))
 
     if (cookie.get('connect') != null) {
       logging_register = (<div className="login">
