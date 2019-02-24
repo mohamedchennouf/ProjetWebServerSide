@@ -108,7 +108,11 @@
     border-radius: 20px;
     border: none;
     box-shadow: 0 5px rgb(156, 60, 24);
-    height: 320px;
+    height: 350px;
     width : 90%;
     min-Width: 600px;
+}
+
+.textCompare{
+    font-weight: bold;
 }

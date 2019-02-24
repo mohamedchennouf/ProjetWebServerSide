@@ -23,9 +23,9 @@ class Compare extends Component {
 
 
     onClick(){
-            this.fetchAliment1().then(x => this.fetchAliment2().then(x => this.compareAliment()));
-            this.fetchAliment2();
-            this.compareAliment();
+        this.fetchAliment1()
+        .then(x => this.fetchAliment2())
+        .then(x => this.compareAliment());
     }
 
     onChangeAliment1(e){
@@ -37,13 +37,12 @@ class Compare extends Component {
     }
 
     alimentParse(res,aliment){
-        console.log(res);
         var tab=["","","","",""];
         tab[0] = res[0].product_name;
         tab[1] = res[0].nutrition_data_per;
         tab[2] = res[0].quantity;
         tab[3] = res[0].price;
-        tab[4] = res[0].custom_score;
+        tab[4] = res[0].custom_score;        
         if(aliment == 1){
             this.setState({aliment1 : tab})
         }else{
@@ -82,43 +81,25 @@ class Compare extends Component {
     } 
 
     compareAliment(){
-        //Nutrition
         var res1 = this.state.aliment1;
         var res2 = this.state.aliment2;
-        console.log(res1[3] + " , " + res2[3])
-        if(res1[1].split("g")[0] < res2[1].split("g")[0]){
-            res1[1] = <p><font color="green">{res1[1]}</font></p>
-            res2[1] = <p><font color="red">{res2[1]}</font></p>
-        }else{
-            res1[1] = <p><font color="red">{res1[1]}</font></p>
-            res2[1] = <p><font color="green">{res2[1]}</font></p>
-        }
-        if(res1[2].split(" ")[0] > res2[2].split(" ")[0]){
-            res1[2] = <p><font color="green">{res1[2]}</font></p>
-            res2[2] = <p><font color="red">{res2[2]}</font></p>
-        }else{
-            res1[2] = <p><font color="red">{res1[2]}</font></p>
-            res2[2] = <p><font color="green">{res2[2]}</font></p>
-        }
         if(res1[3] < res2[3]){
-            res1[3] = <p><font color="green">{res1[3]}</font></p>
-            res2[3] = <p><font color="red">{res2[3]}</font></p>
+            res1[3] = <p><font font-weight="bold" color="green">{res1[3]}</font></p>
+            res2[3] = <p><font font-weight="bold" color="darkred">{res2[3]}</font></p>
         }else{
-            res1[3] = <p><font color="red">{res1[3]}</font></p>
-            res2[3] = <p><font color="green">{res2[3]}</font></p>
+            res1[3] = <p><font font-weight="bold" color="darkred">{res1[3]}</font></p>
+            res2[3] = <p><font font-weight="bold" color="green">{res2[3]}</font></p>
         }  
         
         if(res1[4] < res2[4]){
-            res1[4] = <p><font color="green">{res1[4]}</font></p>
-            res2[4] = <p><font color="red">{res2[4]}</font></p>
+            res1[4] = <p><font font-weight="bold" color="green">{res1[4]}</font></p>
+            res2[4] = <p><font font-weight="bold" color="darkred">{res2[4]}</font></p>
         }else{
-            res1[4] = <p><font color="red">{res1[4]}</font></p>
-            res2[4] = <p><font color="green">{res2[4]}</font></p>
+            res1[4] = <p><font font-weight="bold" color="darkred">{res1[4]}</font></p>
+            res2[4] = <p><font font-weight="bold" color="green">{res2[4]}</font></p>
         }
         this.setState({aliment1 : res1})
         this.setState({aliment2 : res2})
-        //Quantity
-        //Price
     }
 
     render() {
