@@ -31,22 +31,24 @@ exports.calag = function(title, fukfuk, ids) {
 };
 
 exports.postNouvelleRecette = function(title, content, product, image) {
+  console.log(product);
   return new Promise(fun => {
     MongoClient.connect(url, function(err, client) {
       var db = client.db(dbName);
       if (!err) {
-        var resultat = db
+        db
           .collection("france")
-          .find({ id: { $regex: "[0123456789]*" }, product_name:  product })
+          .find({ product_name:  { $in : product} })
           .limit(100)
           .toArray()
           .then(x => {
+            console.log(x)
             fun(
               db.collection("recette").insertOne({
                 title: title,
                 image: image,
                 content: content,
-                ingredients: [x],
+                ingredients: [ x ],
                 poceBlo: 0,
                 visionageParticipatif: 0
               })

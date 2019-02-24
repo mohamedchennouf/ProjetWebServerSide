@@ -132,8 +132,8 @@ exports.getAllFoodsWithName = function (i) {
         if (!err) {
           db.collection("france")
             .find({ product_name_fr: { $exists: true } })
-            .skip(i * 2000)
-            .limit(2000)
+            .skip(i * 500) 
+            .limit(500)
             .toArray()
             .then(x => fun(x));
         } else {
