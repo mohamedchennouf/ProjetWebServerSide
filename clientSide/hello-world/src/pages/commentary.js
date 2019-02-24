@@ -28,15 +28,14 @@ class commentary extends Component {
       }
 
     commentaryPost(){
-        console.log(JSON.stringify({data : {userID: this.state.userId, recipeID: this.state.id, content: this.state.text}}))
         fetch(settings.url + "API/RECETTES/COMMENTS", {
             method: "POST",
+              credentials: 'include',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'},
-            body: JSON.stringify({data : {userID: this.state.userId, recipeID: this.state.id, content: this.state.text}})
+            body: JSON.stringify({userID: this.state.userId, recipeID: this.state.id, content: this.state.text})
         })
-        .then(res => res.json())
         .then(res => console.log(res))
         .catch(function (err) {
             console.error(err);
