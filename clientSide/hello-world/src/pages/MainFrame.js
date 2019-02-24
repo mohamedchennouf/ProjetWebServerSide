@@ -40,9 +40,11 @@ class MainFrame extends Component {
     })
       .then(data => {
         if (data.status === 200) {
-          data.json().then(x => localStorage.setItem("mail",x.data));
 
-          console.log(data);
+          data.json().then(x => {
+            localStorage.setItem("mail",x.data)
+            console.log(localStorage.getItem("mail"));
+        });
           this.setState({ connected: true });
         }
       })
@@ -93,7 +95,10 @@ class MainFrame extends Component {
     console.log("ok momo");
     console.log(cookie);
 
+    console.log(localStorage.getItem("mail"))
+
     if (cookie.get("connect") != null || localStorage.getItem("mail")) {
+      console.log("connection done");
       logging_register = (
         <div className="login">
           <div className="section1">Bonjour {cookie.get("mail") ||  localStorage.getItem("mail") }</div>

@@ -23,7 +23,7 @@ class Compare extends Component {
 
 
     onClick(){
-            this.fetchAliment1();
+            this.fetchAliment1().then(x => this.fetchAliment2().then(x => this.compareAliment()));
             this.fetchAliment2();
             this.compareAliment();
     }
@@ -52,7 +52,7 @@ class Compare extends Component {
     }
 
     fetchAliment1(){
-        fetch(settings.url + "API/FOODS/ONE" , {
+        return fetch(settings.url + "API/FOODS/ONE" , {
             method: "POST",
             headers: {
             'Accept': 'application/json',
@@ -67,7 +67,7 @@ class Compare extends Component {
     }
 
     fetchAliment2(){
-        fetch(settings.url + "API/FOODS/ONE" , {
+       return fetch(settings.url + "API/FOODS/ONE" , {
             method: "POST",
             headers: {
             'Accept': 'application/json',
