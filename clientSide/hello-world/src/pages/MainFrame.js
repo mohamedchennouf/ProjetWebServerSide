@@ -39,9 +39,8 @@ class MainFrame extends Component {
       id: "",
       body: JSON.stringify({ data: { id: this.state.id, password: this.state.password } })
     }).then(data => {
-      console.log(data);
       if (data.status === 200) {
-        console.log("toto");
+        console.log(data);
         this.setState({connected: true});
       }
     }).catch(function (err) {
@@ -94,7 +93,7 @@ class MainFrame extends Component {
     let logging_register = null;
 
     console.log("ok momo")
-    console.log(cookie.get('connect'))
+    console.log(cookie)
 
     if (cookie.get('connect') != null) {
       logging_register = (<div className="login">
