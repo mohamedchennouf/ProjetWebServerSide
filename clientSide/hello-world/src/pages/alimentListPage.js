@@ -4,6 +4,7 @@ import MainFrame from './MainFrame';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import parse from 'html-react-parser'
+import settings from './../settings';
 
 class alimentListPage extends Component {
 
@@ -21,7 +22,7 @@ class alimentListPage extends Component {
   }
 
   getAliment() {
-    fetch('http://localhost:8080/API/FOODS/RANDOM')
+    fetch(settings.url+'API/FOODS/RANDOM')
       .then(response => response.json())
       .then(data => {
         this.setState({ alimentList: data });

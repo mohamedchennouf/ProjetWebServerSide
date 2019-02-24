@@ -253,7 +253,7 @@ app.route("/API/PRICES/ADD").post(function(req, res) {
   priceManager.add_price(data).then(x => res.send(x));
 });
 
-app.route("/API/PRICES").post(function(req, res) {
+app.route("/API/FOODS/ADVANCE_SEARCH").post(function(req, res) {
   data = req.body;
   priceManager.get_prices(data).then(x => check_other_crit(res, data, x));
 });

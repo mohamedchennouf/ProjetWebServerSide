@@ -52,9 +52,10 @@ function convert(data) {
   dict["nom"] = "product_name_fr";
   dict["marque"] = "brands";
   dict["motcle"] = "_keywords";
+  dict["score"] = "custom_score";
   for (field in data) {
     if (dict[field] != null) {
-      if (dict[field] == "_keywords" && (typeof data[field]) == 'object') {
+      if (field == "motcle" && (typeof data[field]) == 'object') {
         var list = [];
         var mots = data[field];
         for (i = 0; i < mots.length; i++) {
@@ -64,6 +65,9 @@ function convert(data) {
           list.push(req);
         }
         json['$or'] = list;
+      }
+      else if (field == "score") {
+        json[dict[field]] = {$lte: data[field]};
       }
       else {
         json[dict[field]] = new RegExp(data[field], 'i');
@@ -121,7 +125,7 @@ exports.get_100_foods = function (i) {
         var db = client.db(dbName);
         if (!err) {
           db.collection("france")
-            .find({})
+            .find({ product_name_fr: { $exists: true } })
             .skip(i * 100)
             .limit(100)
             .toArray()

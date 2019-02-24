@@ -3,6 +3,7 @@ import MainFrame from './MainFrame';
 import './homePage.css';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { Row, Col, Container } from 'react-bootstrap';
+import settings from './../settings';
 
 class HomePage extends Component {
 
@@ -25,39 +26,13 @@ class HomePage extends Component {
     return this.state.imgTopRecipes[index];
   }
 
-
-  onSubmit() {
-    // REQUETES POST
-    //let data = new HTMLFormElement();
-    //data.elements =  this.state.formulaire;
-    //let donneesFormulaire = new FormData(data);
-
-    let url = "http://localhost:8080/API/USER/subscribe";
-    fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(this.state.formulaire),
-    })
-      .then(function (responseJSON) {
-        responseJSON.json()
-          .then(function (res) {
-            // Maintenant res est un vrai objet JavaScript
-            let div = document.querySelector("#reponsePOST");
-            div.innerHTML = res.msg;
-          });
-      })
-      .catch(function (err) {
-        console.error(err);
-      });
-  }
-
   getBestRecipe() {
-    fetch('http://localhost:8080/API/RECETTES?res=6')
+    fetch(settings.url+"API/RECETTES?res=6")
       .then(response => response.json())
       .then(data => {
         var myData = data;
         myData.forEach(function (element) {
-          element.urlImg = 'http://localhost:8080/API/image/' + element._id;
+          element.urlImg = settings.url+'API/image/' + element._id;
         });
         this.setState({ bestRecette: myData });
       })
@@ -68,7 +43,6 @@ class HomePage extends Component {
   urlCreator(text) {
     var url = "/searchresult?"
     var tabInput = text.split(" ");
-    // console.log("tab :" + tabInput)
     for (var i = 0; i < tabInput.length - 1; i++) {
       url += tabInput[i] + "&";
     }

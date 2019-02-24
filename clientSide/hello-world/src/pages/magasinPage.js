@@ -3,6 +3,7 @@ import "./magasinPage.css";
 import MainFrame from "./MainFrame";
 import ReactDOM from "react-dom";
 import { puts } from "util";
+import settings from './../settings';
 
 class magasinJson {
   constructor(id, nom, adresse, ville, longitude, latitude) {
@@ -31,8 +32,7 @@ class magasinPage extends Component {
   }
 
   storeFetch() {
-    let url = "http://localhost:8080/API/STORES/GET_STORES_CITIES";
-    fetch(url, {
+    fetch(settings.url+"API/STORES/GET_STORES_CITIES", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -60,8 +60,7 @@ class magasinPage extends Component {
   }
 
   cityFetch() {
-    let url = "http://localhost:8080/API/STORES/GET_CITIES";
-    fetch(url, {
+    fetch(settings.url+"API/STORES/GET_CITIES", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -93,7 +92,6 @@ class magasinPage extends Component {
   }
   render() {
     let magasinBlockList = null;
-    console.time("5");
     if (Object.keys(this.state.magasinList).length > 0) {
       magasinBlockList = this.state.cityList.map(city => {
         return (
@@ -121,7 +119,7 @@ class magasinPage extends Component {
         );
       });
     }
-    console.timeEnd("5");
+
 
     let insideContent = (
       <div className="body-content">

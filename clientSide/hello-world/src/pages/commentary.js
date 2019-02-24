@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './commentary.css';
 import MainFrame from './MainFrame';
 import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import settings from './../settings';
 
 class commentary extends Component {
 
@@ -25,8 +26,7 @@ class commentary extends Component {
       }
 
     commentaryPost(){
-        let url = "http://localhost:8080/API/RECETTES/COMMENTS";
-        fetch(url, {
+        fetch(settings.url + "API/RECETTES/COMMENTS", {
             method: "POST",
             headers: {
             'Accept': 'application/json',

@@ -77,7 +77,8 @@
   
   .menu-content{
     float: left;
-    width: 12%;
+    display: block;
+    width: 150px;
     height: 100%;
     min-height: 600px; 
     max-height: 100%;

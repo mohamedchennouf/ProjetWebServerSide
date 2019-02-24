@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './MainFrame.css';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { withCookies, Cookies } from 'react-cookie'
+import { withCookies, Cookies } from 'react-cookie';
+import settings from './../settings';
 
 
 class MainFrame extends Component {
@@ -27,8 +28,7 @@ class MainFrame extends Component {
   }
 
   login() {
-    let url = "http://localhost:8080/API/USER/CONNECT";
-    fetch(url, {
+    fetch(settings.url+ "API/USER/CONNECT", {
       method: "POST",
       credentials: 'include',
       headers: {
