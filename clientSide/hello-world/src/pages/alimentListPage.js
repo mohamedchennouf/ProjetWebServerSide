@@ -122,13 +122,13 @@ class alimentListPage extends Component {
         }
 
         if (index !== 0) {
-          elementStr += "<div className='aliment'>\n <div>" + el.product_name + "</div>\n <div> <span >Nutrition</span> : " + el.nutrition_data_per + "</div> \n<div> <span >Quantity </span>: " + el.quantity + "</div> \n   <div> <span>Score : </span> " + score + "</div>   <div> <span>Price : </span>" + el.price + " </div> </div>";
+          elementStr += "<div className='aliment'>\n <div className='title'>" + el.product_name + "</div>\n <div> <span className='subtitle'>Nutrition</span> : " + el.nutrition_data_per + "</div> \n<div> <span className='subtitle' >Quantity </span>: " + el.quantity + "</div> \n   <div> <span className='subtitle'>Score : </span> " + score + "</div>   <div> <span className='subtitle'>Price : </span>" + el.price + " </div> </div>";
         }
         if (index % 5 === 0 && index > 0) {
           elementStr += "</div>\n<div className='flex' >\n"
         }
         if (index === this.state.alimentList.length - 1) {
-          elementStr += "<div className='aliment'>\n <div>" + this.state.alimentList[0].product_name + "</div>\n <div> <span >Nutrition</span> : " + this.state.alimentList[0].nutrition_data_per + "</div> \n<div><span>Quantity </span> : " + this.state.alimentList[0].quantity + "</div>    <div><span>Score : </span> " + score + " </div>  <div> <span>Price : </span>" + el.price + " </div>   \n</div> \n</div>";
+          elementStr += "<div className='aliment'>\n <div className='title'>" + this.state.alimentList[0].product_name + "</div>\n <div> <span className='subtitle' >Nutrition</span> : " + this.state.alimentList[0].nutrition_data_per + "</div> \n<div><span className='subtitle'>Quantity </span> : " + this.state.alimentList[0].quantity + "</div>    <div><span className='subtitle'>Score : </span> " + score + " </div>  <div> <span className='subtitle'>Price : </span className='subtitle'>" + el.price + " </div>   \n</div> \n</div>";
         }
       }
     );
