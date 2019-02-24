@@ -58,6 +58,7 @@ class MainFrame extends Component {
     var cookie = new Cookies(null);
     cookie.remove("connect");
     cookie.remove("mail");
+    localStorage.removeItem("mail")
     this.setState({ connected: false });
   }.bind(this);
 
@@ -75,7 +76,6 @@ class MainFrame extends Component {
   }
 
   render() {
-    console.log("ok momo");
     var cookie = new Cookies();
 
     if (this.props.inside !== this.state.inside) {
