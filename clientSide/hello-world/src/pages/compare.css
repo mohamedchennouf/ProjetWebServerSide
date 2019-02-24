@@ -1,0 +1,114 @@
+.block1{
+    float:left;
+}
+
+.block2{
+    float:right;
+    margin-right: 10px;
+}
+
+.buttonVS{
+    display: inline-block;
+    height: 30px;
+    margin-top: 70px;
+    width : 100px;
+    font-size: 15px;
+    cursor: pointer;
+    color: #fff;
+    font-style: Bold;
+    background-color: rgb(193, 73, 30);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px rgb(156, 60, 24);
+}
+
+.buttonVS:hover {background-color: rgb(193, 73, 30)}
+
+.buttonVS:active {
+    background-color: rgb(193, 73, 30);
+    box-shadow: 0 1px rgb(156, 60, 24);
+    transform: translateY(4px);
+  }
+
+.imageBloc{
+    display: flex;
+    width : 150px;
+    height : 200px;
+    margin-top: 10px;
+    margin-left: 25%;
+    background: rgb(200, 200, 200);
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 5px rgb(180, 180, 180);
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.imageInBloc{
+    margin-top : 10px;
+    width : 140px;
+    height : 190px;
+}
+
+.partie1{
+    width:40%;
+    margin-left: 10px;
+}
+
+.partie2{
+    width:60%;
+    margin-left: 10px;
+}
+
+.blockVs2{
+    display:flex;
+    width:49%;
+    margin-right: 10px;
+}
+
+.titleVS{
+    color: white;
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.Vs{
+    width:200px;
+    height:200px;
+}
+
+.blockVs1{
+    display:flex;
+    width:49%;
+    margin-left: 10px;
+}
+
+.searchBlock{
+    display: flex;
+    width : 31%;
+    min-width : 510px;
+    margin-top: 10px;
+    margin-left: 25%;
+    background: rgb(200, 200, 200);
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 5px rgb(180, 180, 180);
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.vsBlock{
+    margin-left: 50px;
+    display: block;
+    display: flex;
+    float:left;
+    margin-top: 10px;
+    padding-top: 10px;
+    background : rgb(193, 73, 30);
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 5px rgb(156, 60, 24);
+    height: 320px;
+    width : 90%;
+    min-Width: 600px;
+}
