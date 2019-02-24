@@ -9,19 +9,19 @@ class MainFrame extends Component {
     super(props);
     this.state = {
       inside: props.inside,
-      menus: ["Home", "Recipe", "Aliments", "Shops","compare"],
+      menus: ["Home", "Recipe", "Aliments", "Shops", "compare"],
       topRecipes: [],
-      linkList: ["/", "/recipe", "/alimentList", "/shops","/compare"],
+      linkList: ["/", "/recipe", "/alimentList", "/shops", "/compare"],
       id: "",
       password: "",
       connected: false
     };
-    this.login         =        this.login.bind(this);
-    this.onChangeId    =   this.onChangeId.bind(this);
-    this.onChangePass  = this.onChangePass.bind(this);
-}
+    this.login = this.login.bind(this);
+    this.onChangeId = this.onChangeId.bind(this);
+    this.onChangePass = this.onChangePass.bind(this);
+  }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   login() {
     fetch(settings.url + "API/USER/CONNECT", {
@@ -45,16 +45,16 @@ class MainFrame extends Component {
           this.setState({ connected: true });
         }
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.error(err);
       });
   }
 
-  logout = function() {
-    var cookie = new Cookies(null);
+  logout = function () {
+   /* var cookie = new Cookies(null);
     cookie.remove("connect");
     cookie.remove("mail");
-    this.setState({ connected: false });
+    this.setState({ connected: false });*/
   }.bind(this);
 
   getLink(index) {
@@ -72,9 +72,9 @@ class MainFrame extends Component {
 
   render() {
     console.log("ok momo");
-    
+
     var cookie = Cookies;
-    
+
     if (this.props.inside !== this.state.inside) {
       this.state.inside = this.props.inside;
     }
@@ -96,6 +96,9 @@ class MainFrame extends Component {
       logging_register = (
         <div className="login">
           <div className="section1">Bonjour {cookie.get("mail")}</div>
+          <div className="section2">
+            <button onClick={this.logout}>Logout</button>
+          </div>
         </div>
       );
     } else {
@@ -134,7 +137,7 @@ class MainFrame extends Component {
             </Link>
           </div>
           <div className="titre">
-            <img className="titreImg" src="resources/titre.png"/>
+            <img className="titreImg" src="resources/titre.png" />
           </div>
 
           {logging_register}
