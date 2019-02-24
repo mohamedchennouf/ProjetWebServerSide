@@ -19,7 +19,6 @@ class inscription extends Component {
         //let donneesFormulaire = new FormData(data);
 
         let url = "http://localhost:8080/API/USER/subscribe";
-        console.log(this.state.formulaire);
         fetch(url, {
             method: "POST",
             headers: {
@@ -30,7 +29,7 @@ class inscription extends Component {
         .then(function(responseJSON) {
             })
         .catch(function (err) {
-            console.log(err);
+            console.err(err);
         });
     }
 

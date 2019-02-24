@@ -35,9 +35,6 @@ app.use(
 );
 
 function requireLogin(req, res, next) {
-  console.log("req print :");
-  console.log(req.sesion);
-
   if(req.session[req.cookies.connect]){
      next();
   } else {
@@ -73,10 +70,6 @@ server.listen(port, function() {
 });
 
 app.route("/index").get(requireLogin, function(req, res) {
-  console.log(req.session);
-  console.log();
-  res.cookie('x','valu');
-  req.session.user =  "x";
   res.sendfile("./DebugUI/xxx.html");
 });
 
@@ -87,7 +80,6 @@ app.route("/API/FOODS/RANDOM").get(function(req, res) {
 
 app.route("/API/FOODS").post(function(req, res) {
   data = req.body;
-  console.log(data);
   foodManager.postFoods(data).then(x => check_results(x, data, res));
 });
 
@@ -126,18 +118,18 @@ app
     recetteManager.getRecettes(resu, sort, page).then(x => res.send(x));
   });
 
-app.route("/API/RECETTE/:title").get(function(req, res) {
+app.route("/API/RECETTE/:title").get(requireLogin,function(req, res) {
   var title = req.param("title") || req.params.title || res.body.data.title;
   recetteManager.getRecette(title).then(x => res.send(x));
 });
 
-app.route("/API/RECETTE/LIKE/:id").post(function(req, res) {
+app.route("/API/RECETTE/LIKE/:id").post(requireLogin,function(req, res) {
   var id = req.param("id") || req.params.id || res.body.data.id;
   var userID = req.param("userID") || req.params.userID || res.body.data.userID;
   recetteManager.likeRecette(id, userID).then(x => res.send(x));
 });
 
-app.route("/API/RECETTE/LIKES/:id").post(function(req, res) {
+app.route("/API/RECETTE/LIKES/:id").post(requireLogin,function(req, res) {
   var id = req.param("id") || req.params.id || res.body.data.id;
   var userID = req.param("userID") || req.params.userID || res.body.data.userID;
   recetteManager.haveLikedRecette(id, userID).then(x => {
@@ -154,7 +146,7 @@ app.route("/API/RECETTES/SEARCH").post(function(req, res) {
   recetteManager.getRecettesByTitle(title).then(x => res.send(x));
 });
 
-app.route("/API/RECETTES/COMMENTS").post(function(req, res) {
+app.route("/API/RECETTES/COMMENTS").post(requireLogin,function(req, res) {
   var userID = req.param("userID") || res.body.data.userID;
   var recipeID = req.param("recipeID") || res.body.data.recipeID;
   var content = req.param("content") || res.body.data.content;
@@ -240,7 +232,6 @@ app.route("/API/STORES/GET_STORES_CITIES").post(function(req, res) {
 
 app.route("/API/STORES/GET_STORES_NAME").post(function(req, res) {
   data = req.body;
-  console.log(data);
   storeManager.get_stores_by_name(data).then(x => res.send(x));
 });
 
@@ -258,18 +249,15 @@ app
 ///// PRICES ROUTES \\\\\
 app.route("/API/PRICES/ADD").post(function(req, res) {
   data = req.body;
-  console.log(data);
   priceManager.add_price(data).then(x => res.send(x));
 });
 
 app.route("/API/PRICES").post(function(req, res) {
   data = req.body;
-  console.log(data);
   priceManager.get_prices(data).then(x => check_other_crit(res, data, x));
 });
 
 function check_other_crit(res, data, x) {
-  console.log(x);
   foodManager.get_foods_from_list(data, x).then(y => res.send(y));
 }
 

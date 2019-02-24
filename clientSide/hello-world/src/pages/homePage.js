@@ -68,14 +68,12 @@ class HomePage extends Component {
 
   urlCreator(text) {
     var url = "/searchresult?"
-    console.log(text)
     var tabInput = text.split(" ");
-    console.log("tab :" + tabInput)
+    // console.log("tab :" + tabInput)
     for (var i = 0; i < tabInput.length - 1; i++) {
       url += tabInput[i] + "&";
     }
     url += tabInput[tabInput.length - 1];
-    console.log(url)
     this.setState({ urlSearch: url });
   }
 
@@ -103,7 +101,6 @@ class HomePage extends Component {
       }
     );
 
-    console.log(this.state.bestRecette);
     let alimentList2 = this.state.bestRecette.slice(3, 6).map(
       (el, index) => {
         return (
