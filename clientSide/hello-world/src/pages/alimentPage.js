@@ -140,7 +140,7 @@ class alimentPage extends Component {
                 <br></br>
                 <div className="textTitle">Ingredients : </div>
                 {list}      
-                <div className="textTitle">Price :  <span className="price"> {price} €</span></div>
+                <div className="textTitle">Price :  <span className="price"> {price.toFixed(2)} €</span></div>
             </div>
             <div className="alimentBlock">
                 <div className="alimentName">
