@@ -21,7 +21,7 @@ class advancedSearchResult extends Component {
 
     searchFetch() {
         var args = this.state.advancedArgs
-        fetch(settings.url + "API/PRICE", {
+        fetch(settings.url + "API/ADVANCE_SEARCH", {
           method: "POST",
           headers: {
             Accept: "application/json",
