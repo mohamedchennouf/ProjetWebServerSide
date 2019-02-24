@@ -3,6 +3,7 @@ import './commentary.css';
 import MainFrame from './MainFrame';
 import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import settings from './../settings';
+import { Cookies } from 'react-cookie';
 
 class commentary extends Component {
 
@@ -18,11 +19,12 @@ class commentary extends Component {
     }
 
     componentWillMount(){
+        var cookie = new Cookies(null);
         var tab = (window.location.href).split("?");
         var res = tab[1].split("&");
         this.setState({id:res[0]});
         this.setState({name:res[1]});
-        this.setState({userId: "a"})
+        this.setState({userId: cookie.get("mail")})
       }
 
     commentaryPost(){
