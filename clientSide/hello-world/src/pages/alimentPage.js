@@ -17,7 +17,8 @@ class alimentPage extends Component {
           id:"",
           poceBlo:0,
           commentary:[],
-          pseudo:[]
+          pseudo:[],
+          price : 0
       };
       this.poceBloPost = this.poceBloPost.bind(this);
     }
@@ -93,7 +94,7 @@ class alimentPage extends Component {
         this.setState({name : res.title});
         this.setState({alimentIMG : settings.url+'API/image/' + res._id });
         this.setState({text : res.content});
-        this.setState({aliments : res.ingredient});
+        this.setState({aliments : res.ingredients});
         this.setState({poceBlo : res.poceBlo});
         this.setState({id : res._id});
         this.commentsFetch();
@@ -125,7 +126,8 @@ class alimentPage extends Component {
                 {this.state.text}
                 <br></br>
                 <div className="textTitle">ingredients : </div>
-                {this.state.aliments}
+                
+                <div className="textTitle">Price :  <span className="price"> {this.state.price} €</span></div>
             </div>
             <div className="alimentBlock">
                 <div className="alimentName">

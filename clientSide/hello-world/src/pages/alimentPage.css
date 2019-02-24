@@ -126,3 +126,8 @@
     box-shadow: 0 1px rgb(156, 60, 24);
     transform: translateY(4px);
   }
+
+
+.price{
+    color:green;
+}
