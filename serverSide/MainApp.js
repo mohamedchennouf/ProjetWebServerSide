@@ -215,8 +215,9 @@ app.route("/API/USER/CONNECT").post(function (req, res) {
       req.session[x] = true;
       res.send(x.data);
       // ,domain:"client-testt.herokuapp.com"
-      res.cookie('connect', x ,           {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false});
-      res.cookie('mail',req.body.data.id, {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false});
+      console.log();
+      res.cookie('connect', x ,           {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false,domain:req.headers.origin.split('//')[1]});
+      res.cookie('mail',req.body.data.id, {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false,domain:req.headers.origin.split('//')[1]});
       // res.sendStatus(200);
 
       res.end();
