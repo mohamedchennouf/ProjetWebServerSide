@@ -1,5 +1,5 @@
 
 
-console.log(process.env);
-exports.url = process.env.URL_SERVER || "http://localhost:8080/" 
+
+exports.url = (process.env.NODE_ENV === "production")? "https://server-miammiameat.herokuapp.com/" : "http://localhost:8080/" 
 

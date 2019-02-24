@@ -21,7 +21,6 @@ class advancedSearchResult extends Component {
       console.log(this);
       console.log(this.state.advancedArgs);
       localStorage.clear();
-<<<<<<< HEAD
       x();
       });
     }
@@ -33,10 +32,7 @@ class advancedSearchResult extends Component {
        .then(console.log(this.state.advancedArgs[0]))
        // .then(this.searchFetch());
       }
-=======
-      this.searchFetch();
-      
->>>>>>> 731960e033f7466c62d8ec0bf9e57b558c7a1f58
+    
     }
 
     searchFetch() {
