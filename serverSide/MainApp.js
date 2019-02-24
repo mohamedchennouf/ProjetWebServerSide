@@ -38,8 +38,8 @@ app.use(
 );
 
 function requireLogin(req, res, next) {
-  if(req.session[req.cookies.connect]){
-     next();
+  if (req.session[req.cookies.connect]) {
+    next();
   } else {
     res.sendStatus(401);
   }
@@ -54,33 +54,38 @@ const pathClientSide =
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", req.headers.origin);
-  res.header("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin");
-  res.header("Access-Control-Allow-Credentials",true);
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin");
+  res.header("Access-Control-Allow-Credentials", true);
   res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
   next();
 });
 
-server.listen(port, function() {
+server.listen(port, function () {
   console.log("Server listening on port " + port);
 });
 
-app.route("/index").get(requireLogin, function(req, res) {
+app.route("/index").get(requireLogin, function (req, res) {
   res.sendfile("./DebugUI/xxx.html");
 });
 
 ///// FOODS ROUTES \\\\\
-app.route("/API/FOODS/RANDOM").get(function(req, res) {
+app.route("/API/FOODS/RANDOM").get(function (req, res) {
   foodManager.getFirstFood().then(x => res.send(x));
 });
 
-app.route("/API/FOODS").post(function(req, res) {
+app.route("/API/FOODS").post(function (req, res) {
   data = req.body;
   foodManager.postFoods(data).then(x => check_results(x, data, res));
 });
 
-app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
+app.route("/API/FOODS/ONE").post(function (req, res) {
+  data = req.body;
+  foodManager.postFoodsOne(data).then(x => res.send(x));
+});
+
+app.route("/API/FOODS/MAJSCORE").get(function (req, res) {
   console.log("Start data recovery")
   foodManager.get_foods_with_nutriments().then(x => {
     console.log("End of data recovery")
@@ -96,10 +101,26 @@ app.route("/API/FOODS/MAJSCORE").get(function(req, res) {
   });
 });
 
+app.route("/API/FOODS/RANDOM_PRICE").get(function (req, res) {
+  console.log("Start data recovery");
+  foodManager.getAllFoodsWithName(0).then(x => {
+    console.log("End of data recovery");
+    var size = x.length;
+    var k = 0;
+    for (i = 0; i < 2000; i++) {
+        foodManager.maj_prix(x[i]).then(y => {
+          k++;
+          console.log("Done " + k + " / " + size);
+        });
+      }
+    res.sendStatus(200);
+  });
+});
+
 ///// RECETTES ROUTES \\\\\
 app
   .route("/API/RECETTES")
-  .post(requireLogin,function(req, res) {
+  .post(requireLogin, function (req, res) {
     var title = req.param("title") || res.body.data.title;
     var content = req.param("content") || res.body.data.content;
     var product = req.param("product") || res.body.data.product || "";
@@ -108,25 +129,25 @@ app
       .postNouvelleRecette(title, content, product, image)
       .then(x => res.send(x));
   })
-  .get(function(req, res) {
+  .get(function (req, res) {
     var resu = req.param("res") || 10;
     var sort = req.param("sort") || "normal";
     var page = eval(req.param("page")) || "0";
     recetteManager.getRecettes(resu, sort, page).then(x => res.send(x));
   });
 
-app.route("/API/RECETTE/:title").get(function(req, res) {
+app.route("/API/RECETTE/:title").get(function (req, res) {
   var title = req.param("title") || req.params.title || res.body.data.title;
   recetteManager.getRecette(title).then(x => res.send(x));
 });
 
-app.route("/API/RECETTE/LIKE/:id").post(requireLogin,function(req, res) {
+app.route("/API/RECETTE/LIKE/:id").post(requireLogin, function (req, res) {
   var id = req.param("id") || req.params.id || res.body.data.id;
   var userID = req.param("userID") || req.params.userID || res.body.data.userID;
   recetteManager.likeRecette(id, userID).then(x => res.send(x));
 });
 
-app.route("/API/RECETTE/LIKES/:id").post(requireLogin,function(req, res) {
+app.route("/API/RECETTE/LIKES/:id").post(requireLogin, function (req, res) {
   var id = req.param("id") || req.params.id || res.body.data.id;
   var userID = req.param("userID") || req.params.userID || res.body.data.userID;
   recetteManager.haveLikedRecette(id, userID).then(x => {
@@ -138,19 +159,19 @@ app.route("/API/RECETTE/LIKES/:id").post(requireLogin,function(req, res) {
   });
 });
 
-app.route("/API/RECETTES/SEARCH").post(function(req, res) {
+app.route("/API/RECETTES/SEARCH").post(function (req, res) {
   var title = req.param("title") || res.body.data.title;
   recetteManager.getRecettesByTitle(title).then(x => res.send(x));
 });
 
-app.route("/API/RECETTES/COMMENTS").post(requireLogin,function(req, res) {
+app.route("/API/RECETTES/COMMENTS").post(requireLogin, function (req, res) {
   var userID = req.param("userID") || res.body.data.userID;
   var recipeID = req.param("recipeID") || res.body.data.recipeID;
   var content = req.param("content") || res.body.data.content;
   recetteManager.addComment(userID, recipeID, content).then(x => res.send(x));
 });
 
-app.route("/API/RECETTES/COMMENT/:recipeID").get(function(req, res) {
+app.route("/API/RECETTES/COMMENT/:recipeID").get(function (req, res) {
   var recipeID =
     req.param("recipeID") || req.params.recipeID || res.body.data.recipeID;
   recetteManager.retrieveComments(recipeID).then(x => res.send(x));
@@ -158,12 +179,12 @@ app.route("/API/RECETTES/COMMENT/:recipeID").get(function(req, res) {
 
 ///// STORES ROUTES \\\\\
 
-app.route("/API/STORES/ADD").post(function(req, res) {
+app.route("/API/STORES/ADD").post(function (req, res) {
   data = req.body;
   foodManager.postFoods(data).then(x => test(x, data, res));
 });
 
-app.route("/API/image/:id").get(function(req, res) {
+app.route("/API/image/:id").get(function (req, res) {
   recetteManager.retrieveImage(req.params.id).then(x => {
     if (x == undefined) {
       res.sendStatus(403);
@@ -177,7 +198,7 @@ app.route("/API/image/:id").get(function(req, res) {
   });
 });
 
-app.route("/API/USER/subscribe").post(function(req, res) {
+app.route("/API/USER/subscribe").post(function (req, res) {
   userManager.subscribe(req.body.data).then(x => {
     if (x) {
       res.sendStatus(200);
@@ -187,16 +208,16 @@ app.route("/API/USER/subscribe").post(function(req, res) {
   });
 });
 
-app.route("/API/USER/CONNECT").post(function(req, res) {
+app.route("/API/USER/CONNECT").post(function (req, res) {
   userManager.connect(req.body.data).then(x => {
     if (x) {
-      var x = hashCode("cacahueteCasseroleZoro"+ req.body.data.id)
+      var x = hashCode("cacahueteCasseroleZoro" + req.body.data.id)
       req.session[x] = true;
       res.send(x.data);
       res.cookie('connect', x ,           {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false});
       res.cookie('mail',req.body.data.id, {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false});
       // res.sendStatus(200);
-      
+
       res.end();
     } else {
       res.sendStatus(400);
@@ -212,12 +233,12 @@ function test(x, data, res) {
   }
 }
 
-app.route("/API/STORES/GET_STORES_CITY").post(function(req, res) {
+app.route("/API/STORES/GET_STORES_CITY").post(function (req, res) {
   data = req.body;
   storeManager.get_stores_by_city(data).then(x => res.send(x));
 });
 
-app.route("/API/STORES/GET_STORES_CITIES").post(function(req, res) {
+app.route("/API/STORES/GET_STORES_CITIES").post(function (req, res) {
   data = req.body;
   if (data["villes"] != null) {
     storeManager.get_stores_by_cities(data["villes"]).then(x => {
@@ -228,29 +249,29 @@ app.route("/API/STORES/GET_STORES_CITIES").post(function(req, res) {
   }
 });
 
-app.route("/API/STORES/GET_STORES_NAME").post(function(req, res) {
+app.route("/API/STORES/GET_STORES_NAME").post(function (req, res) {
   data = req.body;
   storeManager.get_stores_by_name(data).then(x => res.send(x));
 });
 
 app
   .route("/API/STORES/GET_CITIES")
-  .post(function(req, res) {
+  .post(function (req, res) {
     data = req.body;
     storeManager.get_cities(data).then(x => check_cities(x, res));
   })
-  .get(function(req, res) {
+  .get(function (req, res) {
     storeManager.get_cities({ ville: "" }).then(x => check_cities(x, res));
   });
-  
+
 
 ///// PRICES ROUTES \\\\\
-app.route("/API/PRICES/ADD").post(function(req, res) {
+app.route("/API/PRICES/ADD").post(function (req, res) {
   data = req.body;
   priceManager.add_price(data).then(x => res.send(x));
 });
 
-app.route("/API/FOODS/ADVANCE_SEARCH").post(function(req, res) {
+app.route("/API/FOODS/ADVANCE_SEARCH").post(function (req, res) {
   data = req.body;
   priceManager.get_prices(data).then(x => check_other_crit(res, data, x));
 });
@@ -289,6 +310,6 @@ function check_cities(x, res) {
   }
 }
 
-function hashCode(s){
-  return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
+function hashCode(s) {
+  return s.split("").reduce(function (a, b) { a = ((a << 5) - a) + b.charCodeAt(0); return a & a }, 0);
 }
