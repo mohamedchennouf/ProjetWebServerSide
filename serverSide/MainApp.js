@@ -102,17 +102,21 @@ app.route("/API/FOODS/MAJSCORE").get(function (req, res) {
 });
 
 app.route("/API/FOODS/RANDOM_PRICE").get(function (req, res) {
-  console.log("Start data recovery");
-  foodManager.getAllFoodsWithName(0).then(x => {
-    console.log("End of data recovery");
-    var size = x.length;
-    var k = 0;
-    for (i = 0; i < 2000; i++) {
-        foodManager.maj_prix(x[i]).then(y => {
-          k++;
-          console.log("Done " + k + " / " + size);
-        });
-      }
+  console.log("Start");
+  foodManager.maj_prix().then(x => {
+    console.log("End");
+    res.sendStatus(200);
+  });
+});
+
+app.route("/API/FOODS/FIXE_SCORE").get(function (req, res) {
+  foodManager.fixe_score().then(x => {
+    res.sendStatus(200);
+  });
+});
+
+app.route("/API/FOODS/DELETE").get(function (req, res) {
+  foodManager.deletefield().then(x => {
     res.sendStatus(200);
   });
 });
@@ -211,16 +215,19 @@ app.route("/API/USER/subscribe").post(function (req, res) {
 app.route("/API/USER/CONNECT").post(function (req, res) {
   userManager.connect(req.body.data).then(x => {
     if (x) {
-      var x = hashCode("cacahueteCasseroleZoro" + req.body.data.id)
-      req.session[x] = true;
-      res.send(x.data);
+      var y = hashCode("cacahueteCasseroleZoro" + req.body.data.id)
+      req.session[y] = true;
       // ,domain:"client-testt.herokuapp.com"
-      console.log();
-      res.cookie('connect', x ,           {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false});
-      res.cookie('mail',req.body.data.id, {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false});
-      // res.sendStatus(200);
-
-      res.end();
+      // console.log();
+      console.log(y);
+      console.log(x)
+      
+       res.cookie('connect', y, {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false})
+       .cookie('mail', req.body.data.id, {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false})
+      // .sendStatus(200)
+      .send({data : x.data});
+      
+      // res.end();
     } else {
       res.sendStatus(400);
     }
