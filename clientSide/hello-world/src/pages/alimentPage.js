@@ -133,10 +133,10 @@ class alimentPage extends Component {
         let insideContent = <div className="body-content">
         <div className="upperBlock">
             <div className="textSection">
-                <div className="textTitle">decription : </div>
+                <div className="textTitle">Description : </div>
                 {this.state.text}
                 <br></br>
-                <div className="textTitle">ingredients : </div>
+                <div className="textTitle">Ingredients : </div>
                 {list}      
                 <div className="textTitle">Price :  <span className="price"> {price} €</span></div>
             </div>
