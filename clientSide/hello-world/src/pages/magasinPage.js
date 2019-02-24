@@ -100,7 +100,7 @@ class magasinPage extends Component {
             {this.state.magasinList[city].map((el, index) => {
               return (
                 <div className="magasinLineBlock">
-                  <div className="nomMagasin">${this.getName(city, index)}</div>
+                  <div className="nomMagasin">{this.getName(city, index)}</div>
                   <a href={this.linkCreator(city, index)}>
                     <button className="buttonMap" name={el} indice={index}>
                       Show map
