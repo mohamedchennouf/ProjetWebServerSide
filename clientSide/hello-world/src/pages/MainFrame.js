@@ -33,8 +33,10 @@ class MainFrame extends Component {
       credentials: 'include',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*'
       },
+      mode: 'cors',
       id: "",
       body: JSON.stringify({ data: { id: this.state.id, password: this.state.password } })
     }).then(data => {
