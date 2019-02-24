@@ -125,7 +125,7 @@ exports.get_100_foods = function (i) {
         var db = client.db(dbName);
         if (!err) {
           db.collection("france")
-            .find({})
+            .find({ product_name_fr: { $exists: true } })
             .skip(i * 100)
             .limit(100)
             .toArray()
