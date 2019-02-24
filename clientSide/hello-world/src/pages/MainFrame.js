@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./MainFrame.css";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { Cookies } from "universal-cookie";
+import Cookies from 'universal-cookie';
 import settings from "./../settings";
 
 class MainFrame extends Component {
