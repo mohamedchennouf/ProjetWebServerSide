@@ -95,7 +95,7 @@ class alimentPage extends Component {
     }
     connectedOrNot(){        
         var cookie = new Cookies(null);
-        if(cookie.get("mail") != null){
+        if(cookie.get("mail") != null ||  localStorage.getItem("mail")){
             return(
                 <Link to={this.urlCreator()}>
                     <button className="buttonComment">new Comment</button>

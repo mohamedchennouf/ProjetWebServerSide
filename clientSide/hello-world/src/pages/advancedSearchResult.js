@@ -18,12 +18,14 @@ class advancedSearchResult extends Component {
 
     takeCookie(){
       if(localStorage.getItem("advancedR") != null){
+        var mail =  localStorage.getItem("mail");
         var arg = localStorage.getItem("advancedR").split(",");
         var key = localStorage.getItem("keyWord").split(",");
         //this.setState({advancedArgs: arg});
         this.state.advancedArgs = arg;
         this.state.keyWord = key;
         localStorage.clear();
+        localStorage.setItem("mail",mail);
         this.searchFetch();
       }
     }
