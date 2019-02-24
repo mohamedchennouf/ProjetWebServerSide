@@ -1,8 +1,9 @@
 # Projet de Programmation Web: MiamMiamEat
 ## Projet héberger sur Heroku
 **Serveur:** https://serveur-miammiameat.herokuapp.com/
+
 **Client:** https://client-miammiameat.herokuapp.com/
-___
+
 ## Répartion des tâches
 ### Côté serveur
 **TOUTAIN Xavier** & **DUMINY Gaétan**
