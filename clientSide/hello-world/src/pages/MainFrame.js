@@ -44,6 +44,7 @@ class MainFrame extends Component {
           data.json().then(x => {
             localStorage.setItem("mail",x.data)
             this.setState({ connected: true });
+            window.location.reload();
         });
         }
       })
@@ -58,6 +59,7 @@ class MainFrame extends Component {
     cookie.remove("mail");
     localStorage.removeItem("mail")
     this.setState({ connected: false });
+    window.location.reload();
   }.bind(this);
 
   getLink(index) {
@@ -153,3 +155,4 @@ class MainFrame extends Component {
 }
 
 export default MainFrame;
+
