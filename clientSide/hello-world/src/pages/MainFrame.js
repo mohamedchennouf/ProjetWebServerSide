@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './MainFrame.css';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { withCookies, Cookies } from 'react-cookie'
 
 
 class MainFrame extends Component {
@@ -14,7 +15,7 @@ class MainFrame extends Component {
       linkList: ["/", "/recipe", "/alimentList", "/shops"],
       id: "",
       password: "",
-      isLoggedIn: false
+      connected: false
     };
     this.login = this.login.bind(this);
     this.onChangeId = this.onChangeId.bind(this);
@@ -23,7 +24,6 @@ class MainFrame extends Component {
 
 
   componentDidMount() {
-   console.log(this.state.isLoggedIn);
   }
 
   login() {
@@ -38,17 +38,20 @@ class MainFrame extends Component {
       id: "",
       body: JSON.stringify({ data: { id: this.state.id, password: this.state.password } })
     }).then(data => {
-        if(data.status=== 200){
-          this.setState({ isLoggedIn: true });
-        }
-      }).catch(function (err) {
-        console.error(err);
-      });
+      if (data.status === 200) {
+        this.setState({connected: true});
+      }
+    }).catch(function (err) {
+      console.error(err);
+    });
   }
 
-  logout() {
-    this.setState({ isLoggedIn: false });
-  }
+  logout = function () {
+    var cookie = new Cookies(null);
+    cookie.remove('connect');
+    cookie.remove('mail')
+    this.setState({connected: false});
+  }.bind(this);
 
 
 
@@ -68,6 +71,11 @@ class MainFrame extends Component {
   }
 
   render() {
+
+    var cookie = new Cookies(null)
+
+
+
     if (this.props.inside !== this.state.inside) {
       this.state.inside = this.props.inside;
     }
@@ -85,15 +93,16 @@ class MainFrame extends Component {
         <div>password</div>
         <input className="input" type="password" value={this.state.password} onChange={this.onChangePass} />
         <div>
-        <button onClick={this.login}>login</button>
-           or <Link to="/subscribe">SignIn</Link></div>
+          <button onClick={this.login}>login</button>
+          or <Link to="/subscribe">SignIn</Link></div>
       </div>
     </div>);
 
-    if (this.state.isLoggedIn) {
+
+    if (cookie.get('connect') != null) {
       logging_register = (<div className="login">
         <div className="section1">
-          Bonjour {this.state.id}
+          Bonjour {cookie.get('mail')}
         </div>
         <div className="section2">
           <button onClick={this.logout}>logout</button>
@@ -102,13 +111,14 @@ class MainFrame extends Component {
     }
 
 
+
     return (
       <div className="App">
         <div className="header">
           <div className="logo">
-          <Link to="/">
-            <img className="imgLogo" alt="" src="resources/logo.png" />
-          </Link>
+            <Link to="/">
+              <img className="imgLogo" alt="" src="resources/logo.png" />
+            </Link>
           </div>
           <div className="titre">
             <h1> Miam Miam Eat </h1>
