@@ -36,19 +36,18 @@ exports.postNouvelleRecette = function(title, content, product, image) {
     MongoClient.connect(url, function(err, client) {
       var db = client.db(dbName);
       if (!err) {
-        db
-          .collection("france")
-          .find({ product_name:  { $in : product} })
+        db.collection("france")
+          .find({ product_name: { $in: product } })
           .limit(100)
           .toArray()
           .then(x => {
-            console.log(x)
+            console.log(x);
             fun(
               db.collection("recette").insertOne({
                 title: title,
                 image: image,
                 content: content,
-                ingredients: [ x ],
+                ingredients: [x],
                 poceBlo: 0,
                 visionageParticipatif: 0
               })
@@ -83,23 +82,13 @@ exports.likeRecette = function(recetteID, userID) {
     MongoClient.connect(url, function(err, client) {
       var db = client.db(dbName);
       if (!err) {
+        console.log(userID);
+        console.log(recetteID);
         db.collection("recette")
-          .update(
+          .updateOne(
             { _id: ObjectId(recetteID) },
             {
-              $inc: {
-                poceBlo: { $cond: [{ $nin: { users: userID } }, 1, -1] }
-              }
-            },
-            {
-              $push: {
-                $cond: [{ $nin: { users: userID } }, { users: userID }, null]
-              }
-            },
-            {
-              $pull: {
-                $cond: [{ $in: { users: userID } }, { users: userID }, null]
-              }
+              $inc: { poceBlo: 1}
             }
           )
           .then(x => fun(x));

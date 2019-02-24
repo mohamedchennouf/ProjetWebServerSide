@@ -146,8 +146,9 @@ app.route("/API/RECETTE/:title").get(function (req, res) {
 });
 
 app.route("/API/RECETTE/LIKE/:id").post(requireLogin, function (req, res) {
+  console.log(req.body);
   var id = req.param("id") || req.params.id || res.body.data.id;
-  var userID = req.param("userID") || req.params.userID || res.body.data.userID;
+  var userID = req.param("userId") || req.params.userId || req.body.userId;
   recetteManager.likeRecette(id, userID).then(x => res.send(x));
 });
 

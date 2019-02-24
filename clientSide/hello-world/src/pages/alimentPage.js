@@ -37,11 +37,13 @@ class alimentPage extends Component {
         if(cookie.get("mail") != null || localStorage.getItem("mail")){
             fetch(settings.url + "API/RECETTE/LIKE/" + this.state.id , {
                 method: "POST",
+                credentials: "include"
+                ,
                 headers: {
                 'credentials': "include",
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'},
-                body: JSON.stringify({userId : localStorage.getItem("mail")})
+                body: JSON.stringify({userId:  (cookie.get("mail") || localStorage.getItem("mail") || "" ) } )
             })
             .then(res => res.json())
             .then(res => console.log(res))

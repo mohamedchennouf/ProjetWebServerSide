@@ -40,7 +40,6 @@ class MainFrame extends Component {
     })
       .then(data => {
         if (data.status === 200) {
-
           data.json().then(x => {
             localStorage.setItem("mail",x.data)
             this.setState({ connected: true });
@@ -91,8 +90,6 @@ class MainFrame extends Component {
     ));
 
     let logging_register = null;
-
-    
 
     if (cookie.get("connect") != null || localStorage.getItem("mail")) {
       logging_register = (
