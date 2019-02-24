@@ -46,7 +46,7 @@ class alimentPage extends Component {
         .then(res => res.json())
         .then(res => this.setData(res))
         .catch(function (err) {
-            console.err(err);
+            console.error(err);
         });
     }
 

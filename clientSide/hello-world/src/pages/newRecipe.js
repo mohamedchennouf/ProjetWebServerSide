@@ -28,7 +28,7 @@ class inscription extends Component {
             //console.log(responseJSON);
         })
         .catch(function (err) {
-            console.err(err);
+            console.error(err);
         });
     }
 
