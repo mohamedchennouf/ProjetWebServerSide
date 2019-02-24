@@ -43,7 +43,7 @@ class magasinPage extends Component {
       .then(response => response.json())
       .then(response => this.constructTabStore(response.stores))
       .catch(function(err) {
-        console.err(err);
+        console.error(err);
       });
   }
 
@@ -73,7 +73,7 @@ class magasinPage extends Component {
       .then(res => this.setState({ cityList: res.villes }))
       .then(res => this.storeFetch())
       .catch(function(err) {
-        console.err(err);
+        console.error(err);
       });
   }
 

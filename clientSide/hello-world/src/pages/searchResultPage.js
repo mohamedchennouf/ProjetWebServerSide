@@ -38,7 +38,7 @@ class searchPage extends Component {
     //.then(res => console.log(res))
     .then(res => this.stateParse(res))
     .catch(function (err) {
-        console.err(err);
+        console.error(err);
     });
 }
 

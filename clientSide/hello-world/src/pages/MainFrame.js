@@ -42,7 +42,7 @@ class MainFrame extends Component {
           this.setState({ isLoggedIn: true });
         }
       }).catch(function (err) {
-        console.err(err);
+        console.error(err);
       });
   }
 

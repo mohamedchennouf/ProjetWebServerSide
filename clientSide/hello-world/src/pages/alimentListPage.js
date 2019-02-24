@@ -31,7 +31,7 @@ class alimentListPage extends Component {
         });
         this.setState({ alimentList: myData });
       })
-      .catch(e => console.err(e));
+      .catch(e => console.error(e));
   }
 
 

@@ -47,7 +47,7 @@ class HomePage extends Component {
           });
       })
       .catch(function (err) {
-        console.err(err);
+        console.error(err);
       });
   }
 

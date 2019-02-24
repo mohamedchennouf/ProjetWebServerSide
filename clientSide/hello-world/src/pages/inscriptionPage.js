@@ -29,7 +29,7 @@ class inscription extends Component {
         .then(function(responseJSON) {
             })
         .catch(function (err) {
-            console.err(err);
+            console.error(err);
         });
     }
 

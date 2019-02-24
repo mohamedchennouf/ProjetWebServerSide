@@ -31,7 +31,7 @@ class recipePage extends Component {
         });
         this.setState({ menusList: myData });
       })
-      .catch(e => console.err(e));
+      .catch(e => console.error(e));
   }
 
   newRecipe(newMenu, newImg, newText) {

@@ -35,7 +35,7 @@ class commentary extends Component {
         })
         .then(res => res.json())
         .catch(function (err) {
-            console.err(err);
+            console.error(err);
         });
     }
 

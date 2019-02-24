@@ -42,7 +42,7 @@ exports.get_prices = function (data) {
                         }
                     }
                     catch (e) {
-                        console.err(e);
+                        console.error(e);
                     }
 
                     comparateur = data['comparateur']
