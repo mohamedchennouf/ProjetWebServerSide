@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./MainFrame.css";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
 import settings from "./../settings";
 
 class MainFrame extends Component {
@@ -21,9 +21,10 @@ class MainFrame extends Component {
     this.onChangePass = this.onChangePass.bind(this);
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
   login() {
+    console.log("x");
     fetch(settings.url + "API/USER/CONNECT", {
       method: "POST",
       credentials: "include",
@@ -38,23 +39,27 @@ class MainFrame extends Component {
       })
     })
       .then(data => {
-        console.log(data);
         if (data.status === 200) {
-          // data.headers
-          console.log("toto");
+
+          data.json().then(x => {
+            localStorage.setItem("mail",x.data)
+            console.log(localStorage.getItem("mail"));
+        });
           this.setState({ connected: true });
         }
       })
-      .catch(function (err) {
+      .catch(function(err) {
+        console.log(err);
         console.error(err);
       });
   }
 
-  logout = function () {
-   /* var cookie = new Cookies(null);
+  logout = function() {
+    var cookie = new Cookies(null);
     cookie.remove("connect");
     cookie.remove("mail");
-    this.setState({ connected: false });*/
+    localStorage.removeItem("mail")
+    this.setState({ connected: false });
   }.bind(this);
 
   getLink(index) {
@@ -71,8 +76,6 @@ class MainFrame extends Component {
   }
 
   render() {
-    console.log("ok momo");
-
     var cookie = new Cookies();
 
     if (this.props.inside !== this.state.inside) {
@@ -92,10 +95,13 @@ class MainFrame extends Component {
     console.log("ok momo");
     console.log(cookie);
 
-    if (cookie.get("connect") != null) {
+    console.log(localStorage.getItem("mail"))
+
+    if (cookie.get("connect") != null || localStorage.getItem("mail")) {
+      console.log("connection done");
       logging_register = (
         <div className="login">
-          <div className="section1">Bonjour {cookie.get("mail")}</div>
+          <div className="section1">Bonjour {cookie.get("mail") ||  localStorage.getItem("mail") }</div>
           <div className="section2">
             <button onClick={this.logout}>Logout</button>
           </div>

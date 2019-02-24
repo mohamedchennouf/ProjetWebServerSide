@@ -24,7 +24,7 @@ class commentary extends Component {
         var res = tab[1].split("&");
         this.setState({id:res[0]});
         this.setState({name:res[1]});
-        this.setState({userId: cookie.get("mail")});
+        this.setState({userId: cookie.get("mail") || localStorage.getItem("mail")});
       }
 
     commentaryPost(){
