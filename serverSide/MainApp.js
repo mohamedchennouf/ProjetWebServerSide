@@ -102,17 +102,21 @@ app.route("/API/FOODS/MAJSCORE").get(function (req, res) {
 });
 
 app.route("/API/FOODS/RANDOM_PRICE").get(function (req, res) {
-  console.log("Start data recovery");
-  foodManager.getAllFoodsWithName(0).then(x => {
-    console.log("End of data recovery");
-    var size = x.length;
-    var k = 0;
-    for (i = 0; i < 2000; i++) {
-        foodManager.maj_prix(x[i]).then(y => {
-          k++;
-          console.log("Done " + k + " / " + size);
-        });
-      }
+  console.log("Start");
+  foodManager.maj_prix().then(x => {
+    console.log("End");
+    res.sendStatus(200);
+  });
+});
+
+app.route("/API/FOODS/FIXE_SCORE").get(function (req, res) {
+  foodManager.fixe_score().then(x => {
+    res.sendStatus(200);
+  });
+});
+
+app.route("/API/FOODS/DELETE").get(function (req, res) {
+  foodManager.deletefield().then(x => {
     res.sendStatus(200);
   });
 });
