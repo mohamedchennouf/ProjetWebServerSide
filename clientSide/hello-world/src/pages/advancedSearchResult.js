@@ -4,6 +4,7 @@ import MainFrame from "./MainFrame";
 import { cpus } from "os";
 import parse from 'html-react-parser';
 import { Container } from 'react-bootstrap';
+import settings from './../settings';
 
 class advancedSearchResult extends Component {
     constructor(props) {
@@ -34,12 +35,11 @@ class advancedSearchResult extends Component {
     }
 
     searchFetch() {
-        let url = "http://localhost:8080/API/FOODS/ADVANCE_SEARCH";
         var args = this.state.advancedArgs;
-        fetch(url , {
+        fetch(settings.url +  "API/FOODS/ADVANCE_SEARCH", {
           method: "POST",
           headers: {
-              Accept: "application/json",
+              "Accept": "application/json",
             "Content-Type": "application/json"
             
           },

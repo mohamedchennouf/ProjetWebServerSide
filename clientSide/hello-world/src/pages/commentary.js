@@ -24,18 +24,20 @@ class commentary extends Component {
         var res = tab[1].split("&");
         this.setState({id:res[0]});
         this.setState({name:res[1]});
-        this.setState({userId: cookie.get("mail")})
+        this.setState({userId: cookie.get("mail")});
       }
 
     commentaryPost(){
+        console.log(JSON.stringify({data : {userID: this.state.userId, recipeID: this.state.id, content: this.state.text}}))
         fetch(settings.url + "API/RECETTES/COMMENTS", {
             method: "POST",
             headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'},
-            body: JSON.stringify({userID: this.state.userId, recipeID: this.state.id, content: this.state.text})
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'},
+            body: JSON.stringify({data : {userID: this.state.userId, recipeID: this.state.id, content: this.state.text}})
         })
         .then(res => res.json())
+        .then(res => console.log(res))
         .catch(function (err) {
             console.error(err);
         });
