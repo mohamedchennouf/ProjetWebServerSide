@@ -215,8 +215,8 @@ app.route("/API/USER/CONNECT").post(function (req, res) {
       req.session[x] = true;
       res.send(x.data);
       // ,domain:"client-testt.herokuapp.com"
-      res.cookie('connect', x ,           {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false});
-      res.cookie('mail',req.body.data.id, {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false});
+      res.cookie('connect', x ,           {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false,domain:"server-miammiameat.herokuapp.com"});
+      res.cookie('mail',req.body.data.id, {maxAge: Date.now() + 100000 ,httpOnly:false,expires:false,domain:"server-miammiameat.herokuapp.com"});
       // res.sendStatus(200);
 
       res.end();
