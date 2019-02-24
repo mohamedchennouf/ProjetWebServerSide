@@ -10,6 +10,9 @@ const port = process.env.PORT || 8080;
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const timeout = require('connect-timeout')
+
+app.use(timeout(120000));
 // var multer = require('multer');
 // var multerData = multer();
 
@@ -58,7 +61,6 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", req.headers.origin);
   res.header("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin");
   res.header("Access-Control-Allow-Credentials",true);
-  // res.header("Access-Control-Allow-Headers", "*"
   res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
   next();
 });
@@ -170,7 +172,6 @@ app.route("/API/image/:id").get(function(req, res) {
       res.sendStatus(403);
       return;
     }
-
     res.contentType("png");
     res.write(x);
     res.end();
@@ -190,15 +191,16 @@ app.route("/API/USER/subscribe").post(function(req, res) {
 });
 
 app.route("/API/USER/CONNECT").post(function(req, res) {
-  console.log(req.body);
   userManager.connect(req.body.data).then(x => {
     if (x) {
       var x = hashCode("cacahueteCasseroleZoro"+ req.body.data.id)
       req.session[x] = true;
+      res.send(x.data);
       res.cookie('connect', x );
       res.cookie('mail',req.body.data.id);
-      res.send(x.data);
-      res.sendStatus(200);
+      // res.sendStatus(200);
+      
+      res.end();
     } else {
       res.sendStatus(400);
     }
