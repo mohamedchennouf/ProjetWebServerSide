@@ -27,7 +27,7 @@ class inscription extends Component {
                 'Content-Type': 'application/json'},
             body: JSON.stringify( body)
         })
-        .then(function(responseJSON) {
+        .then((responseJSON) => {
             alert("Your recipe is created");
             this.setState({redirect : true});
         })
