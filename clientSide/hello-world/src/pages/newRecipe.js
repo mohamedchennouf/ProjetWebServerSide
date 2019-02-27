@@ -9,7 +9,7 @@ class inscription extends Component {
       super(props);
       this.state = {
           inputList: ["Title","Description","Ingredients"],
-          formulaire:["","","",""],
+          formulaire:["Tarte au pomme","La tarte aux pommes est un type de tarte sucrée, faite d'une pâte feuilletée ou brisée garnie de pommes émincées. Cette tarte peut être consommée chaude, tiède ou froide","Farine,Jus de pomme",""],
           file:null,
           redirect:false
       };
@@ -18,7 +18,12 @@ class inscription extends Component {
     }
 
     addRecipe = () => {
-        let body = {title:this.state.formulaire[0],content:this.state.formulaire[1],product:JSON.parse(this.state.formulaire[2]),image:this.state.file};
+        let ingredient = [];
+        if(this.state.formulaire[2]){
+            ingredient = this.state.formulaire[2].split(",")
+        }
+        console.log(ingredient);
+        let body = {title:this.state.formulaire[0],content:this.state.formulaire[1],product:ingredient,image:this.state.file};
         fetch(settings.url+ "API/RECETTES", {
             method: "POST",
             credentials: 'include',
@@ -39,7 +44,9 @@ class inscription extends Component {
 
 
     onChange(e,indice){
-        this.state.formulaire[indice.index] = e.target.value;
+        let newFormulaire = this.state.formulaire;
+        newFormulaire[indice.index]= e.target.value;
+        this.setState({formulaire : newFormulaire});
     }
 
     handleChange(e){
@@ -64,7 +71,7 @@ class inscription extends Component {
             (el,index) =>        
             <div>
                 <div>{el}</div>
-                <input onChange={e => this.onChange(e,{index})} className="inputSubscribe" indice={index} name={el}/>
+                <input value={this.state.formulaire[index]} onChange={e => this.onChange(e,{index})} className="inputSubscribe" indice={index} name={el}/>
             </div>
             );
 
