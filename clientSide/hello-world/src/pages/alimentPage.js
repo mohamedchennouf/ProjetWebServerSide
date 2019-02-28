@@ -44,7 +44,10 @@ class alimentPage extends Component {
                 body: JSON.stringify({userId:  (cookie.get("mail") || localStorage.getItem("mail") || "" ) } )
             })
             .then(res => res.json())
-            .then(res => console.log(res))
+            .then(res => 
+                console.log(res),
+                this.setState({poceBlo : this.state.poceBlo +1})
+                )
             .catch(function (err) {
                 console.error(err);
             });
