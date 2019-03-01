@@ -30,7 +30,9 @@ Le client est en React car il permet de créer simplement un site Web. Il a auss
 ## Commande/Message pour manipuler la BD
 
 La commande qui permet l'upload de fichier type json:
+```
 % mongoimport -h (mongoDB host) -d (DB name) -c (collection) -u (user) -p (password) --file (input file) 
+```
  
 Les inputs files type sont présents dans le fichier "filesExemple".
 Voici la correspondance file-collection:
