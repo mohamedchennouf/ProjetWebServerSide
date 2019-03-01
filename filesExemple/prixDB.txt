@@ -1,0 +1,4 @@
+{"_id":{"$oid":"5c6ab80112b8ca24887229fd"},"food":"20150051","nom":"Whisky","magasin":"5c618dadc32bf56d243e21f7","ville":"NICE","prix":18.99,"date":"2/18/2019"}
+{"_id":{"$oid":"5c7154c0bdf5bf25c02aa811"},"food":"0000000000031","nom":"Cacao","magasin":"5c618dadc32bf56d243e21f7","ville":"NICE","prix":2.69,"date":"2/23/2019"}
+{"_id":{"$oid":"5c715724a06b922f0018d167"},"food":"0000000030113","nom":"Naturakrill","magasin":"5c652046f1842d0b0c6da576","ville":"NICE","prix":11.5,"date":"2/23/2019"}
+{"_id":{"$oid":"5c728f3682cf5a23fc15a1fc"},"food":"000057954","nom":"sucre de coco","magasin":"5c652046f1842d0b0c6da576","ville":"NICE","prix":3.8,"date":"2/24/2019"}

@@ -1,0 +1,3 @@
+{"_id":{"$oid":"5c618dadc32bf56d243e21f7"},"nom":"Carrefour Lingostière","adresse":"606 Bd du Mercantour, 06200 Nice","ville":"NICE","longitude":"7.189244","latitude":"43.728973"}
+{"_id":{"$oid":"5c651e95b93cec8290d12340"},"nom":"Casino supermarché Templiers","adresse":"Avenue Roumanille, 06410 Biot","ville":"BIOT","longitude":"7.0751953","latitude":"43.6178208"}
+{"_id":{"$oid":"5c652046f1842d0b0c6da576"},"nom":"Intermarché Libération","adresse":"18 Rue Clément Roassal, 06000 Nice","ville":"NICE","longitude":"7.2619294","latitude":"43.7089061"}
